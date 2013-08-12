@@ -1,6 +1,7 @@
 INSTALL.txt
 LICENSE.txt
 README.txt
+*.user
 demos/
 extras/documentation
 
