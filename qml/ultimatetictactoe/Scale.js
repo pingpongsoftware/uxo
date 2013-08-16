@@ -2,7 +2,7 @@
 
 //Generic
 var screenWidth = 768;
-var screenHeight = 1280;
+var screenHeight = 1000;
 
 //.......
 

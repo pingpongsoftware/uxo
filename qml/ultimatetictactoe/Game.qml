@@ -24,8 +24,7 @@ Rectangle
         spacing: Vals.bigGridSpacing;
         rows: Vals.rows;
         columns: rows;
-        x: spacing;
-        y: x;
+        anchors.centerIn: parent;
         width: Vals.outerGridSize;
         height: width;
 
