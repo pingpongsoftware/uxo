@@ -49,4 +49,24 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistro.aidl \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
-    android/src/org/qtproject/qt5/android/bindings/QtActivity.java
+    android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+    android/assets/qml/ultimatetictactoe/UltimateTicTacToe.qmlproject \
+    android/assets/qml/ultimatetictactoe/Tutorial.qml \
+    android/assets/qml/ultimatetictactoe/Toolbar.qml \
+    android/assets/qml/ultimatetictactoe/TicTacToeSquare.qml \
+    android/assets/qml/ultimatetictactoe/Settings.qml \
+    android/assets/qml/ultimatetictactoe/Message.qml \
+    android/assets/qml/ultimatetictactoe/Menu.qml \
+    android/assets/qml/ultimatetictactoe/Main.qml \
+    android/assets/qml/ultimatetictactoe/InnerBoard.qml \
+    android/assets/qml/ultimatetictactoe/Game.qml \
+    android/assets/qml/ultimatetictactoe/UltimateTicTacToe.qmlproject.user \
+    android/assets/qml/ultimatetictactoe/Scale.js~ \
+    android/assets/qml/ultimatetictactoe/Scale.js \
+    android/assets/qml/ultimatetictactoe/README.md \
+    android/assets/qml/ultimatetictactoe/GameTracker.js \
+    android/assets/qml/ultimatetictactoe/desktop.ini \
+    android/assets/qml/ultimatetictactoe/Fonts/Prime Light.ttf \
+    android/assets/qml/ultimatetictactoe/Fonts/Nexa Light.ttf \
+    android/assets/qml/ultimatetictactoe/Fonts/Nexa Bold.ttf \
+    android/assets/qml/ultimatetictactoe/Fonts/Prime Regular.ttf
