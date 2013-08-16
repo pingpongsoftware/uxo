@@ -29,6 +29,7 @@ Rectangle
         width: parent.width;
         height: parent.height;
         anchors.margins: 50;
+        color: "transparent";
 
         Image
         {
@@ -100,6 +101,8 @@ Rectangle
 
     states:
     [
+        //This changes the size and the opacity of the x and o on the toolbar depending on who's turn it is.
+
         State
         {
             name: "xTurn";

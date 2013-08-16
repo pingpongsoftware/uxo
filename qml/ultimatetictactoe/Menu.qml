@@ -17,8 +17,8 @@ Rectangle
     property color pressedColor: Qt.rgba(0,0,0,1);
 
 
-    property string exitedFont: prime_lite.name;
-    property string enteredFont: prime_reg.name;
+    property string primeLiteFont: prime_lite.name;
+    property string primeRegFont: prime_reg.name;
 
 
     //load fonts from a file
@@ -35,10 +35,10 @@ Rectangle
         //font.capitalization: Font.SmallCaps;
         font.bold: true;
         elide: Text.ElideMiddle;
-        font.pixelSize: 68;
+        font.pixelSize: Vals.largeFontSize;
         font.letterSpacing: 2;
         font.wordSpacing: 0;
-        font.family: prime_reg.name;
+        font.family: main.primeRegFont
         color: "white";
         opacity: .5;
 
@@ -51,14 +51,16 @@ Rectangle
     Flow
     {
         anchors.centerIn: parent;
-        width: 250;
-        spacing: 10;
+        width: 350;
+        spacing: 20;
+
+        property int buttonHeight: 100;
 
         Rectangle // play game button
         {
             id: playGameRect;
             width: parent.width;
-            height: 70;
+            height: parent.buttonHeight;
             color: main.releasedColor;
             radius: 10;
 
@@ -68,8 +70,8 @@ Rectangle
 
                 text: "Play Game";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pointSize: parent.width/9;
-                font.family: main.exitedFont;
+                font.pointSize: Vals.mediumFontSize;
+                font.family: main.primeLiteFont;
                 anchors.centerIn: parent;
             }
 
@@ -94,7 +96,7 @@ Rectangle
         {
             id: tutorialRect;
             width: parent.width;
-            height: 70;
+            height: parent.buttonHeight;
             color: main.releasedColor;
             radius: 10;
 
@@ -104,8 +106,8 @@ Rectangle
 
                 text: "How To Play";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pointSize: parent.width/10;
-                font.family: main.exitedFont;
+                font.pointSize: Vals.mediumFontSize;
+                font.family: main.primeLiteFont;
                 anchors.centerIn: parent;
             }
 
@@ -130,7 +132,7 @@ Rectangle
         {
             id: settingsRect;
             width: parent.width;
-            height: 70;
+            height: parent.buttonHeight;
             color: main.releasedColor;
             radius: 10;
 
@@ -140,8 +142,8 @@ Rectangle
 
                 text: "Settings";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pointSize: parent.width/9;
-                font.family: main.exitedFont;
+                font.pointSize: Vals.mediumFontSize;
+                font.family: main.primeRegFont;
                 anchors.centerIn: parent;
             }
 

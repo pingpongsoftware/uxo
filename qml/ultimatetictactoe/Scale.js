@@ -8,6 +8,11 @@ var screenHeight = 1000;
 
 var rows = 3;
 
+//fonts
+var largeFontSize = screenWidth/10;
+var mediumFontSize = screenWidth/40;
+var smallFontSize = screenWidth/90;
+
 //Outer Grid
 var bigGridSpacing = screenWidth/100;
 
