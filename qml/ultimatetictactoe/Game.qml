@@ -2,12 +2,11 @@ import QtQuick 2.0
 import "Scale.js" as Vals
 import "GameTracker.js" as GameTracker
 
-Rectangle
+Item
 {
     id: main;
     width: Vals.screenWidth;
     height: Vals.screenHeight;
-    color: "transparent";
 
     property int numInvalidPresses: 0;
 
@@ -21,7 +20,7 @@ Rectangle
     Grid
     {
         id: bigGrid;
-        spacing: Vals.bigGridSpacing;
+        //spacing: Vals.bigGridSpacing;
         rows: Vals.rows;
         columns: rows;
         anchors.centerIn: parent;
@@ -30,6 +29,7 @@ Rectangle
 
         Repeater
         {
+            anchors.centerIn: parent;
             id: bigGridRepeater;
             model: 9;
 
@@ -81,10 +81,10 @@ Rectangle
         anchors.bottomMargin: Vals.bigGridSpacing/2;
         anchors.horizontalCenter: main.horizontalCenter;
 
-        onResetButtonClicked:
-        {
-            resetGame();
-        }
+//        onResetButtonClicked:
+//        {
+//            resetGame();
+//        }
 
         onBackButtonClicked:
         {
