@@ -9,10 +9,6 @@ Rectangle
     width: Vals.screenWidth;
     height: Vals.screenHeight;
 
-    property color releasedColor: Qt.rgba(0,0,0,.5);
-    property color enteredColor: Qt.rgba(0,0,0,.75);
-    property color pressedColor: Qt.rgba(0,0,0,1);
-
     property string previous: "Menu.qml";
 
     Image
@@ -20,8 +16,6 @@ Rectangle
         id: background;
         anchors.fill: parent;
         source: "Images/background.png";
-        sourceSize.width: width*1.5;
-        sourceSize.height: height*1.5;
     }
 
     Loader

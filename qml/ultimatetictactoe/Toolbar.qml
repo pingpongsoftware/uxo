@@ -5,8 +5,6 @@ import "GameTracker.js" as GameTracker;
 Rectangle
 {
     id: main;
-    width: Vals.toolbarWidth;
-    height: Vals.toolbarHeight;
     color: "transparent";
     state: "xTurn";
 
@@ -17,111 +15,78 @@ Rectangle
     property color enteredColor: Qt.rgba(0,0,0,.75);
     property color pressedColor: Qt.rgba(0,0,0,1);
 
+    property int leftRightMargin: 20;
+
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
     FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
     FontLoader { id: nexa_bold; source: "Fonts/Nexa Bold.ttf" }
     FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
 
-    Flow // automatically formats the toolbar in a flow layout
+    Rectangle // automatically formats the toolbar in a flow layout
     {
-        id: flowLayout;
+        id: rect;
         width: parent.width;
         height: parent.height;
-        x: 14;
-        anchors.margins: 5;
-        spacing: 115;
+        anchors.margins: 50;
 
         Image
         {
             id: xImage;
             source: "Images/x.png";
+            x: main.leftRightMargin;
         }
 
-        Rectangle // back button
-        {
-            id: backRect
+//        Rectangle // back button
+//        {
+//            id: backRect
 
-            width: 90;
-            height: parent.height - 10;
-            color: main.releasedColor;
-            radius: 7;
+//            width: 90;
+//            height: parent.height - 10;
+//            color: main.releasedColor;
+//            radius: 7;
 
-            Image
-            {
-                id: backImage;
-                anchors.fill: parent;
-                source: "Images/backArrow.png";
-                fillMode: Image.PreserveAspectFit;
-            }
-
-//            Text
+//            Image
 //            {
-//                text: "Menu";
-//                color: "white";
-//                opacity: .4;
-//                font.family: prime_reg.name;
-//                font.pixelSize: 20;
-//                anchors.centerIn: parent;
+//                id: backImage;
+//                anchors.fill: parent;
+//                source: "Images/backArrow.png";
+//                fillMode: Image.PreserveAspectFit;
 //            }
 
-            MouseArea
-            {
-                anchors.fill: parent;
-                hoverEnabled: true;
+////            Text
+////            {
+////                text: "Menu";
+////                color: "white";
+////                opacity: .4;
+////                font.family: prime_reg.name;
+////                font.pixelSize: 20;
+////                anchors.centerIn: parent;
+////            }
 
-                onEntered: parent.color = main.enteredColor;
-                onExited: parent.color = main.releasedColor;
-                onPressed: parent.color = main.pressedColor;
+//            MouseArea
+//            {
+//                anchors.fill: parent;
+//                hoverEnabled: true;
 
-                onReleased:
-                {
-                    parent.color = main.releasedColor;
-                    backButtonClicked();
-                }
-            }
-        }
+//                onEntered: parent.color = main.enteredColor;
+//                onExited: parent.color = main.releasedColor;
+//                onPressed: parent.color = main.pressedColor;
 
-        Rectangle // reset button
-        {
-            id: resetButton
+//                onReleased:
+//                {
+//                    parent.color = main.releasedColor;
+//                    backButtonClicked();
+//                }
+//            }
+//        }
 
-            width: 150;
-            height: parent.height - 10;
-            color: main.releasedColor;
-            radius: 7;
-
-            Text
-            {
-                text: "Reset Game";
-                color: "white";
-                opacity: .4;
-                font.family: prime_reg.name;
-                font.pixelSize: 20;
-                anchors.centerIn: parent;
-            }
-
-            MouseArea
-            {
-                anchors.fill: parent;
-                hoverEnabled: true;
-
-                onEntered: parent.color = main.enteredColor;
-                onExited: parent.color = main.releasedColor;
-                onPressed: parent.color = main.pressedColor;
-
-                onReleased:
-                {
-                    GameTracker.resetGame();
-                    resetButtonClicked();
-                }
-            }
-        }
 
         Image
         {
             id: oImage;
             source: "Images/o.png";
+            x: main.width - main.leftRightMargin - width;
         }
 
     }

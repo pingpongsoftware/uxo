@@ -73,6 +73,10 @@ Rectangle
     Toolbar
     {
         id: toolbar;
+
+        height: Vals.toolbarHeight;
+        width: main.width;
+
         anchors.bottom: main.bottom;
         anchors.bottomMargin: Vals.bigGridSpacing/2;
         anchors.horizontalCenter: main.horizontalCenter;
