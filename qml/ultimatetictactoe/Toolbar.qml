@@ -13,7 +13,7 @@ Rectangle
     signal confirmButtonClicked();
 
     property color releasedColor: Qt.rgba(0,0,0,.5);
-    property color enteredColor: Qt.rgba(0,0,0,.8);
+    property color enteredColor: Qt.rgba(0,0,0,.75);
     property color pressedColor: Qt.rgba(0,0,0,1);
 
 
@@ -60,19 +60,19 @@ Rectangle
 
             Text
             {
+                id: confirmText;
+
                 text: "Confirm Move";
 
                 color: //the text will be gray if the player has not made a move yet
                 {
-                    GameTracker.canConfirmedButtonBeClicked = true;
-
                     if (GameTracker.canConfirmedButtonBeClicked)
                         "white";
                     else
                         "gray";
                 }
 
-                opacity: .5;
+                opacity: .55;
                 font.family: prime_reg.name;
                 font.pixelSize: Vals.mediumFontSize;
                 anchors.centerIn: parent;
@@ -101,8 +101,11 @@ Rectangle
 
                 onReleased:
                 {
-                    parent.color = main.enteredColor;
-                    confirmButtonClicked();
+                    if (GameTracker.canConfirmedButtonBeClicked)
+                    {
+                        parent.color = main.enteredColor;
+                        confirmButtonClicked();
+                    }
                 }
             }
         }
@@ -154,6 +157,14 @@ Rectangle
 
 
 
+    }
+
+    function setConfirmButtonTextColor()
+    {
+        if (GameTracker.canConfirmedButtonBeClicked)
+            confirmText.color = "white";
+        else
+            confirmText.color = "gray";
     }
 
     function setTurn()

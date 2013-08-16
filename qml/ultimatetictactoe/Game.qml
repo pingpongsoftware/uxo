@@ -10,6 +10,9 @@ Item
 
     property int numInvalidPresses: 0;
 
+    property int innerIndex;
+    property int outerIndex;
+
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
     FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
@@ -35,15 +38,20 @@ Item
 
             InnerBoard
             {
-                onBoardConfirmClicked:
+                id: innerGrid;
+
+                onBoardClicked:
                 {
                     if (isValid)
                     {
+                        GameTracker.canConfirmedButtonBeClicked = true;
+
+                        main.innerIndex = smallIndex;
+                        main.outerIndex = index;
+
                         GameTracker.makeMove(smallIndex, index);
-                        highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare())
-                        assignSquares(); //method in InnerBoard
-                        assignBoards();
-                        toolbar.setTurn();
+
+                        assignTemporarySquares(); //method in InnerBoard
 
                         message.visible = false;
                         numInvalidPresses = 0;
@@ -57,13 +65,6 @@ Item
                             message.visible = true;
                             message.state = "invalidSquareClickedMessage";
                         }
-                    }
-
-                    //shows the message when the game is over.
-                    if (GameTracker.gameWon)
-                    {
-                        message.visible = true;
-                        message.state = "gameOverMessage";
                     }
                 }
             }
@@ -82,15 +83,27 @@ Item
         anchors.bottomMargin: Vals.bigGridSpacing/2;
         anchors.horizontalCenter: main.horizontalCenter;
 
-//        onResetButtonClicked:
-//        {
-//            resetGame();
-//        }
-//
-//        onBackButtonClicked:
-//        {
+        onConfirmButtonClicked:
+        {
+            console.log(main.innerIndex + "   " + main.repeaterIndex)
+            GameTracker.confirmMove();
 
-//        }
+            highlightPlayableBoards(main.innerIndex, GameTracker.checkForDeadSquare())
+
+            bigGridRepeater.itemAt(main.innerIndex).assignSquares(); //method in InnerBoard
+            assignBoards();
+            toolbar.setTurn();
+
+            //shows the message when the game is over.
+            if (GameTracker.gameWon)
+            {
+                message.visible = true;
+                message.state = "gameOverMessage";
+            }
+
+            GameTracker.canConfirmedButtonBeClicked = false;
+        }
+
     }
 
     Message

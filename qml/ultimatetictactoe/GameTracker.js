@@ -20,6 +20,16 @@ for(var i=0; i<squareWon.length; i++)
     }
 }
 
+var squarePlayed = new Array(9);
+for(var i=0; i<squarePlayed.length; i++)
+{
+    squarePlayed[i] = new Array(9);
+    for(var k=0; k<squarePlayed[i].length; k++)
+    {
+        squarePlayed[i][k] = 0;
+    }
+}
+
 var boardWon = new Array(9);
 for(var i=0; i<boardWon.length; i++)
 {
@@ -87,6 +97,21 @@ function makeMove(smallIndex, largeIndex)
     if(xTurn)
     {
         //adds the chosen tile to the array of tiles won
+        squarePlayed[bigIndex][littleIndex] = 1;
+    }
+
+    else
+    {
+        squarePlayed[bigIndex][littleIndex] = -1;
+    }
+
+}
+
+function confirmMove()
+{
+    if(xTurn)
+    {
+        //adds the chosen tile to the array of tiles won
         xSmallTilesWon[bigIndex].push(littleIndex);
         squareWon[bigIndex][littleIndex] = 1;
 
@@ -125,6 +150,7 @@ function makeMove(smallIndex, largeIndex)
             }
         }
     }
+
     console.log(xBigTilesWon);
     xTurn = !xTurn;
     return boardWon[bigIndex];

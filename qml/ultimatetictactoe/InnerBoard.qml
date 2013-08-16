@@ -14,8 +14,7 @@ Rectangle
     property bool canClick: true;
 
     // passes the index of the small tic tac toe square into the main file when a small tile is clicked
-    signal boardClicked();
-    signal boardConfirmClicked(int smallIndex, bool isValid);
+    signal boardClicked(int smallIndex, bool isValid);
 
     Image
     {
@@ -64,13 +63,42 @@ Rectangle
 
                 onInvalidSquareClicked:
                 {
-                    boardConfirmClicked(smallSquareIndex, false);
+                    boardClicked(smallSquareIndex, false);
                 }
 
                 onSquareClicked:
                 {                    
-                    boardConfirmClicked(smallSquareIndex, true);
+                    boardClicked(smallSquareIndex, true);
                 }   
+            }
+        }
+    }
+
+    function assignTemporarySquares()
+    {
+        for(var i=0; i<littleGridRepeater.count; i++)
+        {
+            var smallSquareAtIndex = littleGridRepeater.itemAt(i);
+
+            if(GameTracker.squarePlayed[GameTracker.bigIndex][i] === 1)
+            {
+                smallSquareAtIndex.state = "wonByX";
+            }
+            else if(GameTracker.squarePlayed[GameTracker.bigIndex][i] === -1)
+            {
+                smallSquareAtIndex.state = "wonByO";
+            }
+            else
+            {
+                smallSquareAtIndex.state = "default";
+            }
+        }
+
+        for(var i=0; i < GameTracker.squarePlayed.length; i++)
+        {
+            for(var k=0; k<GameTracker.squarePlayed[i].length; k++)
+            {
+                GameTracker.squarePlayed[i][k] = 0;
             }
         }
     }
