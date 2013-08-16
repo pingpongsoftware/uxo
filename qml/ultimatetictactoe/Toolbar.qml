@@ -37,7 +37,7 @@ Rectangle
             id: xImage;
             source: "Images/x.png";
             x: parent.leftRightMargin;
-            anchors.bottom: parent.bottom;
+            anchors.verticalCenter: parent.verticalCenter;
         }
 
         Image
@@ -45,7 +45,7 @@ Rectangle
             id: oImage;
             source: "Images/o.png";
             x: main.width - parent.leftRightMargin - width;
-            anchors.bottom: parent.bottom;
+            anchors.verticalCenter: parent.verticalCenter;
         }
 
 //        Rectangle // back button
