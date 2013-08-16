@@ -51,10 +51,10 @@ Rectangle
     Flow
     {
         anchors.centerIn: parent;
-        width: 350;
+        width: Vals.mediumButtonWidth;
         spacing: 20;
 
-        property int buttonHeight: 100;
+        property int buttonHeight: Vals.mediumButtonHeight;
 
         Rectangle // play game button
         {
@@ -70,7 +70,7 @@ Rectangle
 
                 text: "Play Game";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pointSize: Vals.mediumFontSize;
+                font.pixelSize: Vals.mediumFontSize;
                 font.family: main.primeLiteFont;
                 anchors.centerIn: parent;
             }
@@ -106,7 +106,7 @@ Rectangle
 
                 text: "How To Play";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pointSize: Vals.mediumFontSize;
+                font.pixelSize: Vals.mediumFontSize;
                 font.family: main.primeLiteFont;
                 anchors.centerIn: parent;
             }
@@ -142,7 +142,7 @@ Rectangle
 
                 text: "Settings";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pointSize: Vals.mediumFontSize;
+                font.pixelSize: Vals.mediumFontSize;
                 font.family: main.primeRegFont;
                 anchors.centerIn: parent;
             }

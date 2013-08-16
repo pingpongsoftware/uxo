@@ -10,9 +10,10 @@ Rectangle
 
     signal resetButtonClicked();
     signal backButtonClicked();
+    signal confirmButtonClicked();
 
     property color releasedColor: Qt.rgba(0,0,0,.5);
-    property color enteredColor: Qt.rgba(0,0,0,.75);
+    property color enteredColor: Qt.rgba(0,0,0,.8);
     property color pressedColor: Qt.rgba(0,0,0,1);
 
 
@@ -46,6 +47,64 @@ Rectangle
             source: "Images/o.png";
             x: main.width - parent.leftRightMargin - width;
             anchors.verticalCenter: parent.verticalCenter;
+        }
+
+        Rectangle
+        {
+            id: confirmRect;
+            width: Vals.mediumButtonWidth*1.2;
+            height: Vals.mediumButtonHeight;
+            anchors.centerIn: parent;
+            color: main.releasedColor;
+            radius: 10;
+
+            Text
+            {
+                text: "Confirm Move";
+
+                color: //the text will be gray if the player has not made a move yet
+                {
+                    GameTracker.canConfirmedButtonBeClicked = true;
+
+                    if (GameTracker.canConfirmedButtonBeClicked)
+                        "white";
+                    else
+                        "gray";
+                }
+
+                opacity: .5;
+                font.family: prime_reg.name;
+                font.pixelSize: Vals.mediumFontSize;
+                anchors.centerIn: parent;
+            }
+
+            MouseArea
+            {
+                anchors.fill: parent;
+                hoverEnabled: true;
+
+                onEntered:
+                {
+                    if (GameTracker.canConfirmedButtonBeClicked)
+                        parent.color = main.enteredColor;
+                }
+                onExited:
+                {
+                    if (GameTracker.canConfirmedButtonBeClicked)
+                        parent.color = main.releasedColor;
+                }
+                onPressed:
+                {
+                    if (GameTracker.canConfirmedButtonBeClicked)
+                        parent.color = main.pressedColor;
+                }
+
+                onReleased:
+                {
+                    parent.color = main.enteredColor;
+                    confirmButtonClicked();
+                }
+            }
         }
 
 //        Rectangle // back button

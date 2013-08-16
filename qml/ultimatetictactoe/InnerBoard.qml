@@ -14,7 +14,8 @@ Rectangle
     property bool canClick: true;
 
     // passes the index of the small tic tac toe square into the main file when a small tile is clicked
-    signal boardClicked(int smallIndex, bool isValid);
+    signal boardClicked();
+    signal boardConfirmClicked(int smallIndex, bool isValid);
 
     Image
     {
@@ -63,12 +64,12 @@ Rectangle
 
                 onInvalidSquareClicked:
                 {
-                    boardClicked(smallSquareIndex, false);
+                    boardConfirmClicked(smallSquareIndex, false);
                 }
 
                 onSquareClicked:
                 {                    
-                    boardClicked(smallSquareIndex, true);
+                    boardConfirmClicked(smallSquareIndex, true);
                 }   
             }
         }

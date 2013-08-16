@@ -35,7 +35,7 @@ Item
 
             InnerBoard
             {
-                onBoardClicked:
+                onBoardConfirmClicked:
                 {
                     if (isValid)
                     {

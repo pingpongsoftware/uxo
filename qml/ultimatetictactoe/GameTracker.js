@@ -46,6 +46,8 @@ winningCombinations[5] = [2,5,8];
 winningCombinations[6] = [2,4,6];
 winningCombinations[7] = [0,4,8];
 
+var canConfirmedButtonBeClicked = false; //if a player has placed his move, then this will become true
+
 function checkForWinningCombination(tilesWonArray)
 {
     var tempGameWon = false;
