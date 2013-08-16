@@ -46,6 +46,8 @@ Item
                     {
                         GameTracker.canConfirmedButtonBeClicked = true;
 
+                        toolbar.setConfirmButtonTextColor();
+
                         main.innerIndex = smallIndex;
                         main.outerIndex = index;
 
