@@ -15,7 +15,6 @@ Rectangle
     property color enteredColor: Qt.rgba(0,0,0,.75);
     property color pressedColor: Qt.rgba(0,0,0,1);
 
-    property int leftRightMargin: 20;
 
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
@@ -31,11 +30,22 @@ Rectangle
         anchors.margins: 50;
         color: "transparent";
 
+        property int leftRightMargin: 20;
+
         Image
         {
             id: xImage;
             source: "Images/x.png";
-            x: main.leftRightMargin;
+            x: parent.leftRightMargin;
+            anchors.bottom: parent.bottom;
+        }
+
+        Image
+        {
+            id: oImage;
+            source: "Images/o.png";
+            x: main.width - parent.leftRightMargin - width;
+            anchors.bottom: parent.bottom;
         }
 
 //        Rectangle // back button
@@ -83,12 +93,7 @@ Rectangle
 //        }
 
 
-        Image
-        {
-            id: oImage;
-            source: "Images/o.png";
-            x: main.width - main.leftRightMargin - width;
-        }
+
 
     }
 
@@ -116,7 +121,7 @@ Rectangle
             PropertyChanges
             {
                 target: oImage;
-                height: main.height - Vals.bigGridSpacing*1.5;
+                height: main.height/1.5;
                 width: height
                 opacity: .6;
             }
@@ -135,7 +140,7 @@ Rectangle
             PropertyChanges
             {
                 target: xImage;
-                height: main.height - Vals.bigGridSpacing*1.5;
+                height: main.height/1.5;
                 width: height
                 opacity: .6;
             }

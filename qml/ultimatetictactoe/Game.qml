@@ -74,7 +74,8 @@ Item
     {
         id: toolbar;
 
-        height: Vals.toolbarHeight;
+        //makes the toolbar fill the space between the board and the bottom of the screen
+        height: main.height - bigGrid.height - bigGrid.y - 50;
         width: main.width;
 
         anchors.bottom: main.bottom;
@@ -85,11 +86,11 @@ Item
 //        {
 //            resetGame();
 //        }
+//
+//        onBackButtonClicked:
+//        {
 
-        onBackButtonClicked:
-        {
-
-        }
+//        }
     }
 
     Message
