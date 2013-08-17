@@ -1,8 +1,9 @@
 .pragma library
 
 //Generic
-var screenWidth = 614;
-var screenHeight = 800;
+
+var screenWidth = 768;
+var screenHeight = 1028;
 
 //.......
 
@@ -10,8 +11,8 @@ var rows = 3;
 
 //fonts
 var largeFontSize = screenWidth/10;
-var mediumFontSize = screenWidth/40;
-var smallFontSize = screenWidth/90;
+var mediumFontSize = screenWidth/20;
+var smallFontSize = screenWidth/35;
 
 //Outer Grid
 var bigGridSpacing = screenWidth/100;

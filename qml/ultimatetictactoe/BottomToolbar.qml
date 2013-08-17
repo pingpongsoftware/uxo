@@ -100,8 +100,8 @@ Rectangle
     function setTurn()
     {
         //sets the state of the toolbar
-        if(GameTracker.xTurn) toolbar.state = "xTurn";
-        else toolbar.state = "oTurn";
+        if(GameTracker.xTurn) bottomToolbar.state = "xTurn";
+        else bottomToolbar.state = "oTurn";
     }
 
     states:

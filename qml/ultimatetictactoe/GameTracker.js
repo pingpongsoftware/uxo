@@ -123,7 +123,6 @@ function makeMove(smallIndex, largeIndex)
             }
         }
     }
-    console.log(xBigTilesWon);
     xTurn = !xTurn;
     return boardWon[bigIndex];
 }

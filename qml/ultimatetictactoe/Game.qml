@@ -17,79 +17,146 @@ Item
     FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
 
 
-    Grid
+    Rectangle
     {
-        id: bigGrid;
-        //spacing: Vals.bigGridSpacing;
-        rows: Vals.rows;
-        columns: rows;
-        anchors.centerIn: parent;
-        width: Vals.outerGridSize;
-        height: width;
+        id: titleRect;
+        width: main.width;
+        height: 35;
+        color: Qt.rgba(0,0,0,.2);
 
-        Repeater
+        Text
         {
+            id: titleText;
+            font.family: prime_lite.name;
+            font.pixelSize: Vals.smallFontSize;
+            text: "Ultimate Tic Tac Toe";
+            color: "gray";
             anchors.centerIn: parent;
-            id: bigGridRepeater;
-            model: 9;
+        }
+    }
 
-            InnerBoard
+    Rectangle
+    {
+        id: topToolbarGradient;
+        anchors.top: topToolbar.top;
+        width: main.width;
+        height:topToolbar.height * 1.6;
+        gradient: Gradient
+        {
+            //GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.18); }
+            GradientStop { position: 0.31; color: Qt.rgba(1, 1, 1, 0.15); }
+            GradientStop { position: 0.59; color: Qt.rgba(1, 1, 1, 0.1); }
+            GradientStop { position: .85; color: Qt.rgba(1, 1, 1, 0.015); }
+            GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.0); }
+        }
+    }
+
+    TopToolbar
+    {
+        id: topToolbar;
+
+        width: main.width;
+        //makes the toolbar fill the space between the board and the top of the screen
+        height: main.height / 12;
+        color: "transparent";
+
+        anchors.top: titleRect.bottom;
+    }
+
+    Rectangle
+    {
+        //centers the grid in the middle of the toolbars.
+        width: parent.width;
+        height: parent.height - topToolbar.height - titleRect.height - bottomToolbar.height;
+        anchors.horizontalCenter: parent.horizontalCenter;
+        y: titleRect.height + topToolbar.height;
+        color: "transparent";
+
+        Grid
+        {
+            id: bigGrid;
+            rows: Vals.rows;
+            columns: rows;
+            anchors.centerIn: parent;
+            width: Vals.outerGridSize;
+            height: width;
+
+            Repeater
             {
-                onBoardClicked:
+                anchors.centerIn: parent;
+                id: bigGridRepeater;
+                model: 9;
+
+                InnerBoard
                 {
-                    if (isValid)
+                    onBoardClicked:
                     {
-                        GameTracker.makeMove(smallIndex, index);
-                        highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare())
-                        assignSquares(); //method in InnerBoard
-                        assignBoards();
-                        toolbar.setTurn();
+                        if (isValid)
+                        {
+                            GameTracker.makeMove(smallIndex, index);
+                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare())
+                            assignSquares(); //method in InnerBoard
+                            assignBoards();
+                            bottomToolbar.setTurn();
 
-                        message.visible = false;
-                        numInvalidPresses = 0;
-                    }
-                    else
-                    {
-                        numInvalidPresses++;
+                            message.visible = false;
+                            numInvalidPresses = 0;
+                        }
+                        else
+                        {
+                            numInvalidPresses++;
 
-                        if (numInvalidPresses >= 5)
+                            if (numInvalidPresses >= 5)
+                            {
+                                message.visible = true;
+                                message.state = "invalidSquareClickedMessage";
+                            }
+                        }
+
+                        //shows the message when the game is over.
+                        if (GameTracker.gameWon)
                         {
                             message.visible = true;
-                            message.state = "invalidSquareClickedMessage";
+                            message.state = "gameOverMessage";
                         }
-                    }
-
-                    //shows the message when the game is over.
-                    if (GameTracker.gameWon)
-                    {
-                        message.visible = true;
-                        message.state = "gameOverMessage";
                     }
                 }
             }
         }
     }
 
-    Toolbar
-    {
-        id: toolbar;
 
-        //makes the toolbar fill the space between the board and the bottom of the screen
-        height: main.height - bigGrid.height - bigGrid.y - 50;
+    Rectangle
+    {
+        id: bottomToolbarGradient;
+        anchors.bottom: bottomToolbar.bottom;
+        width: main.width;
+        height:bottomToolbar.height * 1.6;
+        gradient: Gradient
+        {
+            GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.0); }
+            GradientStop { position: 0.15; color: Qt.rgba(1, 1, 1, 0.015); }
+            GradientStop { position: 0.40; color: Qt.rgba(1, 1, 1, 0.1); }
+            GradientStop { position: .69; color: Qt.rgba(1, 1, 1, 0.15); }
+            //GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.18); }
+        }
+    }
+
+    BottomToolbar
+    {
+        id: bottomToolbar;
+
+        height: main.height / 7;
         width: main.width;
 
+
+
         anchors.bottom: main.bottom;
-        anchors.bottomMargin: Vals.bigGridSpacing/2;
         anchors.horizontalCenter: main.horizontalCenter;
 
 //        onResetButtonClicked:
 //        {
 //            resetGame();
-//        }
-//
-//        onBackButtonClicked:
-//        {
-
 //        }
     }
 
@@ -150,7 +217,7 @@ Item
             bigGridRepeater.itemAt(i).canClick = true;
         }
         assignBoards();
-        toolbar.setTurn();
+        bottomToolbar.setTurn();
     }
 }
 
