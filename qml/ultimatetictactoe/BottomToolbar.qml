@@ -28,7 +28,7 @@ Rectangle
         width: parent.width;
         height: parent.height;
         anchors.margins: 50;
-        color: Qt.rgba(1,1,1,.1);
+        color: "transparent";
 
         property int leftRightMargin: 20;
 

@@ -21,7 +21,7 @@ Item
     {
         id: titleRect;
         width: main.width;
-        height: 30;
+        height: 35;
         color: Qt.rgba(0,0,0,.2);
 
         Text
@@ -35,15 +35,30 @@ Item
         }
     }
 
+    Rectangle
+    {
+        id: topToolbarGradient;
+        anchors.top: topToolbar.top;
+        width: main.width;
+        height:topToolbar.height * 1.6;
+        gradient: Gradient
+        {
+            //GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.18); }
+            GradientStop { position: 0.31; color: Qt.rgba(1, 1, 1, 0.15); }
+            GradientStop { position: 0.59; color: Qt.rgba(1, 1, 1, 0.1); }
+            GradientStop { position: .85; color: Qt.rgba(1, 1, 1, 0.015); }
+            GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.0); }
+        }
+    }
+
     TopToolbar
     {
         id: topToolbar;
 
         width: main.width;
         //makes the toolbar fill the space between the board and the top of the screen
-        height: main.height / 9;
-
-        color: Qt.rgba(1,1,1,.2);
+        height: main.height / 12;
+        color: "transparent";
 
         anchors.top: titleRect.bottom;
     }
@@ -111,12 +126,27 @@ Item
     }
 
 
+    Rectangle
+    {
+        id: bottomToolbarGradient;
+        anchors.bottom: bottomToolbar.bottom;
+        width: main.width;
+        height:bottomToolbar.height * 1.6;
+        gradient: Gradient
+        {
+            GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.0); }
+            GradientStop { position: 0.15; color: Qt.rgba(1, 1, 1, 0.015); }
+            GradientStop { position: 0.40; color: Qt.rgba(1, 1, 1, 0.1); }
+            GradientStop { position: .69; color: Qt.rgba(1, 1, 1, 0.15); }
+            //GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.18); }
+        }
+    }
 
     BottomToolbar
     {
         id: bottomToolbar;
 
-        height: main.height / 6;
+        height: main.height / 7;
         width: main.width;
 
 
