@@ -107,8 +107,11 @@ function makeMove(smallIndex, largeIndex)
 
 }
 
-function confirmMove()
+function confirmMove(smallIndex, largeIndex)
 {
+    littleIndex = smallIndex;
+    bigIndex = largeIndex;
+
     if(xTurn)
     {
         //adds the chosen tile to the array of tiles won

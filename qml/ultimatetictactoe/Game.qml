@@ -53,7 +53,10 @@ Item
 
                         GameTracker.makeMove(smallIndex, index);
 
-                        assignTemporarySquares(); //method in InnerBoard
+                        for (var i = 0; i < parent.model; i++)
+                        {
+                            parent.itemAt(i).assignTemporarySquares(); //method in InnerBoard
+                        }
 
                         message.visible = false;
                         numInvalidPresses = 0;
@@ -87,8 +90,9 @@ Item
 
         onConfirmButtonClicked:
         {
-            console.log(main.innerIndex + "   " + main.repeaterIndex)
-            GameTracker.confirmMove();
+            GameTracker.canConfirmedButtonBeClicked = false;
+
+            GameTracker.confirmMove(main.innerIndex, main.outerIndex);
 
             highlightPlayableBoards(main.innerIndex, GameTracker.checkForDeadSquare())
 
@@ -102,8 +106,6 @@ Item
                 message.visible = true;
                 message.state = "gameOverMessage";
             }
-
-            GameTracker.canConfirmedButtonBeClicked = false;
         }
 
     }
