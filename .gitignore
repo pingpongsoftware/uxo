@@ -3,7 +3,7 @@ LICENSE.txt
 README.txt
 *.user
 android/assets/*
-android/bin/*
+android/bin/
 android/libs/*
 android/src/*
 android/build.xml
