@@ -2,11 +2,4 @@ INSTALL.txt
 LICENSE.txt
 README.txt
 *.user
-android/assets/*
-android/bin/
-android/libs/*
-android/src/*
-android/build.xml
-android/local.properties.txt
-android/proguard-project
-android/project.properties
+bin/
