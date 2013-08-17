@@ -135,7 +135,7 @@ Rectangle
         bigGridRepeater.itemAt(index).canClick = !deadSquare;
     }
 
-    Toolbar
+    BottomToolbar
     {
         id: test;
         anchors.bottom: main.bottom;

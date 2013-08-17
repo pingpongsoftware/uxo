@@ -49,11 +49,6 @@ Rectangle
             loader.source = "Tutorial.qml";
         }
 
-        onBackButtonClicked:
-        {
-            console.log("blah");
-            loader.source = previous;
-        }
 
 //        onResetButtonClicked:
 //        {
