@@ -2,7 +2,7 @@
 
 //Generic
 var screenWidth = 768;
-var screenHeight = 1050;
+var screenHeight = 1028;
 
 //.......
 
@@ -11,7 +11,7 @@ var rows = 3;
 //fonts
 var largeFontSize = screenWidth/10;
 var mediumFontSize = screenWidth/20;
-var smallFontSize = screenWidth/40;
+var smallFontSize = screenWidth/35;
 
 //Outer Grid
 var bigGridSpacing = screenWidth/100;

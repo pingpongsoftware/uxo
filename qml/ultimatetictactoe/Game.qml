@@ -41,7 +41,7 @@ Item
 
         width: main.width;
         //makes the toolbar fill the space between the board and the top of the screen
-        height: main.height / 12;
+        height: main.height / 9;
 
         color: Qt.rgba(1,1,1,.2);
 
