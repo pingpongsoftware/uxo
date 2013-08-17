@@ -1,8 +1,8 @@
 .pragma library
 
 //Generic
-var screenWidth = 768;
-var screenHeight = 1000;
+var screenWidth = 614;
+var screenHeight = 800;
 
 //.......
 
