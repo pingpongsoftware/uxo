@@ -1,11 +1,10 @@
 import QtQuick 2.0
-import "Scale.js" as Vals
 import "GameTracker.js" as GameTracker
 
 Rectangle
 {
     id: main;
-    width: Vals.innerRectSize;
+    width: Vals.INNER_RECT_SIZE;
     height: width
     state: "default"
     radius: 10;
@@ -45,9 +44,9 @@ Rectangle
     Grid
     {
         id: littleGrid;
-        rows: Vals.rows;
+        rows: Vals.ROWS;
         columns: rows;
-        spacing: Vals.smallGridSpacing;
+        spacing: Vals.SMALL_GRID_SPACING;
         anchors.centerIn: parent;
 
         Repeater

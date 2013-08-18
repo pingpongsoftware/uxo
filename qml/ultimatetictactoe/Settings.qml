@@ -1,13 +1,11 @@
 import QtQuick 2.0
-import "Scale.js" as Vals
-
 
 Rectangle
 {
     id: main;
 
-    width: Vals.screenWidth;
-    height: Vals.screenHeight;
+    width: Vals.SCREEN_WIDTH
+    height: Vals.SCREEN_HEIGHT;
     color: "transparent";
 
     //load fonts from a file

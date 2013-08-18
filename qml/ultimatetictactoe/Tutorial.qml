@@ -1,13 +1,12 @@
 import QtQuick 2.0
-import "Scale.js" as Vals
 import "GameTracker.js" as GameTracker
 
 Rectangle
 {
     id: main;
 
-    width: Vals.screenWidth;
-    height: Vals.screenHeight;
+    width: Vals.SCREEN_WIDTH;
+    height: Vals.SCREEN_HEIGHT;
     color: "transparent";
 
     //load fonts from a file
@@ -36,109 +35,5 @@ Rectangle
         anchors.margins: 25;
     }
 
-    Grid
-    {
-        id: bigGrid;
-
-        width:
-        {
-            Vals.outerGridHeight /= 1.5;
-            Vals.outerGridWidth /= 1.5;
-            Vals.innerGridHeight /= 1.5;
-            Vals.innerGridWidth /= 1.5;
-            Vals.innerRectHeight /= 1.5;
-            Vals.innerRectWidth /= 1.5;
-            Vals.squareHeight /= 1.5;
-            Vals.squareWidth /= 1.5;
-            Vals.bigGridSpacing *= 3;
-        }
-
-        spacing: Vals.bigGridSpacing;
-        rows: Vals.rows;
-        columns: Vals.columns;
-
-        x: spacing*2;
-        y: spacing*3.5;
-
-        Component.onCompleted:
-        {
-            Vals.outerGridHeight *= 1.5;
-            Vals.outerGridWidth *= 1.5;
-            Vals.innerGridHeight *= 1.5;
-            Vals.innerGridWidth *= 1.5;
-            Vals.innerRectHeight *= 1.5;
-            Vals.innerRectWidth *= 1.5;
-            Vals.squareHeight *= 1.5;
-            Vals.squareWidth *= 1.5;
-            Vals.bigGridSpacing /= 3;
-        }
-
-
-        Repeater
-        {
-            id: bigGridRepeater;
-            model: 9;
-
-            InnerBoard
-            {
-                onBoardClicked:
-                {
-                    if (isValid)
-                    {
-                        GameTracker.makeMove(smallIndex, index);
-                        highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare())
-                        assignSquares(); //method in InnerBoard
-                        assignBoards();
-                        toolbar.setTurn();
-
-                        message.visible = false;
-                        numInvalidPresses = 0;
-                    }
-                    else
-                    {
-                        numInvalidPresses++;
-
-                        if (numInvalidPresses >= 5)
-                        {
-                            message.visible = true;
-                            message.state = "invalidSquareClickedMessage";
-                        }
-                    }
-
-                    //shows the message when the game is over.
-                    if (GameTracker.gameWon)
-                    {
-                        message.visible = true;
-                        message.state = "gameOverMessage";
-                    }
-
-                    if (canClick)
-                    {
-                        console.log("can click");
-                    }
-                }
-            }
-        }
-    }
-
-    /*recieves the index of the small tic tac square that was clicked,
-    and sets the corresponding large square to be clickable, unless
-    the large square is already full, then it makes the rest of the
-    squares clickable*/
-    function highlightPlayableBoards(index, deadSquare)
-    {
-        for(var i=0; i < 9; i++)
-        {
-            bigGridRepeater.itemAt(i).canClick = deadSquare;
-        }
-
-        bigGridRepeater.itemAt(index).canClick = !deadSquare;
-    }
-
-    BottomToolbar
-    {
-        id: test;
-        anchors.bottom: main.bottom;
-        anchors.horizontalCenter: parent;
-    }
 }
+

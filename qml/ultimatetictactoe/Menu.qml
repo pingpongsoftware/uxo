@@ -1,11 +1,10 @@
 import QtQuick 2.0
-import "Scale.js" as Vals
 
 Rectangle
 {
     id: main;
-    width: Vals.screenWidth;
-    height: Vals.screenHeight;
+    width: Vals.SCREEN_WIDTH;
+    height: Vals.SCREEN_HEIGHT;
     color: "transparent";
 
     signal playButtonClicked();
@@ -35,7 +34,7 @@ Rectangle
         //font.capitalization: Font.SmallCaps;
         font.bold: true;
         elide: Text.ElideMiddle;
-        font.pixelSize: Vals.largeFontSize;
+        font.pixelSize: Vals.LARGE_FONT_SIZE;
         font.letterSpacing: 2;
         font.wordSpacing: 0;
         font.family: main.primeRegFont
@@ -70,7 +69,7 @@ Rectangle
 
                 text: "Play Game";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pixelSize: Vals.mediumFontSize;
+                font.pixelSize: Vals.MEDIUM_FONT_SIZE;
                 font.family: main.primeLiteFont;
                 anchors.centerIn: parent;
             }
@@ -106,7 +105,7 @@ Rectangle
 
                 text: "How To Play";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pixelSize: Vals.mediumFontSize;
+                font.pixelSize: Vals.MEDIUM_FONT_SIZE;
                 font.family: main.primeLiteFont;
                 anchors.centerIn: parent;
             }
@@ -142,7 +141,7 @@ Rectangle
 
                 text: "Settings";
                 color: Qt.rgba(0,.3,.4,1);
-                font.pixelSize: Vals.mediumFontSize;
+                font.pixelSize: Vals.MEDIUM_FONT_SIZE;
                 font.family: main.primeRegFont;
                 anchors.centerIn: parent;
             }

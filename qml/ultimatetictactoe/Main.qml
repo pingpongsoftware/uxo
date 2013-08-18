@@ -1,13 +1,18 @@
 import QtQuick 2.0
-import "Scale.js" as Vals
 import "GameTracker.js" as GameTracker
 
 Rectangle
 {
     id: main;
 
-    width: Vals.screenWidth;
-    height: Vals.screenHeight;
+    width:
+    {
+        width = Vals.SCREEN_WIDTH;
+    }
+    height:
+    {
+        height = Vals.SCREEN_HEIGHT;
+    }
 
     property string previous: "Menu.qml";
 

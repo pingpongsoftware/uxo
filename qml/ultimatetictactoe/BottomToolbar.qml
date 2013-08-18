@@ -1,5 +1,4 @@
 import QtQuick 2.0;
-import "Scale.js" as Vals;
 import "GameTracker.js" as GameTracker;
 
 Rectangle

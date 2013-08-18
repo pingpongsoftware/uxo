@@ -1,12 +1,11 @@
 import QtQuick 2.0
-import "Scale.js" as Vals
 import "GameTracker.js" as GameTracker
 
 Item
 {
     id: main;
-    width: Vals.screenWidth;
-    height: Vals.screenHeight;
+    width: Vals.SCREEN_WIDTH;
+    height: Vals.SCREEN_HEIGHT;
 
     property int numInvalidPresses: 0;
 
@@ -28,7 +27,7 @@ Item
         {
             id: titleText;
             font.family: prime_lite.name;
-            font.pixelSize: Vals.smallFontSize;
+            font.pixelSize: Vals.SMALL_FONT_SIZE;
             text: "Ultimate Tic Tac Toe";
             color: "gray";
             anchors.centerIn: parent;
@@ -75,10 +74,10 @@ Item
         Grid
         {
             id: bigGrid;
-            rows: Vals.rows;
+            rows: Vals.ROWS;
             columns: rows;
             anchors.centerIn: parent;
-            width: Vals.outerGridSize;
+            width: Vals.OUTER_GRID_SIZE;
             height: width;
 
             Repeater

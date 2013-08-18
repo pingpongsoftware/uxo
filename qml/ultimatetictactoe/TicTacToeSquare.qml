@@ -1,12 +1,11 @@
 import QtQuick 2.0
-import "Scale.js" as Vals
 import "GameTracker.js" as GameTracker
 
 Rectangle
 {
     id: main;
-    width: Vals.squareSize;
-    height: width;
+    width: Vals.SQUARE_SIZE
+    height: Vals.SQUARE_SIZE;
     color: "transparent";
 
     property int smallSquareIndex;  //index, 0-8, of each cell in the tic tac toe grid
