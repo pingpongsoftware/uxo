@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker;
+import "GameTracker.js" as GameTracker_js;
 
 Rectangle
 {
@@ -105,7 +105,7 @@ Rectangle
             PropertyChanges
             {
                 target: messageText;
-                text: "Congratulations! " + GameTracker.winningPlayer + " has won the game!"
+                text: "Congratulations! " + GameTracker_js.winningPlayer + " has won the game!"
             }
 
             PropertyChanges

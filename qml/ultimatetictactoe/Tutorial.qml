@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker
+import "GameTracker.js" as GameTracker_js
 
 Rectangle
 {

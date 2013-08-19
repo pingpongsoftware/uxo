@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker
+import "GameTracker.js" as GameTracker_js
 
 Rectangle
 {
@@ -79,11 +79,11 @@ Rectangle
         {
             var smallSquareAtIndex = littleGridRepeater.itemAt(i);
 
-            if(GameTracker.squareWon[GameTracker.bigIndex][i] === 1)
+            if(GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === 1)
             {
                 smallSquareAtIndex.state = "wonByX";
             }
-            else if(GameTracker.squareWon[GameTracker.bigIndex][i] === -1)
+            else if(GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === -1)
             {
                 smallSquareAtIndex.state = "wonByO";
             }

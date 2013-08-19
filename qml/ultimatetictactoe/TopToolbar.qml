@@ -1,8 +1,15 @@
 import QtQuick 2.0
+import "GameTracker.js" as GameTracker_js
 
 Rectangle
 {
     id: main;
+
+    property color releasedColor: Qt.rgba(0,0,0,.5);
+    property color enteredColor: Qt.rgba(0,0,0,.55);
+    property color pressedColor: Qt.rgba(0,0,0,1);
+
+    signal backButtonClicked();
 
     Rectangle
     {
@@ -21,6 +28,24 @@ Rectangle
             sourceSize.height: parent.height;
             sourceSize.width: parent.height;
             anchors.centerIn: parent;
+        }
+
+        MouseArea
+        {
+            anchors.fill: parent;
+            hoverEnabled: true;
+
+            onEntered: parent.color = main.enteredColor;
+            onExited: parent.color = main.releasedColor;
+            onPressed: parent.color = main.pressedColor;
+
+            onReleased:
+            {
+                parent.color = main.releasedColor;
+                backButtonClicked();
+                GameTracker_js.resetGame();
+
+            }
         }
     }
 }

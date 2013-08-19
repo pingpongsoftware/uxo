@@ -14,8 +14,8 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
     basicUnit = screenHeight * .01;
     m_BUTTON_SIZE = qCeil(basicUnit * 10);
 
-    m_SCREEN_HEIGHT = screenHeight;
-    m_SCREEN_WIDTH = screenWidth;
+    m_SCREEN_HEIGHT = screenHeight*.9;
+    m_SCREEN_WIDTH = screenWidth*.9;
 
     if (m_SCREEN_WIDTH > m_SCREEN_HEIGHT*.75)
         m_SCREEN_WIDTH = m_SCREEN_HEIGHT*.75;

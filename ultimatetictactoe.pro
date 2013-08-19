@@ -13,7 +13,8 @@ QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    scale.cpp
+    scale.cpp \
+    gametracker.cpp
 
 # Installation path
 # target.path =
@@ -51,8 +52,8 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
-    qml/ultimatetictactoe/BottomToolbar.qml \
-    qml/ultimatetictactoe/Scale.js
+    qml/ultimatetictactoe/BottomToolbar.qml
 
 HEADERS += \
-    scale.h
+    scale.h \
+    gametracker.h

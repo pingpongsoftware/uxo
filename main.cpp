@@ -1,9 +1,11 @@
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"
 #include <QScreen>
-#include "scale.h"
 #include <QQmlEngine>
 #include <QQmlContext>
+#include "scale.h"
+#include "gametracker.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +22,10 @@ int main(int argc, char *argv[])
 
     viewer.engine()->rootContext()->setContextProperty("Vals", pScale);
 
+    //GameTracker *gTracker;
+    //gTracker = new GameTracker();
+
+    //viewer.engine()->rootContext()->setContextProperty("GameTracker", gTracker);
 
     viewer.setMainQmlFile(QStringLiteral("qml/ultimatetictactoe/Main.qml"));
     viewer.showExpanded();

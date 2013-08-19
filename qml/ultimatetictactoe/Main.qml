@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker
+import "GameTracker.js" as GameTracker_js
 
 Rectangle
 {
@@ -54,11 +54,17 @@ Rectangle
             loader.source = "Tutorial.qml";
         }
 
+        onTopToolbarBackButtonClicked:
+        {
+            loader.source = "Menu.qml";
+        }
+
+
 
 //        onResetButtonClicked:
 //        {
 //            console.log("works!")
-//            GameTracker.resetGame();
+//            GameTracker_js.resetGame();
 //        }
     }
 }
