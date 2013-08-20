@@ -48,7 +48,7 @@ Rectangle
             loader.source = "Settings.qml";
         }
 
-        onTutorialButtonClicked:
+        onHelpButtonClicked:
         {
             previous = loader.source;
             loader.source = "Tutorial.qml";
@@ -56,15 +56,12 @@ Rectangle
 
         onTopToolbarBackButtonClicked:
         {
-            loader.source = "Menu.qml";
+            loader.source = previous;
         }
 
-
-
-//        onResetButtonClicked:
-//        {
-//            console.log("works!")
-//            GameTracker_js.resetGame();
-//        }
+        onExitButtonClicked:
+        {
+            loader.source = "Menu.qml"
+        }
     }
 }

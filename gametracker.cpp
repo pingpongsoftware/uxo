@@ -1,5 +1,5 @@
 //#include "gametracker.h"
-
+//#include <array>
 //GameTracker::GameTracker(QObject *parent) :
 //    QObject(parent)
 //{
@@ -29,16 +29,6 @@
 //        m_O_BIG_TILES_WON[i] = 0;
 //    }
 
-//    //Winning combinations.
-
-//    m_WINNING_COMBINATIONS[0] = {0,1,2};
-//    m_WINNING_COMBINATIONS[1] = {3,4,5};
-//    m_WINNING_COMBINATIONS[2] = {6,7,8};
-//    m_WINNING_COMBINATIONS[3] = {0,3,6};
-//    m_WINNING_COMBINATIONS[4] = {1,4,7};
-//    m_WINNING_COMBINATIONS[5] = {2,5,8};
-//    m_WINNING_COMBINATIONS[6] = {2,4,6};
-//    m_WINNING_COMBINATIONS[7] = {0,4,8};
 //}
 
 //bool GameTracker::checkForWinningCombinations(int *tilesWon)
@@ -52,7 +42,7 @@
 //        {
 //            for (int k = 0; k < sizeof(tilesWon); k++)
 //            {
-//                if (m_WINNING_COMBINATIONS[i][k] == tilesWon[m])
+//                if (m_WINNING_COMBINATIONS[i][k] == tilesWon[k])
 //                {
 //                    matchCount++;
 //                    break;

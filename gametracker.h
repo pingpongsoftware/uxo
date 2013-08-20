@@ -27,26 +27,37 @@
 
 //    // -1 means O won that square, 0 means nobody has won that square, 1 means X won that square-----------
 //private:
-//    int** m_SQUARES_WON;
+//    int m_SQUARES_WON[9][9];
     
 //private:
-//    int* m_BOARDS_WON = new int[9];
+//    int m_BOARDS_WON[9];
 //    //-----------------------------------------------------------------------------------------------------
 
-////private:
-////    std::vector<int> m_X_BIG_TILES_WON = new vector<int>();
-
-////private:
-////    std::vector<int> m_O_BIG_TILES_WON = new vector<int>();
+//private:
+//    std::vector<int> m_X_BIG_TILES_WON;
 
 //private:
-//    int* m_X_SMALL_TILES_WON = new int[9];
+//    std::vector<int> m_O_BIG_TILES_WON;
 
 //private:
-//    int* m_O_SMALL_TILES_WON = new int[9];
+//    int m_X_SMALL_TILES_WON[9];
 
 //private:
-//    int** m_WINNING_COMBINATIONS;
+//    int m_O_SMALL_TILES_WON[9];
+
+//private:
+//    int m_WINNING_COMBINATIONS[8][3] =
+//    {
+//        {0,1,2},
+//        {3,4,5},
+//        {6,7,8},
+//        {0,3,6},
+//        {1,4,7},
+//        {2,5,8},
+//        {2,4,6},
+//        {0,4,8}
+//    };
+
 
 ////--------------------------------------------------------------------------------------
 
@@ -104,7 +115,7 @@
 //    int *O_SMALL_TILES_WON() {return m_O_SMALL_TILES_WON;}
 
 //public:
-//    int **WINNING_COMBINATIONS() {return m_WINNING_COMBINATIONS;}
+//    int** WINNING_COMBINATIONS() {return m_WINNING_COMBINATIONS;}
 
 
 ////------------------------------------------------------------------------------------

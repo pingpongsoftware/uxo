@@ -16,7 +16,9 @@ Item
     FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
 
     signal topToolbarBackButtonClicked();
-
+    signal exitButtonClicked();
+    signal resetButtonClicked();
+    signal helpButtonClicked();
 
     Rectangle
     {
@@ -105,7 +107,7 @@ Item
                             assignBoards();
                             bottomToolbar.setTurn();
 
-                            message.visible = false;
+                            invalidPressesMessage.visible = false;
                             numInvalidPresses = 0;
                         }
                         else
@@ -114,16 +116,14 @@ Item
 
                             if (numInvalidPresses >= 5)
                             {
-                                message.visible = true;
-                                message.state = "invalidSquareClickedMessage";
+                                invalidPressesMessage.visible = true;
                             }
                         }
 
                         //shows the message when the game is over.
                         if (GameTracker_js.gameWon)
                         {
-                            message.visible = true;
-                            message.state = "gameOverMessage";
+                            gameOverMessage.visible = true;
                         }
                     }
                 }
@@ -168,13 +168,47 @@ Item
 
     Message
     {
-        id: message;
+        id: invalidPressesMessage;
         anchors.fill: parent;
         visible: false;
 
-        onGameOverButtonClicked:
+        messageText: "Remember, you can only play in a board that is highlighted green.";
+        buttonOneText: "OK";
+        buttonTwoText: "Help";
+
+        onButtonOneClicked:
+        {
+            destroy();
+        }
+
+        onButtonTwoClicked:
+        {
+            helpButtonClicked();
+            destroy();
+        }
+    }
+
+    Message
+    {
+        id: gameOverMessage;
+        anchors.fill: parent;
+        visible: false;
+
+        messageText: "Congratulations! " + GameTracker_js.winningPlayer + " has won the game!"
+        buttonOneText: "Exit";
+        buttonTwoText: "Rematch";
+
+        onButtonOneClicked:
         {
             resetGame();
+            destroy();
+            exitButtonClicked();
+        }
+
+        onButtonTwoClicked:
+        {
+            resetGame();
+            destroy();
         }
     }
 
