@@ -10,14 +10,6 @@ GameTracker::GameTracker(QObject *parent) :
 
 void GameTracker::init()
 {
-    m_SQUARES_WON = new QList<QList<int> >();
-    m_BOARDS_WON = new QList<int>();
-    m_X_BIG_TILES_WON = new QList<int>();
-    m_O_BIG_TILES_WON = new QList<int>();
-    m_O_SMALL_TILES_WON = new QList<int>();
-    m_WINNING_COMBINATIONS = new QList<QList<int> >();
-
-
     for (int i = 0; i < 9; i++) //Squares won
     {
         for (int j = 0; j < 9; j++)
@@ -28,15 +20,15 @@ void GameTracker::init()
 
     for (int i = 0; i < 9; i++) //Boards won
     {
-        m_BOARDS_WON[i] = 0;
+        m_BOARDS_WON.push_back(0);
     }
 
     for (int i = 0; i < 9; i++) // X & O small & big tiles won
     {
-        m_X_SMALL_TILES_WON[i] = 0;
-        m_X_BIG_TILES_WON[i] = 0;
-        m_O_SMALL_TILES_WON[i] = 0;
-        m_O_BIG_TILES_WON[i] = 0;
+        m_X_SMALL_TILES_WON.push_back(0);
+        m_X_BIG_TILES_WON.push_back(0);
+        m_O_SMALL_TILES_WON.push_back(0);
+        m_O_BIG_TILES_WON.push_back(0);
     }
 
 }
@@ -46,11 +38,11 @@ bool GameTracker::checkForWinningCombinations(QList<int> tilesWon)
     bool gameWon = false;
     bool matchCount = 0;
 
-    for (int i = 0; i < sizeof(m_WINNING_COMBINATIONS); i++)
+    for (int i = 0; i < m_WINNING_COMBINATIONS.length(); i++)
     {
-        for (int j = 0; j < sizeof(m_WINNING_COMBINATIONS[i]); j++)
+        for (int j = 0; j < m_WINNING_COMBINATIONS.at(i).length(); j++)
         {
-            for (int k = 0; k < sizeof(tilesWon); k++)
+            for (int k = 0; k < tilesWon.length(); k++)
             {
                 if (m_WINNING_COMBINATIONS[i][k] == tilesWon[k])
                 {
@@ -88,7 +80,7 @@ void GameTracker::makeMove(int smallIndex, int largeIndex)
         //boardWon variable as true(1 or -1.  If the board has previously
         //been won it doesn't do anything
 
-        if (checkForWinningCombinations(m_X_SMALL_TILES_WON[largeIndex]) && m_BOARDS_WON[largeIndex] == 0)
+        if (checkForWinningCombinations(m_X_SMALL_TILES_WON.at(largeIndex) && m_BOARDS_WON.at(largeIndex) == 0))
         {
             m_X_SMALL_TILES_WON.push_back(largeIndex);
             m_BOARDS_WON[largeIndex] = 1;
@@ -107,7 +99,7 @@ void GameTracker::makeMove(int smallIndex, int largeIndex)
         m_O_SMALL_TILES_WON[largeIndex] = smallIndex;
         m_SQUARES_WON[largeIndex][smallIndex] = 1;
 
-        if (checkForWinningCombinations(m_O_SMALL_TILES_WON[largeIndex]) && m_BOARDS_WON[largeIndex] == 0)
+        if (checkForWinningCombinations(m_O_SMALL_TILES_WON.at(largeIndex)) && m_BOARDS_WON.at(largeIndex) == 0)
         {
             m_O_SMALL_TILES_WON.push_back(largeIndex);
             m_BOARDS_WON[largeIndex] = 1;
@@ -122,12 +114,13 @@ void GameTracker::makeMove(int smallIndex, int largeIndex)
     }
 
     m_X_TURN = !m_X_TURN;
-    return m_BOARDS_WON[m_BIG_INDEX];
+
+    //return m_BOARDS_WON.at(m_BIG_INDEX);  ---don't know why this was here, but it was.
 }
 
 bool GameTracker::checkForDeadSquare()
 {
-    if (sizeof(m_X_SMALL_TILES_WON[m_LITTLE_INDEX]) + sizeof (m_O_SMALL_TILES_WON[m_LITTLE_INDEX]) < 9)
+    if (sizeof(m_X_SMALL_TILES_WON.at(m_LITTLE_INDEX)) + sizeof (m_O_SMALL_TILES_WON.at(m_LITTLE_INDEX)) < 9)
         return false;
 
     return true;
