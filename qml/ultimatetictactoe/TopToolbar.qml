@@ -43,7 +43,7 @@ Rectangle
             {
                 parent.color = main.releasedColor;
                 backButtonClicked();
-                GameTracker_js.resetGame();
+                GameTracker.resetGame();
 
             }
         }

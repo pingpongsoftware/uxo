@@ -79,11 +79,11 @@ Rectangle
         {
             var smallSquareAtIndex = littleGridRepeater.itemAt(i);
 
-            if(GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === 1)
+            if(GameTracker.getVal(GameTracker.SQUARES_WON, GameTracker.BIG_INDEX, i) === 1) //squareWon[GameTracker_js.bigIndex][i] === 1)
             {
                 smallSquareAtIndex.state = "wonByX";
             }
-            else if(GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === -1)
+            else if(GameTracker.getVal(GameTracker.SQUARES_WON, GameTracker.BIG_INDEX, i) === -1)
             {
                 smallSquareAtIndex.state = "wonByO";
             }

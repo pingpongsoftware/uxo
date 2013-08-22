@@ -2,8 +2,6 @@
 #define GAMETRACKER_H
 
 #include <QObject>
-#include <vector>
-#include <QList>
 
 class GameTracker : public QObject
 {
@@ -28,8 +26,10 @@ private:
 
     // -1 means O won that square, 0 means nobody has won that square, 1 means X won that square-----------
 private:
+    QList<int> m_SQUARES_WON_INNER;
+private:
     QList<QList<int> > m_SQUARES_WON;
-    
+
 private:
     QList<int> m_BOARDS_WON;
     //-----------------------------------------------------------------------------------------------------
@@ -41,10 +41,10 @@ private:
     QList<int> m_O_BIG_TILES_WON;
 
 private:
-    QList<int> m_X_SMALL_TILES_WON;
+    QList<QList<int> > m_X_SMALL_TILES_WON;
 
 private:
-    QList<int> m_O_SMALL_TILES_WON;
+    QList<QList<int> > m_O_SMALL_TILES_WON;
 
 private:
     QList<QList<int> > m_WINNING_COMBINATIONS;
@@ -80,10 +80,10 @@ public:
     QList<int> O_BIG_TILES_WON() {return m_O_BIG_TILES_WON;}
 
 public:
-    QList<int> X_SMALL_TILES_WON() {return m_X_SMALL_TILES_WON;}
+    QList<QList<int> > X_SMALL_TILES_WON() {return m_X_SMALL_TILES_WON;}
 
 public:
-    QList<int> O_SMALL_TILES_WON() {return m_O_SMALL_TILES_WON;}
+    QList<QList<int> > O_SMALL_TILES_WON() {return m_O_SMALL_TILES_WON;}
 
 public:
     QList<QList<int> > WINNING_COMBINATIONS() {return m_WINNING_COMBINATIONS;}
@@ -99,26 +99,34 @@ public:
     Q_PROPERTY(QList<int> BOARDS_WON READ BOARDS_WON())
     Q_PROPERTY(QList<int> X_BIG_TILES_WON READ X_BIG_TILES_WON())
     Q_PROPERTY(QList<int> O_BIG_TILES_WON READ O_BIG_TILES_WON())
-    Q_PROPERTY(QList<int> X_SMALL_TILES_WON READ X_SMALL_TILES_WON())
-    Q_PROPERTY(QList<int> O_SMALL_TILES_WON READ O_SMALL_TILES_WON())
+    Q_PROPERTY(QList<QList<int> > X_SMALL_TILES_WON READ X_SMALL_TILES_WON())
+    Q_PROPERTY(QList<QList<int> > O_SMALL_TILES_WON READ O_SMALL_TILES_WON())
     Q_PROPERTY(QList<QList<int> > WINNING_COMBINATIONS READ WINNING_COMBINATIONS())
 //---------------------------------------------------------------------------------------
 
+public:
+       Q_INVOKABLE int getVal(QList<int> list, int index);
 
 public:
-       bool checkForWinningCombinations(QList<int> tilesWon);
+       Q_INVOKABLE int getVal(QList<QList<int> > list, int indexA, int indexB);
 
 public:
-       void makeMove(int smallIndex, int largeIndex);
+       Q_INVOKABLE bool checkForWinningCombinations(QList<int> tilesWon);
 
 public:
-       bool checkForDeadSquare();
+       Q_INVOKABLE void makeMove(int smallIndex, int largeIndex);
 
 public:
-       void resetGame();
+       Q_INVOKABLE bool checkForDeadSquare();
+
+public:
+       Q_INVOKABLE void resetGame();
 
 private:
        void init();
+
+private:
+       QList<int> addToWinningCombos(int a, int b, int c);
 
 signals:
     
