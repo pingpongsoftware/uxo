@@ -1,171 +1,129 @@
-//#ifndef GAMETRACKER_H
-//#define GAMETRACKER_H
+#ifndef GAMETRACKER_H
+#define GAMETRACKER_H
 
-//#include <QObject>
-//#include <vector>
+#include <QObject>
+#include <vector>
+#include <QList>
 
-//class GameTracker : public QObject
-//{
-//    Q_OBJECT
-//public:
-//    explicit GameTracker(QObject *parent = 0);
+class GameTracker : public QObject
+{
+    Q_OBJECT
+public:
+    explicit GameTracker(QObject *parent = 0);
 
-//private:
-//    bool m_X_TURN = true;
+private:
+    bool m_X_TURN = true;
 
-//private:
-//    bool m_GAME_WON = false;
+private:
+    bool m_GAME_WON = false;
 
-//private:
-//    char m_WINNING_PLAYER = ' ';
+private:
+    char m_WINNING_PLAYER = ' ';
 
-//private:
-//    int m_BIG_INDEX = 0;
+private:
+    int m_BIG_INDEX = 0;
 
-//private:
-//    int m_LITTLE_INDEX = 0;
+private:
+    int m_LITTLE_INDEX = 0;
 
-//    // -1 means O won that square, 0 means nobody has won that square, 1 means X won that square-----------
-//private:
-//    int m_SQUARES_WON[9][9];
+    // -1 means O won that square, 0 means nobody has won that square, 1 means X won that square-----------
+private:
+    QList<QList<int> > m_SQUARES_WON;
     
-//private:
-//    int m_BOARDS_WON[9];
-//    //-----------------------------------------------------------------------------------------------------
+private:
+    QList<int> m_BOARDS_WON;
+    //-----------------------------------------------------------------------------------------------------
 
-//private:
-//    std::vector<int> m_X_BIG_TILES_WON;
+private:
+    QList<int> m_X_BIG_TILES_WON;
 
-//private:
-//    std::vector<int> m_O_BIG_TILES_WON;
+private:
+    QList<int> m_O_BIG_TILES_WON;
 
-//private:
-//    int m_X_SMALL_TILES_WON[9];
+private:
+    QList<int> m_X_SMALL_TILES_WON;
 
-//private:
-//    int m_O_SMALL_TILES_WON[9];
+private:
+    QList<int> m_O_SMALL_TILES_WON;
 
-//private:
-//    int m_WINNING_COMBINATIONS[8][3] =
-//    {
-//        {0,1,2},
-//        {3,4,5},
-//        {6,7,8},
-//        {0,3,6},
-//        {1,4,7},
-//        {2,5,8},
-//        {2,4,6},
-//        {0,4,8}
-//    };
+private:
+    QList<QList<int> > m_WINNING_COMBINATIONS;
 
 
-////--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------
 
-//public:
-//    bool X_TURN() {return m_X_TURN;}
+public:
+    bool X_TURN() {return m_X_TURN;}
 
-//public:
-//    bool GAME_WON() {return m_GAME_WON;}
+public:
+    bool GAME_WON() {return m_GAME_WON;}
 
-//public:
-//    char WINNING_PLAYER() {return m_WINNING_PLAYER;}
+public:
+    char WINNING_PLAYER() {return m_WINNING_PLAYER;}
 
-//public:
-//    int BIG_INDEX() {return m_BIG_INDEX;}
+public:
+    int BIG_INDEX() {return m_BIG_INDEX;}
 
-//public:
-//    int LITTLE_INDEX() {return m_LITTLE_INDEX;}
+public:
+    int LITTLE_INDEX() {return m_LITTLE_INDEX;}
 
-//public:
-//    int **SQUARES_WON() {return m_SQUARES_WON;}
+public:
+    QList<QList<int> > SQUARES_WON() {return m_SQUARES_WON;}
 
-//public:
-//    int *BOARDS_WON() {return m_BOARDS_WON;}
+public:
+    QList<int> BOARDS_WON() {return m_BOARDS_WON;}
 
-//public:
-//    int *X_BIG_TILES_WON()
-//    {
-//        int* temp = new int[m_X_BIG_TILES_WON.size()];
+public:
+    QList<int> X_BIG_TILES_WON() {return m_X_BIG_TILES_WON;}
 
-//        for (int i = 0; i < sizeof(temp); i++)
-//        {
-//            temp[i] = m_X_BIG_TILES_WON.at(i);
-//        }
+public:
+    QList<int> O_BIG_TILES_WON() {return m_O_BIG_TILES_WON;}
 
-//        return temp;
-//    }
+public:
+    QList<int> X_SMALL_TILES_WON() {return m_X_SMALL_TILES_WON;}
 
-//public:
-//    int *O_BIG_TILES_WON()
-//    {
-//        int* temp = new int[m_O_BIG_TILES_WON.size()];
+public:
+    QList<int> O_SMALL_TILES_WON() {return m_O_SMALL_TILES_WON;}
 
-//        for (int i = 0; i < sizeof(temp); i++)
-//        {
-//            temp[i] = m_O_BIG_TILES_WON.at(i);
-//        }
-
-//        return temp;
-//    }
-
-//public:
-//    int *X_SMALL_TILES_WON() {return m_X_SMALL_TILES_WON;}
-
-//public:
-//    int *O_SMALL_TILES_WON() {return m_O_SMALL_TILES_WON;}
-
-//public:
-//    int** WINNING_COMBINATIONS() {return m_WINNING_COMBINATIONS;}
+public:
+    QList<QList<int> > WINNING_COMBINATIONS() {return m_WINNING_COMBINATIONS;}
 
 
-////------------------------------------------------------------------------------------
-//    Q_PROPERTY(int X_TURN READ X_TURN())
-//    Q_PROPERTY(int GAME_WON READ GAME_WON())
-//    Q_PROPERTY(int WINNING_PLAYER READ WINNING_PLAYER())
-//    Q_PROPERTY(int BIG_INDEX READ BIG_INDEX())
-//    Q_PROPERTY(int LITTLE_INDEX READ LITTLE_INDEX())
-//    Q_PROPERTY(int** SQUARES_WON READ SQUARES_WON())
-//    Q_PROPERTY(int* BOARDS_WON READ BOARDS_WON())
-//    Q_PROPERTY(int* X_BIG_TILES_WON READ X_BIG_TILES_WON())
-//    Q_PROPERTY(int* O_BIG_TILES_WON READ O_BIG_TILES_WON())
-//    Q_PROPERTY(int* X_SMALL_TILES_WON READ X_SMALL_TILES_WON())
-//    Q_PROPERTY(int* O_SMALL_TILES_WON READ O_SMALL_TILES_WON())
-//    Q_PROPERTY(int** WINNING_COMBINATIONS READ WINNING_COMBINATIONS())
-////---------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+    Q_PROPERTY(int X_TURN READ X_TURN())
+    Q_PROPERTY(int GAME_WON READ GAME_WON())
+    Q_PROPERTY(int WINNING_PLAYER READ WINNING_PLAYER())
+    Q_PROPERTY(int BIG_INDEX READ BIG_INDEX())
+    Q_PROPERTY(int LITTLE_INDEX READ LITTLE_INDEX())
+    Q_PROPERTY(QList<QList<int>> SQUARES_WON READ SQUARES_WON())
+    Q_PROPERTY(QList<int> BOARDS_WON READ BOARDS_WON())
+    Q_PROPERTY(QList<int> X_BIG_TILES_WON READ X_BIG_TILES_WON())
+    Q_PROPERTY(QList<int> O_BIG_TILES_WON READ O_BIG_TILES_WON())
+    Q_PROPERTY(QList<int> X_SMALL_TILES_WON READ X_SMALL_TILES_WON())
+    Q_PROPERTY(QList<int> O_SMALL_TILES_WON READ O_SMALL_TILES_WON())
+    Q_PROPERTY(QList<QList<int>> WINNING_COMBINATIONS READ WINNING_COMBINATIONS())
+//---------------------------------------------------------------------------------------
 
 
-//private:
-//       bool checkForWinningCombinations(int* tilesWon);
+public:
+       bool checkForWinningCombinations(QList<int> tilesWon);
 
-//private:
-//       bool checkForWinningCombinations(std::vector<int> tilesWon)
-//       {
-//           int* temp = new int[tilesWon.size()];
+public:
+       void makeMove(int smallIndex, int largeIndex);
 
-//           for (int i = 0; i < sizeof(temp); i++)
-//           {
-//               temp[i] = tilesWon.at(i);
-//           }
+public:
+       bool checkForDeadSquare();
 
-//           return checkForWinningCombinations(temp);
-//       }
+public:
+       void resetGame();
 
-//public:
-//       void makeMove(int smallIndex, int largeIndex);
+private:
+       void init();
 
-//public:
-//       bool checkForDeadSquare();
-
-//public:
-//       void resetGame();
-
-//private:
-//       void init();
-
-//signals:
+signals:
     
-//public slots:
+public slots:
     
-//};
+};
 
-//#endif // GAMETRACKER_H
+#endif // GAMETRACKER_H

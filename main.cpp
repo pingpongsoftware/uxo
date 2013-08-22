@@ -22,10 +22,10 @@ int main(int argc, char *argv[])
 
     viewer.engine()->rootContext()->setContextProperty("Vals", pScale);
 
-    //GameTracker *gTracker;
-    //gTracker = new GameTracker();
+    GameTracker *gTracker;
+    gTracker = new GameTracker();
 
-    //viewer.engine()->rootContext()->setContextProperty("GameTracker", gTracker);
+    viewer.engine()->rootContext()->setContextProperty("GameTracker", gTracker);
 
     viewer.setMainQmlFile(QStringLiteral("qml/ultimatetictactoe/Main.qml"));
     viewer.showExpanded();
