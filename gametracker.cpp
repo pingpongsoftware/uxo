@@ -160,15 +160,12 @@ void GameTracker::resetGame()
     this->init();
 }
 
-int GameTracker::getVal(QList<int> list, int index)
+int GameTracker::getVal(QList<int>* list, int index)
 {
-    return list.at(index);
+    return list->at(index);
 }
 
-int GameTracker::getVal(QList<QList<int>* > list, int indexA, int indexB)
+int GameTracker::get2DVal(QList<QList<int>* >* list, int indexA, int indexB)
 {
-    if (indexA > list.length() || indexB > list.at(0)->length())
-        return 0;
-
-    return list.at(indexA)->at(indexB);
+    return list->at(indexA)->at(indexB);
 }

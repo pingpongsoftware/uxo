@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker_js
 
 Item
 {
@@ -125,7 +124,7 @@ Item
                         }
 
                         //shows the message when the game is over.
-                        if (GameTracker.GAME_WON) //(GameTracker_js.gameWon)
+                        if (GameTracker.gameWon) //(GameTracker_js.gameWon)
                         {
                             gameOverMessage.visible = true;
                         }
@@ -198,7 +197,7 @@ Item
         anchors.fill: parent;
         visible: false;
 
-        messageText: "Congratulations! " + GameTracker.WINNING_PLAYER + " has won the game!"
+        messageText: "Congratulations! " + GameTracker.winningPlayer + " has won the game!"
         buttonOneText: "Exit";
         buttonTwoText: "Rematch";
 
@@ -236,11 +235,11 @@ Item
         {
             var boardAtIndex = bigGridRepeater.itemAt(i);
 
-            if(GameTracker.BOARDS_WON[i] === 1)
+            if(GameTracker.getVal(GameTracker.boardsWon, i) === 1)
             {
                 boardAtIndex.state = "wonByX";
             }
-            else if(GameTracker.BOARDS_WON[i] === -1)
+            else if(GameTracker.getVal(GameTracker.boardsWon, i) === -1)
             {
                 boardAtIndex.state = "wonByO";
             }

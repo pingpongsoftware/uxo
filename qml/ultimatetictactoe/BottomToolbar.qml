@@ -1,5 +1,4 @@
 import QtQuick 2.0;
-import "GameTracker.js" as GameTracker_js;
 
 Rectangle
 {
@@ -99,7 +98,7 @@ Rectangle
     function setTurn()
     {
         //sets the state of the toolbar
-        if(GameTracker.X_TURN) bottomToolbar.state = "xTurn";
+        if(GameTracker.xTurn) bottomToolbar.state = "xTurn";
         else bottomToolbar.state = "oTurn";
     }
 
