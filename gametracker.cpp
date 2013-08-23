@@ -9,63 +9,65 @@ GameTracker::GameTracker(QObject *parent) :
 
 void GameTracker::init()
 {
-    m_WINNING_COMBINATIONS.push_back(addToWinningCombos(0,1,2));
-    m_WINNING_COMBINATIONS.push_back(addToWinningCombos(3,4,5));
-    m_WINNING_COMBINATIONS.push_back(addToWinningCombos(6,7,8));
-    m_WINNING_COMBINATIONS.push_back(addToWinningCombos(0,3,6));
-    m_WINNING_COMBINATIONS.push_back(addToWinningCombos(1,4,7));
-    m_WINNING_COMBINATIONS.push_back(addToWinningCombos(2,5,8));
-    m_WINNING_COMBINATIONS.push_back(addToWinningCombos(2,4,6));
-    m_WINNING_COMBINATIONS.push_back(addToWinningCombos(0,4,8));
+    for (int i = 0; i < 8; i++)
+    {
+        m_winningCombinations.push_back(new QList<int>);
+    }
+
+    addToWinningCombos(0, 0,1,2);
+    addToWinningCombos(1, 3,4,5);
+    addToWinningCombos(2, 6,7,8);
+    addToWinningCombos(3, 0,3,6);
+    addToWinningCombos(4, 1,4,7);
+    addToWinningCombos(5, 2,5,8);
+    addToWinningCombos(6, 2,4,6);
+    addToWinningCombos(7, 0,4,8);
 
     for (int i = 0; i < 9; i++) //Squares won
     {
+        m_squaresWon.push_back(new QList<int>());
+
         for (int j = 0; j < 9; j++)
         {
-            m_SQUARES_WON_INNER.push_back(0);
+            m_squaresWon[i]->push_back(0);
         }
-
-        m_SQUARES_WON.push_back(m_SQUARES_WON_INNER);
     }
 
     for (int i = 0; i < 9; i++) //Boards won
     {
-        m_BOARDS_WON.push_back(0);
+        m_boardsWon.push_back(0);
     }
 
     for (int i = 0; i < 9; i++) // X & O small & big tiles won
     {
-        m_X_BIG_TILES_WON.push_back(0);
-        m_O_BIG_TILES_WON.push_back(0);
+        m_xBigTilesWon.push_back(0);
+        m_oBigTilesWon.push_back(0);
 
-        QList<int> temp;
-        m_O_SMALL_TILES_WON.push_back(temp);
-        m_X_SMALL_TILES_WON.push_back(temp);
+        m_oSmallTilesWon.push_back(new QList<int>);
+        m_xSmallTilesWon.push_back(new QList<int>);
     }
 
 }
 
-QList<int> GameTracker::addToWinningCombos(int a, int b, int c)
+void GameTracker::addToWinningCombos(int index, int a, int b, int c)
 {
-    QList<int> temp;
-    temp.push_back(a);
-    temp.push_back(b);
-    temp.push_back(c);
-    return temp;
+    m_winningCombinations.at(index)->push_back(a);
+    m_winningCombinations.at(index)->push_back(b);
+    m_winningCombinations.at(index)->push_back(c);
 }
 
-bool GameTracker::checkForWinningCombinations(QList<int> tilesWon)
+bool GameTracker::checkForWinningCombinations(QList<int>* tilesWon)
 {
     bool gameWon = false;
     bool matchCount = 0;
 
-    for (int i = 0; i < m_WINNING_COMBINATIONS.length(); i++)
+    for (int i = 0; i < m_winningCombinations.length(); i++)
     {
-        for (int j = 0; j < m_WINNING_COMBINATIONS.at(i).length(); j++)
+        for (int j = 0; j < m_winningCombinations.at(i)->length(); j++)
         {
-            for (int k = 0; k < tilesWon.length(); k++)
+            for (int k = 0; k < tilesWon->length(); k++)
             {
-                if (m_WINNING_COMBINATIONS.at(i).at(j) == tilesWon.at(k))
+                if (m_winningCombinations.at(i)->at(j) == tilesWon->at(k))
                 {
                     matchCount++;
                     break;
@@ -87,61 +89,61 @@ bool GameTracker::checkForWinningCombinations(QList<int> tilesWon)
 //Changes the player turn, add the played tile to their winnings, and checks to see if they've won
 void GameTracker::makeMove(int smallIndex, int largeIndex)
 {
-    m_LITTLE_INDEX = smallIndex;
-    m_BIG_INDEX = largeIndex;
+    m_littleIndex = smallIndex;
+    m_bigIndex = largeIndex;
 
-    if (m_X_TURN)
+    if (m_xTurn)
     {
         //adds the chosen tile to the array of tiles won
-        m_X_SMALL_TILES_WON[largeIndex].push_back(smallIndex);
-        m_SQUARES_WON[largeIndex][smallIndex] = 1;
+        m_xSmallTilesWon[m_bigIndex]->push_back(m_littleIndex);
+        m_squaresWon[m_bigIndex]->replace(m_littleIndex, 1);
 
         //checks to see if the board has been won.  If it has, it adds
         //the board to the array of boards won, and sets the corresponding
         //boardWon variable as true(1 or -1.  If the board has previously
         //been won it doesn't do anything
 
-        if (checkForWinningCombinations(m_X_SMALL_TILES_WON.at(largeIndex)) && m_BOARDS_WON.at(largeIndex) == 0)
+        if (checkForWinningCombinations(m_xSmallTilesWon.at(m_bigIndex)) && m_boardsWon.at(m_bigIndex) == 0)
         {
-            m_X_BIG_TILES_WON.push_back(largeIndex);
-            m_BOARDS_WON[largeIndex] = 1;
+            m_xBigTilesWon.push_back(m_bigIndex);
+            m_boardsWon[m_bigIndex] = 1;
         }
 
         //Check to see if the big game has been won
-        if ( checkForWinningCombinations((m_X_BIG_TILES_WON)))
+        if ( checkForWinningCombinations((&m_xBigTilesWon)))
         {
-            m_WINNING_PLAYER = 'X';
-            m_GAME_WON = true;
+            m_winningPlayer = 'X';
+            m_gameWon= true;
         }
     }
 
     else //does the same as above but for O's
     {
-        m_O_SMALL_TILES_WON[largeIndex].push_back(smallIndex);
-        m_SQUARES_WON[largeIndex][smallIndex] = 1;
+        m_oSmallTilesWon[m_bigIndex]->push_back(m_littleIndex);
+        m_squaresWon[m_bigIndex]->replace(m_littleIndex, 1);  //m_squaresWon[m_bigIndex][m_littleIndex] = 1;
 
-        if (checkForWinningCombinations(m_O_SMALL_TILES_WON.at(largeIndex)) && m_BOARDS_WON.at(largeIndex) == 0)
+        if (checkForWinningCombinations(m_oSmallTilesWon.at(m_bigIndex)) && m_boardsWon.at(m_bigIndex) == 0)
         {
-            m_O_BIG_TILES_WON.push_back(largeIndex);
-            m_BOARDS_WON[largeIndex] = 1;
+            m_oBigTilesWon.push_back(m_bigIndex);
+            m_boardsWon[m_bigIndex] = 1;
         }
 
         //Check to see if the big game has been won
-        if ( checkForWinningCombinations((m_O_BIG_TILES_WON)))
+        if ( checkForWinningCombinations((&m_oBigTilesWon)))
         {
-            m_WINNING_PLAYER = 'O';
-            m_GAME_WON = true;
+            m_winningPlayer = 'O';
+            m_gameWon= true;
         }
     }
 
-    m_X_TURN = !m_X_TURN;
+    m_xTurn = !m_xTurn;
 
-    //return m_BOARDS_WON.at(m_BIG_INDEX);  ---don't know why this was here, but it was.
+    //return m_boardsWon.at(m_bigIndex);  ---don't know why this was here, but it was.
 }
 
 bool GameTracker::checkForDeadSquare()
 {
-    if (m_X_SMALL_TILES_WON.at(m_LITTLE_INDEX).length() + m_O_SMALL_TILES_WON.at(m_LITTLE_INDEX).length() < 9)
+    if (m_xSmallTilesWon.at(m_littleIndex)->length() + m_oSmallTilesWon.at(m_littleIndex)->length() < 9)
         return false;
 
     return true;
@@ -149,11 +151,11 @@ bool GameTracker::checkForDeadSquare()
 
 void GameTracker::resetGame()
 {
-    m_X_TURN = true;
-    m_GAME_WON = true;
-    m_WINNING_PLAYER = ' ';
-    m_BIG_INDEX = 0;
-    m_LITTLE_INDEX = 0;
+    m_xTurn = true;
+    m_gameWon= true;
+    m_winningPlayer = ' ';
+    m_bigIndex = 0;
+    m_littleIndex = 0;
 
     this->init();
 }
@@ -163,10 +165,10 @@ int GameTracker::getVal(QList<int> list, int index)
     return list.at(index);
 }
 
-int GameTracker::getVal(QList<QList<int> > list, int indexA, int indexB)
+int GameTracker::getVal(QList<QList<int>* > list, int indexA, int indexB)
 {
-    if (indexA > list.length() || indexB > list.at(0).length())
+    if (indexA > list.length() || indexB > list.at(0)->length())
         return 0;
 
-    return list.at(indexA).at(indexB);
+    return list.at(indexA)->at(indexB);
 }

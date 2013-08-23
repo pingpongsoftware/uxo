@@ -11,100 +11,100 @@ public:
     explicit Scale(QObject *parent = 0);
 
 private:
-       int m_BUTTON_SIZE;
+       int m_buttonSize;
 
 private:
-       int m_SCREEN_WIDTH;
+       int m_screenWidth;
 
 private:
-       int m_SCREEN_HEIGHT;
+       int m_screenHeight;
 
 private:
-       int m_ROWS;
+       int m_rows;
 
 private:
-       int m_LARGE_FONT_SIZE;
+       int m_largeFontSize;
 
 private:
-       int m_MEDIUM_FONT_SIZE;
+       int m_mediumFontSize;
 
 private:
-       int m_SMALL_FONT_SIZE;
+       int m_smallFontSize;
 
 private:
-       int m_BIG_GRID_SPACING;
+       int m_bigGridSpacing;
 
 private:
-       int m_OUTER_GRID_SIZE;
+       int m_outerGridSize;
 
 private:
-       int m_SMALL_GRID_SPACING;
+       int m_smallGridSpacing;
 
 private:
-       int m_INNER_RECT_SIZE;
+       int m_innerRectSize;
 
 private:
-       int m_INNER_GRID_SIZE;
+       int m_innerGridSize;
 
 private:
-       int m_SQUARE_SIZE;
+       int m_squareSize;
 
 
 
 public:
-       int BUTTON_SIZE() {return m_BUTTON_SIZE;}
+       int buttonSize() {return m_buttonSize;}
 
 public:
-       int SCREEN_WIDTH() {return m_SCREEN_WIDTH;}
+       int screenWidth() {return m_screenWidth;}
 
 public:
-       int SCREEN_HEIGHT() {return m_SCREEN_HEIGHT;}
+       int screenHeight() {return m_screenHeight;}
 
 public:
-       int ROWS() {return m_ROWS;}
+       int rows() {return m_rows;}
 
 public:
-       int LARGE_FONT_SIZE() {return m_LARGE_FONT_SIZE;}
+       int largeFontSize() {return m_largeFontSize;}
 
 public:
-       int MEDIUM_FONT_SIZE() {return m_MEDIUM_FONT_SIZE;}
+       int mediumFontSize() {return m_mediumFontSize;}
 
 public:
-       int SMALL_FONT_SIZE() {return m_SMALL_FONT_SIZE;}
+       int smallFontSize() {return m_smallFontSize;}
 
 public:
-       int BIG_GRID_SPACING() {return m_BIG_GRID_SPACING;}
+       int bigGridSpacing() {return m_bigGridSpacing;}
 
 public:
-       int OUTER_GRID_SIZE() {return m_OUTER_GRID_SIZE;}
+       int outerGridSize() {return m_outerGridSize;}
 
 public:
-       int SMALL_GRID_SPACING() {return m_SMALL_GRID_SPACING;}
+       int smallGridSpacing() {return m_smallGridSpacing;}
 
 public:
-       int INNER_RECT_SIZE() {return m_INNER_RECT_SIZE;}
+       int innerRectSize() {return m_innerRectSize;}
 
 public:
-       int INNER_GRID_SIZE() {return m_INNER_GRID_SIZE;}
+       int innerGridSize() {return m_innerGridSize;}
 
 public:
-       int SQUARE_SIZE() {return m_SQUARE_SIZE;}
+       int squareSize() {return m_squareSize;}
 
 
 //------------------------------------------------------------------------------------------
-       Q_PROPERTY(int BUTTON_SIZE READ BUTTON_SIZE())
-       Q_PROPERTY(int SCREEN_HEIGHT READ SCREEN_HEIGHT())
-       Q_PROPERTY(int SCREEN_WIDTH READ SCREEN_WIDTH())
-       Q_PROPERTY(int ROWS READ ROWS())
-       Q_PROPERTY(int LARGE_FONT_SIZE READ LARGE_FONT_SIZE())
-       Q_PROPERTY(int MEDIUM_FONT_SIZE READ MEDIUM_FONT_SIZE())
-       Q_PROPERTY(int SMALL_FONT_SIZE READ SMALL_FONT_SIZE())
-       Q_PROPERTY(int BIG_GRID_SPACING READ BIG_GRID_SPACING())
-       Q_PROPERTY(int OUTER_GRID_SIZE READ OUTER_GRID_SIZE())
-       Q_PROPERTY(int SMALL_GRID_SPACING READ SMALL_GRID_SPACING())
-       Q_PROPERTY(int INNER_RECT_SIZE READ INNER_RECT_SIZE())
-       Q_PROPERTY(int INNER_GRID_SIZE READ INNER_GRID_SIZE())
-       Q_PROPERTY(int SQUARE_SIZE READ SQUARE_SIZE())
+       Q_PROPERTY(int BUTTON_SIZE READ buttonSize())
+       Q_PROPERTY(int SCREEN_HEIGHT READ screenHeight())
+       Q_PROPERTY(int SCREEN_WIDTH READ screenWidth())
+       Q_PROPERTY(int ROWS READ rows())
+       Q_PROPERTY(int LARGE_FONT_SIZE READ largeFontSize())
+       Q_PROPERTY(int MEDIUM_FONT_SIZE READ mediumFontSize())
+       Q_PROPERTY(int SMALL_FONT_SIZE READ smallFontSize())
+       Q_PROPERTY(int BIG_GRID_SPACING READ bigGridSpacing())
+       Q_PROPERTY(int OUTER_GRID_SIZE READ outerGridSize())
+       Q_PROPERTY(int SMALL_GRID_SPACING READ smallGridSpacing())
+       Q_PROPERTY(int INNER_RECT_SIZE READ innerRectSize())
+       Q_PROPERTY(int INNER_GRID_SIZE READ innerGridSize())
+       Q_PROPERTY(int SQUARE_SIZE READ squareSize())
 //------------------------------------------------------------------------------------------------
 
 public:

@@ -10,123 +10,66 @@ public:
     explicit GameTracker(QObject *parent = 0);
 
 private:
-    bool m_X_TURN = true;
-
-private:
-    bool m_GAME_WON = false;
-
-private:
-    char m_WINNING_PLAYER = ' ';
-
-private:
-    int m_BIG_INDEX = 0;
-
-private:
-    int m_LITTLE_INDEX = 0;
+    bool m_xTurn = true;
+    bool m_gameWon= false;
+    char m_winningPlayer = ' ';
+    int m_bigIndex = 0;
+    int m_littleIndex = 0;
 
     // -1 means O won that square, 0 means nobody has won that square, 1 means X won that square-----------
-private:
-    QList<int> m_SQUARES_WON_INNER;
-private:
-    QList<QList<int> > m_SQUARES_WON;
-
-private:
-    QList<int> m_BOARDS_WON;
-    //-----------------------------------------------------------------------------------------------------
-
-private:
-    QList<int> m_X_BIG_TILES_WON;
-
-private:
-    QList<int> m_O_BIG_TILES_WON;
-
-private:
-    QList<QList<int> > m_X_SMALL_TILES_WON;
-
-private:
-    QList<QList<int> > m_O_SMALL_TILES_WON;
-
-private:
-    QList<QList<int> > m_WINNING_COMBINATIONS;
+    QList<QList<int>* > m_squaresWon;
+    QList<int> m_boardsWon;
+    QList<int> m_xBigTilesWon;
+    QList<int> m_oBigTilesWon;
+    QList<QList<int>* > m_xSmallTilesWon;
+    QList<QList<int>* > m_oSmallTilesWon;
+    QList<QList<int>* > m_winningCombinations;
 
 
 //--------------------------------------------------------------------------------------
 
 public:
-    bool X_TURN() {return m_X_TURN;}
+    bool xTurn() {return m_xTurn;}
+    bool gameWon() {return m_gameWon;}
 
-public:
-    bool GAME_WON() {return m_GAME_WON;}
+    char winningPlayer() {return m_winningPlayer;}
 
-public:
-    char WINNING_PLAYER() {return m_WINNING_PLAYER;}
+    int bigIndex() {return m_bigIndex;}
+    int littleIndex() {return m_littleIndex;}
 
-public:
-    int BIG_INDEX() {return m_BIG_INDEX;}
-
-public:
-    int LITTLE_INDEX() {return m_LITTLE_INDEX;}
-
-public:
-    QList<QList<int> > SQUARES_WON() {return m_SQUARES_WON;}
-
-public:
-    QList<int> BOARDS_WON() {return m_BOARDS_WON;}
-
-public:
-    QList<int> X_BIG_TILES_WON() {return m_X_BIG_TILES_WON;}
-
-public:
-    QList<int> O_BIG_TILES_WON() {return m_O_BIG_TILES_WON;}
-
-public:
-    QList<QList<int> > X_SMALL_TILES_WON() {return m_X_SMALL_TILES_WON;}
-
-public:
-    QList<QList<int> > O_SMALL_TILES_WON() {return m_O_SMALL_TILES_WON;}
-
-public:
-    QList<QList<int> > WINNING_COMBINATIONS() {return m_WINNING_COMBINATIONS;}
+    QList<QList<int>* > squaresWon() {return m_squaresWon;}
+    QList<int> boardsWon() {return m_boardsWon;}
+    QList<int> xBigTilesWon() {return m_xBigTilesWon;}
+    QList<int> oBigTilesWon() {return m_oBigTilesWon;}
+    QList<QList<int>* > xSmallTilesWon() {return m_xSmallTilesWon;}
+    QList<QList<int>* > oSmallTilesWon() {return m_oSmallTilesWon;}
+    QList<QList<int>* > winningCombinations() {return m_winningCombinations;}
 
 
 //------------------------------------------------------------------------------------
-    Q_PROPERTY(int X_TURN READ X_TURN())
-    Q_PROPERTY(int GAME_WON READ GAME_WON())
-    Q_PROPERTY(int WINNING_PLAYER READ WINNING_PLAYER())
-    Q_PROPERTY(int BIG_INDEX READ BIG_INDEX())
-    Q_PROPERTY(int LITTLE_INDEX READ LITTLE_INDEX())
-    Q_PROPERTY(QList<QList<int> > SQUARES_WON READ SQUARES_WON())
-    Q_PROPERTY(QList<int> BOARDS_WON READ BOARDS_WON())
-    Q_PROPERTY(QList<int> X_BIG_TILES_WON READ X_BIG_TILES_WON())
-    Q_PROPERTY(QList<int> O_BIG_TILES_WON READ O_BIG_TILES_WON())
-    Q_PROPERTY(QList<QList<int> > X_SMALL_TILES_WON READ X_SMALL_TILES_WON())
-    Q_PROPERTY(QList<QList<int> > O_SMALL_TILES_WON READ O_SMALL_TILES_WON())
-    Q_PROPERTY(QList<QList<int> > WINNING_COMBINATIONS READ WINNING_COMBINATIONS())
+    Q_PROPERTY(int xTurn READ xTurn())
+    Q_PROPERTY(int gameWon READ gameWon())
+    Q_PROPERTY(int winningPlayer READ winningPlayer())
+    Q_PROPERTY(int bigIndex READ bigIndex())
+    Q_PROPERTY(int littleIndex READ littleIndex())
+    Q_PROPERTY(QList<QList<int>* > squaresWon READ squaresWon())
+    Q_PROPERTY(QList<int> boardsWon READ boardsWon())
+    Q_PROPERTY(QList<int> xBigTilesWon READ xBigTilesWon())
+    Q_PROPERTY(QList<int> oBigTilesWon READ oBigTilesWon())
+    Q_PROPERTY(QList<QList<int>* > xSmallTilesWon READ xSmallTilesWon())
+    Q_PROPERTY(QList<QList<int>* > oSmallTilesWon READ oSmallTilesWon())
+    Q_PROPERTY(QList<QList<int>* > winningCombinations READ winningCombinations())
 //---------------------------------------------------------------------------------------
-
-public:
-       Q_INVOKABLE int getVal(QList<int> list, int index);
-
-public:
-       Q_INVOKABLE int getVal(QList<QList<int> > list, int indexA, int indexB);
-
-public:
-       Q_INVOKABLE bool checkForWinningCombinations(QList<int> tilesWon);
-
-public:
-       Q_INVOKABLE void makeMove(int smallIndex, int largeIndex);
-
-public:
-       Q_INVOKABLE bool checkForDeadSquare();
-
-public:
-       Q_INVOKABLE void resetGame();
+    Q_INVOKABLE int getVal(QList<int> list, int index);
+    Q_INVOKABLE int getVal(QList<QList<int>* > list, int indexA, int indexB);
+    Q_INVOKABLE bool checkForWinningCombinations(QList<int>* tilesWon);
+    Q_INVOKABLE void makeMove(int smallIndex, int largeIndex);
+    Q_INVOKABLE bool checkForDeadSquare();
+    Q_INVOKABLE void resetGame();
 
 private:
-       void init();
-
-private:
-       QList<int> addToWinningCombos(int a, int b, int c);
+    void init();
+    void addToWinningCombos(int index, int a, int b, int c);
 
 signals:
     
