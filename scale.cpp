@@ -32,6 +32,7 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
     m_smallGridSpacing = m_screenWidth/120;
     m_innerRectSize = m_outerGridSize/m_rows;
 
-    m_innerGridSize = m_innerRectSize - (m_smallGridSpacing * m_rows) - m_smallGridSpacing;
+    m_innerGridSize = m_innerRectSize - (m_smallGridSpacing * m_rows) - m_smallGridSpacing;    
+
     m_squareSize = m_innerGridSize / m_rows - 7;
 }
