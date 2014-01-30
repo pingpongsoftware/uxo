@@ -15,6 +15,8 @@ Rectangle
     property color enteredColor: Qt.rgba(0,0,0,.75);
     property color pressedColor: Qt.rgba(0,0,0,1);
 
+    property color reallyDarkGray: "#444444";
+
 
     property string primeLiteFont: prime_lite.name;
     property string primeRegFont: prime_reg.name;
@@ -31,15 +33,23 @@ Rectangle
         id: title;
 
         text: "  Ultimate\nTic Tac Toe";
-        //font.capitalization: Font.SmallCaps;
+        font.capitalization: Font.SmallCaps;
         font.bold: true;
-        elide: Text.ElideMiddle;
+        //elide: Text.ElideMiddle;
         font.pixelSize: Vals.LARGE_FONT_SIZE;
-        font.letterSpacing: 2;
-        font.wordSpacing: 0;
-        font.family: main.primeRegFont
-        color: "white";
-        opacity: .5;
+        //font.letterSpacing: 2;
+        //font.wordSpacing: 0;
+        font.family: main.primeRegFont;
+        color:
+        {
+            if (Vals.THEME === "dark")
+                color = "gray";
+
+            else if (Vals.THEME === "light")
+                color = "#444444"
+        }
+
+        //opacity: .5;
 
         anchors.horizontalCenter: main.horizontalCenter;
         anchors.top: main.top;
@@ -55,112 +65,69 @@ Rectangle
 
         property int buttonHeight: 100;
 
-        Rectangle // play game button
+
+        Button //new game button
         {
-            id: playGameRect;
+            id: newGameButton;
             width: parent.width;
             height: parent.buttonHeight;
-            color: main.releasedColor;
-            radius: 10;
-
-            Text
+            buttonText: "New Game";
+            fontSize: Vals.MEDIUM_FONT_SIZE;
+            textColor:
             {
-                id: playGameText;
-
-                text: "Play Game";
-                color: Qt.rgba(0,.3,.4,1);
-                font.pixelSize: Vals.MEDIUM_FONT_SIZE;
-                font.family: main.primeLiteFont;
-                anchors.centerIn: parent;
-            }
-
-            MouseArea
-            {
-                anchors.fill: parent;
-                hoverEnabled: true;
-
-                onEntered: parent.color = main.enteredColor;
-                onExited: parent.color = main.releasedColor;
-                onPressed: parent.color = main.pressedColor;
-
-                onReleased:
+                if (Vals.THEME === "light")
+                    "firebrick";
+                else if (Vals.THEME === "dark")
                 {
-                    parent.color = main.releasedColor;
-                    playButtonClicked();
+                    textColor = "#33aadd"
+                    opacity = .6;
                 }
             }
+
+            onClick: (playButtonClicked());
+
         }
 
-        Rectangle // how to play button
+        Button //how to play button
         {
-            id: tutorialRect;
+            id: tutorialButton;
             width: parent.width;
             height: parent.buttonHeight;
-            color: main.releasedColor;
-            radius: 10;
-
-            Text
+            buttonText: "How To Play";
+            fontSize: Vals.MEDIUM_FONT_SIZE;
+            textColor:
             {
-                id: tutorialText;
-
-                text: "How To Play";
-                color: Qt.rgba(0,.3,.4,1);
-                font.pixelSize: Vals.MEDIUM_FONT_SIZE;
-                font.family: main.primeLiteFont;
-                anchors.centerIn: parent;
-            }
-
-            MouseArea
-            {
-                anchors.fill: parent;
-                hoverEnabled: true;
-
-                onEntered: parent.color = main.enteredColor;
-                onExited: parent.color = main.releasedColor;
-                onPressed: parent.color = main.pressedColor;
-
-                onReleased:
+                if (Vals.THEME === "light")
+                    "steelblue";
+                else if (Vals.THEME === "dark")
                 {
-                    parent.color = main.releasedColor;
-                    tutorialButtonClicked();
+                    textColor = "#33aadd"
+                    opacity = .6;
                 }
             }
+
+            onClick:(tutorialButtonClicked());
         }
 
-        Rectangle // settings button
+        Button //how to play button
         {
-            id: settingsRect;
+            id: settingsButton;
             width: parent.width;
             height: parent.buttonHeight;
-            color: main.releasedColor;
-            radius: 10;
-
-            Text
+            buttonText: "Settings";
+            fontSize: Vals.MEDIUM_FONT_SIZE;
+            textColor:
             {
-                id: settingsText;
-
-                text: "Settings";
-                color: Qt.rgba(0,.3,.4,1);
-                font.pixelSize: Vals.MEDIUM_FONT_SIZE;
-                font.family: main.primeRegFont;
-                anchors.centerIn: parent;
-            }
-
-            MouseArea
-            {
-                anchors.fill: parent;
-                hoverEnabled: true;
-
-                onEntered: parent.color = main.enteredColor;
-                onExited: parent.color = main.releasedColor;
-                onPressed: parent.color = main.pressedColor;
-
-                onReleased:
+                if (Vals.THEME === "light")
+                    "forestgreen";
+                else if (Vals.THEME === "dark")
                 {
-                    parent.color = main.releasedColor;
-                    settingsButtonClicked();
+                    textColor = "#33aadd"
+                    opacity = .6;
                 }
             }
+
+            onClick:(settingsButtonClicked());
         }
     }
 }

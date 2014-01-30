@@ -3,13 +3,21 @@ import QtQuick 2.0
 Rectangle
 {
     id: main;
-    color: releasedColor;
+    color: "transparent";
 
     property color releasedColor: Qt.rgba(.2,.2,.2,.9);
     property color pressedColor: Qt.rgba(.2,.7,.8,.95);
     property color hoverColor: Qt.rgba(.2,.25,.3,.95);
 
     property string buttonText;
+    property int fontSize;
+    property string fontLocation: prime_reg.name;
+    property color textColor;
+
+    FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
+    FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
+    FontLoader { id: nexa_bold; source: "Fonts/Nexa Bold.ttf" }
+    FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
 
     signal click();
 
@@ -17,8 +25,10 @@ Rectangle
     {
         id: buttonTextBox
         anchors.centerIn: parent;
-        font.pixelSize: 24;
+        font.pixelSize: main.fontSize;
+        font.family: fontLocation;
         text: main.buttonText;
+        color: textColor;
     }
 
     MouseArea
@@ -27,12 +37,9 @@ Rectangle
         anchors.fill: parent;
         hoverEnabled: true;
 
-        onEntered: parent.color = parent.hoverColor;
-        onExited: parent.color = parent.releasedColor;
-        onPressed: parent.color = parent.pressedColor;
+
         onReleased:
         {
-            parent.color = parent.releasedColor;
             click();
         }
     }

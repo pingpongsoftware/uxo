@@ -20,23 +20,23 @@ Item
     signal resetButtonClicked();
     signal helpButtonClicked();
 
-    Rectangle
-    {
-        id: titleRect;
-        width: main.width;
-        height: 35;
-        color: Qt.rgba(0,0,0,.2);
+//    Rectangle
+//    {
+//        id: titleRect;
+//        width: main.width;
+//        height: 35;
+//        color: Qt.rgba(0,0,0,.2);
 
-        Text
-        {
-            id: titleText;
-            font.family: prime_lite.name;
-            font.pixelSize: Vals.SMALL_FONT_SIZE;
-            text: "Ultimate Tic Tac Toe";
-            color: "gray";
-            anchors.centerIn: parent;
-        }
-    }
+//        Text
+//        {
+//            id: titleText;
+//            font.family: prime_lite.name;
+//            font.pixelSize: Vals.SMALL_FONT_SIZE;
+//            text: "Ultimate Tic Tac Toe";
+//            color: "gray";
+//            anchors.centerIn: parent;
+//        }
+//    }
 
 //    Rectangle
 //    {
@@ -77,7 +77,7 @@ Item
         width: parent.width;
         height: parent.height - topToolbar.height - titleRect.height - bottomToolbar.height;
         anchors.horizontalCenter: parent.horizontalCenter;
-        y: titleRect.height + topToolbar.height;
+        y: main.height/2.2; //random ratio that makes it look good
         color: "transparent";
 
         Grid
