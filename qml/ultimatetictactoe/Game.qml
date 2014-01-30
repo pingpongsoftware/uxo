@@ -38,21 +38,21 @@ Item
         }
     }
 
-    Rectangle
-    {
-        id: topToolbarGradient;
-        anchors.top: topToolbar.top;
-        width: main.width;
-        height:topToolbar.height * 1.6;
-        gradient: Gradient
-        {
-            //GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.18); }
-            GradientStop { position: 0.31; color: Qt.rgba(1, 1, 1, 0.15); }
-            GradientStop { position: 0.59; color: Qt.rgba(1, 1, 1, 0.1); }
-            GradientStop { position: .85; color: Qt.rgba(1, 1, 1, 0.015); }
-            GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.0); }
-        }
-    }
+//    Rectangle
+//    {
+//        id: topToolbarGradient;
+//        anchors.top: topToolbar.top;
+//        width: main.width;
+//        height:topToolbar.height * 1.6;
+//        gradient: Gradient
+//        {
+//            //GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.18); }
+//            GradientStop { position: 0.31; color: Qt.rgba(1, 1, 1, 0.15); }
+//            GradientStop { position: 0.59; color: Qt.rgba(1, 1, 1, 0.1); }
+//            GradientStop { position: .85; color: Qt.rgba(1, 1, 1, 0.015); }
+//            GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.0); }
+//        }
+//    }
 
     TopToolbar
     {
@@ -136,21 +136,21 @@ Item
     }
 
 
-    Rectangle
-    {
-        id: bottomToolbarGradient;
-        anchors.bottom: bottomToolbar.bottom;
-        width: main.width;
-        height:bottomToolbar.height * 1.6;
-        gradient: Gradient
-        {
-            GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.0); }
-            GradientStop { position: 0.15; color: Qt.rgba(1, 1, 1, 0.015); }
-            GradientStop { position: 0.40; color: Qt.rgba(1, 1, 1, 0.1); }
-            GradientStop { position: .69; color: Qt.rgba(1, 1, 1, 0.15); }
-            //GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.18); }
-        }
-    }
+//    Rectangle
+//    {
+//        id: bottomToolbarGradient;
+//        anchors.bottom: bottomToolbar.bottom;
+//        width: main.width;
+//        height:bottomToolbar.height * 1.6;
+//        gradient: Gradient
+//        {
+//            GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.0); }
+//            GradientStop { position: 0.15; color: Qt.rgba(1, 1, 1, 0.015); }
+//            GradientStop { position: 0.40; color: Qt.rgba(1, 1, 1, 0.1); }
+//            GradientStop { position: .69; color: Qt.rgba(1, 1, 1, 0.15); }
+//            //GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.18); }
+//        }
+//    }
 
     BottomToolbar
     {
@@ -236,11 +236,11 @@ Item
         {
             var boardAtIndex = bigGridRepeater.itemAt(i);
 
-            if (GameTracker_js.boardsWon[i] === 1) //(GameTracker.getVal(GameTracker.boardsWon, i) === 1)
+            if (GameTracker_js.boardWon[i] === 1) //(GameTracker.getVal(GameTracker.boardsWon, i) === 1)
             {
                 boardAtIndex.state = "wonByX";
             }
-            else if(GameTracker_js.boardsWon[i] === -1)
+            else if(GameTracker_js.boardWon[i] === -1)
             {
                 boardAtIndex.state = "wonByO";
             }

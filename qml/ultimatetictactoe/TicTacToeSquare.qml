@@ -7,36 +7,43 @@ Rectangle
     height: Vals.SQUARE_SIZE;
     color: "transparent";
 
+    property string imageSource: "tttsquare.png";
+
     property int smallSquareIndex;  //index, 0-8, of each cell in the tic tac toe grid
     property bool smallSquareCanClick: true;
-    property double smallSquareOpacity: .7;
-    property color smallSquareColor: "gray";
+
 
     signal squareClicked();
     signal invalidSquareClicked();
 
-    Rectangle
+    function changeColor(player)
     {
-        id: visibleRect; //this is the rect that actually shows up
+        if (player === "x")
+            main.imageSource = "tttsquare_x.png";
+        else if (player === "o")
+            main.imageSource = "tttsquare_o.png";
+    }
 
-        color: main.smallSquareColor;
 
+    Image
+    {
+        id: fillImage;
+        source: "Images/" + Vals.THEME + "/" + imageSource;
         anchors.fill: parent;
-        opacity: main.smallSquareOpacity;
+    }
 
-        MouseArea
+    MouseArea
+    {
+        id: squareMouseArea;
+        anchors.fill: parent;
+
+        onClicked:
         {
-            id: squareMouseArea;
-            anchors.fill: parent;
+            if (smallSquareCanClick)
+                squareClicked();
 
-            onClicked:
-            {
-                if (smallSquareCanClick)
-                    squareClicked();
-
-                else
-                    invalidSquareClicked();
-            }
+            else
+                invalidSquareClicked();
         }
     }
 
@@ -72,6 +79,7 @@ Rectangle
                 target: main;
                 smallSquareCanClick: false;
             }
+
         },
 
         State

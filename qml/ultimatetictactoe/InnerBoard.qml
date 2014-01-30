@@ -34,7 +34,7 @@ Rectangle
 
     Image
     {
-        id: playerWinImage;
+        id: playerBigWinImage;
         width: main.width;
         height: main.height;
         sourceSize.width: main.width*1.5;
@@ -79,25 +79,23 @@ Rectangle
         {
             var smallSquareAtIndex = littleGridRepeater.itemAt(i);
 
-
-
             if (GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === 1)  //(GameTracker.get2DVal(GameTracker.squaresWon, GameTracker.bigIndex, i) === 1)
             {
-                smallSquareAtIndex.state = "wonByX";
+                smallSquareAtIndex.state = "wonByX"; //an individual square was won by x, so it will now have an x on it
             }
             else if(GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === -1)
             {
-                smallSquareAtIndex.state = "wonByO";
+                smallSquareAtIndex.state = "wonByO"; //same as wonByX, but for O.
             }
             else
             {
-                smallSquareAtIndex.state = "default";
+                smallSquareAtIndex.state = "default";  // no X or O on the corresponding square
             }
         }
     }
 
     states:
-    [   
+    [
         State
         {
             name: "default";
@@ -106,45 +104,28 @@ Rectangle
         State
         {
             name: "wonByX";
-            PropertyChanges{ target: playerWinImage; source: "Images/" + Vals.THEME + "/x.png"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(0); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(1); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(2); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(3); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(4); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(5); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(6); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(7); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(8); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
+            PropertyChanges
+            {
+                target: playerBigWinImage; source: "Images/" + Vals.THEME + "/x.png";
+                opacity:  // I only used opacity because I needed somewhere to put a for loop.  The actual loop has nothing to do with opacity.
+                {
+                    for (var i = 0; i < littleGridRepeater.count; i++)
+                        littleGridRepeater.itemAt(i).changeColor("x");
+                }
+            }
         },
 
         State
         {
             name: "wonByO";
-            PropertyChanges{ target: playerWinImage; source: "Images/" + Vals.THEME + "/o.png"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(0); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(1); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(2); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(3); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(4); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(5); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(6); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(7); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-            PropertyChanges{ target: littleGridRepeater.itemAt(8); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
-        }
-    ]
-
-    transitions:
-    [
-        Transition
-        {
-            from: "*";
-            to: "*";
-            PropertyAnimation
+            PropertyChanges
             {
-                target: littleGrid;
-                properties: "opacity";
-                duration: 1000
+                target: playerBigWinImage; source: "Images/" + Vals.THEME + "/o.png";
+                opacity:  // I only used opacity because I needed somewhere to put a for loop.  The actual loop has nothing to do with opacity.
+                {
+                    for (var i = 0; i < littleGridRepeater.count; i++)
+                        littleGridRepeater.itemAt(i).changeColor("o");
+                }
             }
         }
     ]
