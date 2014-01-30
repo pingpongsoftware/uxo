@@ -65,7 +65,7 @@ Rectangle
             PropertyChanges
             {
                 target: playerWinImage;
-                source: "Images/x.png"
+                source: "Images/" + Vals.THEME + "/x.png";
             }
             PropertyChanges
             {
@@ -81,7 +81,7 @@ Rectangle
             PropertyChanges
             {
                 target: playerWinImage;
-                source: "Images/o.png"
+                source: "Images/" + Vals.THEME + "/o.png";
             }
             PropertyChanges
             {

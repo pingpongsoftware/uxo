@@ -1,4 +1,5 @@
 import QtQuick 2.0;
+import "GameTracker.js" as GameTracker_js
 
 Rectangle
 {
@@ -33,7 +34,7 @@ Rectangle
         Image
         {
             id: xImage;
-            source: "Images/x.png";
+            source: "Images/" + Vals.THEME + "/x.png";
             x: parent.leftRightMargin;
             anchors.verticalCenter: parent.verticalCenter;
         }
@@ -41,7 +42,7 @@ Rectangle
         Image
         {
             id: oImage;
-            source: "Images/o.png";
+            source: "Images/" + Vals.THEME + "/o.png";
             x: main.width - parent.leftRightMargin - width;
             anchors.verticalCenter: parent.verticalCenter;
         }
@@ -59,7 +60,7 @@ Rectangle
 //            {
 //                id: backImage;
 //                anchors.fill: parent;
-//                source: "Images/backArrow.png";
+//                source: "Images/" + Vals.THEME + "/backArrow.png";
 //                fillMode: Image.PreserveAspectFit;
 //            }
 
@@ -98,7 +99,8 @@ Rectangle
     function setTurn()
     {
         //sets the state of the toolbar
-        if(GameTracker.xTurn) bottomToolbar.state = "xTurn";
+        if (GameTracker_js.xTurn)  //if(GameTracker.xTurn)
+            bottomToolbar.state = "xTurn";
         else bottomToolbar.state = "oTurn";
     }
 

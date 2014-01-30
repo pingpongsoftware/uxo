@@ -23,7 +23,7 @@ Rectangle
         Image
         {
             id: backImage;
-            source: "Images/backArrow.png";
+            source: "Images/" + Vals.THEME + "/backArrow.png";
             sourceSize.height: parent.height;
             sourceSize.width: parent.height;
             anchors.centerIn: parent;
@@ -42,7 +42,7 @@ Rectangle
             {
                 parent.color = main.releasedColor;
                 backButtonClicked();
-                GameTracker.resetGame();
+                GameTracker_js.resetGame();
 
             }
         }

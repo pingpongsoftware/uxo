@@ -7,6 +7,8 @@ var winningPlayer = "";
 var bigIndex = 0;
 var littleIndex = 0;
 
+var theme = "light";
+
 /* Three-way boolean.  If square or board is still in play, it's variable is set
 at 0. If x has won its variable is set at 1. If o has won its
 variable is set at -1. Initialized at 0 */

@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "GameTracker.js" as GameTracker_js
 
 Rectangle
 {
@@ -25,7 +26,7 @@ Rectangle
         source:
         {
             if (main.canClick)
-                "Images/greenOutline.png"
+                "Images/" + Vals.THEME + "/outline.png";
             else
                 "Images/transparent.png"
         }
@@ -78,11 +79,13 @@ Rectangle
         {
             var smallSquareAtIndex = littleGridRepeater.itemAt(i);
 
-            if(GameTracker.get2DVal(GameTracker.squaresWon, GameTracker.bigIndex, i) === 1) //squareWon[GameTracker_js.bigIndex][i] === 1)
+
+
+            if (GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === 1)  //(GameTracker.get2DVal(GameTracker.squaresWon, GameTracker.bigIndex, i) === 1)
             {
                 smallSquareAtIndex.state = "wonByX";
             }
-            else if(GameTracker.get2DVal(GameTracker.squaresWon, GameTracker.bigIndex, i) === -1)
+            else if(GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === -1)
             {
                 smallSquareAtIndex.state = "wonByO";
             }
@@ -103,7 +106,7 @@ Rectangle
         State
         {
             name: "wonByX";
-            PropertyChanges{ target: playerWinImage; source: "Images/x.png" }
+            PropertyChanges{ target: playerWinImage; source: "Images/" + Vals.THEME + "/x.png"; }
             PropertyChanges{ target: littleGridRepeater.itemAt(0); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
             PropertyChanges{ target: littleGridRepeater.itemAt(1); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
             PropertyChanges{ target: littleGridRepeater.itemAt(2); smallSquareOpacity: .5; smallSquareColor: "#9999ff"; }
@@ -118,7 +121,7 @@ Rectangle
         State
         {
             name: "wonByO";
-            PropertyChanges{ target: playerWinImage; source: "Images/o.png" }
+            PropertyChanges{ target: playerWinImage; source: "Images/" + Vals.THEME + "/o.png"; }
             PropertyChanges{ target: littleGridRepeater.itemAt(0); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
             PropertyChanges{ target: littleGridRepeater.itemAt(1); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }
             PropertyChanges{ target: littleGridRepeater.itemAt(2); smallSquareOpacity: .5; smallSquareColor: "#f88b8b"; }

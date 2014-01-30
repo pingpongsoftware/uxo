@@ -49,6 +49,9 @@ private:
 private:
        int m_squareSize;
 
+private:
+       QString m_gameTheme;
+
 
 
 public:
@@ -90,6 +93,9 @@ public:
 public:
        int squareSize() {return m_squareSize;}
 
+public:
+       QString gameTheme() {return m_gameTheme;}
+
 
 //------------------------------------------------------------------------------------------
        Q_PROPERTY(int BUTTON_SIZE READ buttonSize())
@@ -105,6 +111,7 @@ public:
        Q_PROPERTY(int INNER_RECT_SIZE READ innerRectSize())
        Q_PROPERTY(int INNER_GRID_SIZE READ innerGridSize())
        Q_PROPERTY(int SQUARE_SIZE READ squareSize())
+       Q_PROPERTY(QString THEME READ gameTheme())
 //------------------------------------------------------------------------------------------------
 
 public:

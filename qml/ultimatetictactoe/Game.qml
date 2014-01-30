@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "GameTracker.js" as GameTracker_js
 
 Item
 {
@@ -100,11 +101,11 @@ Item
                     {
                         if (isValid)
                         {
-                            //GameTracker_js.makeMove(smallIndex, index);
-                            //highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
+                            GameTracker_js.makeMove(smallIndex, index);
+                            highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
 
-                            GameTracker.makeMove(smallIndex, index);
-                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
+//                            GameTracker.makeMove(smallIndex, index);
+//                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
 
                             assignSquares(); //method in InnerBoard
                             assignBoards();
@@ -124,7 +125,7 @@ Item
                         }
 
                         //shows the message when the game is over.
-                        if (GameTracker.gameWon) //(GameTracker_js.gameWon)
+                        if (GameTracker_js.gameWon) //(GameTracker.gameWon)
                         {
                             gameOverMessage.visible = true;
                         }
@@ -197,7 +198,7 @@ Item
         anchors.fill: parent;
         visible: false;
 
-        messageText: "Congratulations! " + GameTracker.winningPlayer + " has won the game!"
+        messageText: "Congratulations! " + GameTracker_js.winningPlayer + " has won the game!"
         buttonOneText: "Exit";
         buttonTwoText: "Rematch";
 
@@ -235,11 +236,11 @@ Item
         {
             var boardAtIndex = bigGridRepeater.itemAt(i);
 
-            if(GameTracker.getVal(GameTracker.boardsWon, i) === 1)
+            if (GameTracker_js.boardsWon[i] === 1) //(GameTracker.getVal(GameTracker.boardsWon, i) === 1)
             {
                 boardAtIndex.state = "wonByX";
             }
-            else if(GameTracker.getVal(GameTracker.boardsWon, i) === -1)
+            else if(GameTracker_js.boardsWon[i] === -1)
             {
                 boardAtIndex.state = "wonByO";
             }
@@ -252,7 +253,8 @@ Item
 
     function resetGame()
     {
-        GameTracker.resetGame();
+        GameTracker_js.resetGame();
+        //GameTracker.resetGame();
 
         for(var i=0; i<bigGridRepeater.count; i++)
         {

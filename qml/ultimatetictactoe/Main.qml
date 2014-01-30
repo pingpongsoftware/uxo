@@ -15,12 +15,13 @@ Rectangle
     }
 
     property string previous: "Menu.qml";
+    property string theme: "light"
 
     Image
     {
         id: background;
         anchors.fill: parent;
-        source: "Images/background.png";
+        source: "Images/" + Vals.THEME + "/background.png";
     }
 
     Loader
