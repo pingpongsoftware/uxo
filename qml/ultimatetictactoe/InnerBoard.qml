@@ -4,7 +4,7 @@ import "GameTracker.js" as GameTracker_js
 Rectangle
 {
     id: main;
-    width: Vals.INNER_RECT_SIZE;
+    width: Vals.innerRectSize;
     height: width
     state: "default"
     radius: 10;
@@ -26,7 +26,7 @@ Rectangle
         source:
         {
             if (main.canClick)
-                "Images/" + Vals.THEME + "/outline.png";
+                "Images/" + Vals.theme + "/outline.png";
             else
                 "Images/transparent.png"
         }
@@ -44,9 +44,9 @@ Rectangle
     Grid
     {
         id: littleGrid;
-        rows: Vals.ROWS;
+        rows: Vals.rows;
         columns: rows;
-        spacing: Vals.SMALL_GRID_SPACING;
+        spacing: Vals.smallGridSpacing;
         anchors.centerIn: parent;
 
         Repeater
@@ -106,7 +106,7 @@ Rectangle
             name: "wonByX";
             PropertyChanges
             {
-                target: playerBigWinImage; source: "Images/" + Vals.THEME + "/x.png";
+                target: playerBigWinImage; source: "Images/" + Vals.theme + "/x.png";
                 opacity:  // I only used opacity because I needed somewhere to put a for loop.  The actual loop has nothing to do with opacity.
                 {
                     for (var i = 0; i < littleGridRepeater.count; i++)
@@ -120,7 +120,7 @@ Rectangle
             name: "wonByO";
             PropertyChanges
             {
-                target: playerBigWinImage; source: "Images/" + Vals.THEME + "/o.png";
+                target: playerBigWinImage; source: "Images/" + Vals.theme + "/o.png";
                 opacity:  // I only used opacity because I needed somewhere to put a for loop.  The actual loop has nothing to do with opacity.
                 {
                     for (var i = 0; i < littleGridRepeater.count; i++)

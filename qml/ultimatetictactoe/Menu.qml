@@ -3,8 +3,8 @@ import QtQuick 2.0
 Rectangle
 {
     id: main;
-    width: Vals.SCREEN_WIDTH;
-    height: Vals.SCREEN_HEIGHT;
+    width: Vals.screenWidth;
+    height: Vals.screenHeight;
     color: "transparent";
 
     signal playButtonClicked();
@@ -18,15 +18,8 @@ Rectangle
     property color reallyDarkGray: "#444444";
 
 
-    property string primeLiteFont: prime_lite.name;
-    property string primeRegFont: prime_reg.name;
-
-
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
-    FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
-    FontLoader { id: nexa_bold; source: "Fonts/Nexa Bold.ttf" }
-    FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
 
     Text
     {
@@ -36,17 +29,17 @@ Rectangle
         font.capitalization: Font.SmallCaps;
         font.bold: true;
         //elide: Text.ElideMiddle;
-        font.pixelSize: Vals.LARGE_FONT_SIZE;
+        font.pixelSize: Vals.largeFontSize;
         //font.letterSpacing: 2;
         //font.wordSpacing: 0;
-        font.family: main.primeRegFont;
+        font.family: prime_reg.name;
         color:
         {
-            if (Vals.THEME === "dark")
-                color = "gray";
+            if (Vals.theme === "dark")
+                "gray";
 
-            else if (Vals.THEME === "light")
-                color = "#444444"
+            else if (Vals.theme === "light")
+                "firebrick"
         }
 
         //opacity: .5;
@@ -72,12 +65,12 @@ Rectangle
             width: parent.width;
             height: parent.buttonHeight;
             buttonText: "New Game";
-            fontSize: Vals.MEDIUM_FONT_SIZE;
+            fontSize: Vals.mediumFontSize;
             textColor:
             {
-                if (Vals.THEME === "light")
-                    "firebrick";
-                else if (Vals.THEME === "dark")
+                if (Vals.theme === "light")
+                    "steelblue";
+                else if (Vals.theme === "dark")
                 {
                     textColor = "#33aadd"
                     opacity = .6;
@@ -94,12 +87,12 @@ Rectangle
             width: parent.width;
             height: parent.buttonHeight;
             buttonText: "How To Play";
-            fontSize: Vals.MEDIUM_FONT_SIZE;
+            fontSize: Vals.mediumFontSize;
             textColor:
             {
-                if (Vals.THEME === "light")
+                if (Vals.theme === "light")
                     "steelblue";
-                else if (Vals.THEME === "dark")
+                else if (Vals.theme === "dark")
                 {
                     textColor = "#33aadd"
                     opacity = .6;
@@ -115,12 +108,12 @@ Rectangle
             width: parent.width;
             height: parent.buttonHeight;
             buttonText: "Settings";
-            fontSize: Vals.MEDIUM_FONT_SIZE;
+            fontSize: Vals.mediumFontSize;
             textColor:
             {
-                if (Vals.THEME === "light")
-                    "forestgreen";
-                else if (Vals.THEME === "dark")
+                if (Vals.theme === "light")
+                    "steelblue";
+                else if (Vals.theme === "dark")
                 {
                     textColor = "#33aadd"
                     opacity = .6;

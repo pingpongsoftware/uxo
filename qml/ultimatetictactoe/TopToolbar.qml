@@ -23,7 +23,7 @@ Rectangle
         Image
         {
             id: backImage;
-            source: "Images/" + Vals.THEME + "/backArrow.png";
+            source: "Images/" + Vals.theme + "/backArrow.png";
             sourceSize.height: parent.height;
             sourceSize.width: parent.height;
             anchors.centerIn: parent;

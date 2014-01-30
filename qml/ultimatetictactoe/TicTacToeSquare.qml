@@ -3,8 +3,8 @@ import QtQuick 2.0
 Rectangle
 {
     id: main;
-    width: Vals.SQUARE_SIZE
-    height: Vals.SQUARE_SIZE;
+    width: Vals.squareSize;
+    height: Vals.squareSize;
     color: "transparent";
 
     property string imageSource: "tttsquare.png";
@@ -28,7 +28,7 @@ Rectangle
     Image
     {
         id: fillImage;
-        source: "Images/" + Vals.THEME + "/" + imageSource;
+        source: "Images/" + Vals.theme + "/" + imageSource;
         anchors.fill: parent;
     }
 
@@ -72,7 +72,7 @@ Rectangle
             PropertyChanges
             {
                 target: playerWinImage;
-                source: "Images/" + Vals.THEME + "/x.png";
+                source: "Images/" + Vals.theme + "/x.png";
             }
             PropertyChanges
             {
@@ -89,7 +89,7 @@ Rectangle
             PropertyChanges
             {
                 target: playerWinImage;
-                source: "Images/" + Vals.THEME + "/o.png";
+                source: "Images/" + Vals.theme + "/o.png";
             }
             PropertyChanges
             {

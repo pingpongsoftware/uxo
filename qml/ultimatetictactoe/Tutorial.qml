@@ -4,8 +4,8 @@ Rectangle
 {
     id: main;
 
-    width: Vals.SCREEN_WIDTH;
-    height: Vals.SCREEN_HEIGHT;
+    width: Vals.screenWidth;
+    height: Vals.screenHeight;
     color: "transparent";
 
     //load fonts from a file

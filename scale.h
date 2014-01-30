@@ -10,109 +10,81 @@ class Scale : public QObject
 public:
     explicit Scale(QObject *parent = 0);
 
+//----------------------------------------------------------------------------------------------------
+
 private:
        int m_buttonSize;
-
-private:
        int m_screenWidth;
-
-private:
        int m_screenHeight;
-
-private:
        int m_rows;
-
-private:
        int m_largeFontSize;
-
-private:
        int m_mediumFontSize;
-
-private:
        int m_smallFontSize;
-
-private:
        int m_bigGridSpacing;
-
-private:
        int m_outerGridSize;
-
-private:
        int m_smallGridSpacing;
-
-private:
        int m_innerRectSize;
-
-private:
        int m_innerGridSize;
-
-private:
        int m_squareSize;
-
-private:
        QString m_gameTheme;
-
 
 
 public:
        int buttonSize() {return m_buttonSize;}
-
-public:
        int screenWidth() {return m_screenWidth;}
-
-public:
        int screenHeight() {return m_screenHeight;}
-
-public:
        int rows() {return m_rows;}
-
-public:
        int largeFontSize() {return m_largeFontSize;}
-
-public:
        int mediumFontSize() {return m_mediumFontSize;}
-
-public:
        int smallFontSize() {return m_smallFontSize;}
-
-public:
        int bigGridSpacing() {return m_bigGridSpacing;}
-
-public:
        int outerGridSize() {return m_outerGridSize;}
-
-public:
        int smallGridSpacing() {return m_smallGridSpacing;}
-
-public:
        int innerRectSize() {return m_innerRectSize;}
-
-public:
        int innerGridSize() {return m_innerGridSize;}
-
-public:
        int squareSize() {return m_squareSize;}
-
-public:
        QString gameTheme() {return m_gameTheme;}
 
 
 //------------------------------------------------------------------------------------------
-       Q_PROPERTY(int BUTTON_SIZE READ buttonSize())
-       Q_PROPERTY(int SCREEN_HEIGHT READ screenHeight())
-       Q_PROPERTY(int SCREEN_WIDTH READ screenWidth())
-       Q_PROPERTY(int ROWS READ rows())
-       Q_PROPERTY(int LARGE_FONT_SIZE READ largeFontSize())
-       Q_PROPERTY(int MEDIUM_FONT_SIZE READ mediumFontSize())
-       Q_PROPERTY(int SMALL_FONT_SIZE READ smallFontSize())
-       Q_PROPERTY(int BIG_GRID_SPACING READ bigGridSpacing())
-       Q_PROPERTY(int OUTER_GRID_SIZE READ outerGridSize())
-       Q_PROPERTY(int SMALL_GRID_SPACING READ smallGridSpacing())
-       Q_PROPERTY(int INNER_RECT_SIZE READ innerRectSize())
-       Q_PROPERTY(int INNER_GRID_SIZE READ innerGridSize())
-       Q_PROPERTY(int SQUARE_SIZE READ squareSize())
-       Q_PROPERTY(QString THEME READ gameTheme())
+       Q_PROPERTY(int buttonSize READ buttonSize() NOTIFY buttonSizeChanged)
+       Q_PROPERTY(int screenHeight READ screenHeight() NOTIFY screenHeightChanged)
+       Q_PROPERTY(int screenWidth READ screenWidth() NOTIFY screenWidthChanged)
+       Q_PROPERTY(int rows READ rows() NOTIFY rowsChanged)
+       Q_PROPERTY(int largeFontSize READ largeFontSize() NOTIFY largeFontSizeChanged)
+       Q_PROPERTY(int mediumFontSize READ mediumFontSize() NOTIFY mediumFontSizeChanged)
+       Q_PROPERTY(int smallFontSize READ smallFontSize() NOTIFY smallFontSizeChanged)
+       Q_PROPERTY(int bigGridSpacing READ bigGridSpacing() NOTIFY bigGridSpacingChanged)
+       Q_PROPERTY(int outerGridSize READ outerGridSize() NOTIFY outerGridSizeChanged)
+       Q_PROPERTY(int smallGridSpacing READ smallGridSpacing() NOTIFY smallGridSpacingChanged)
+       Q_PROPERTY(int innerRectSize READ innerRectSize() NOTIFY innerRectSizeChanged)
+       Q_PROPERTY(int innerGridSize READ innerGridSize() NOTIFY innerGridSizeChanged)
+       Q_PROPERTY(int squareSize READ squareSize() NOTIFY squareSizeChanged)
+       Q_PROPERTY(QString theme READ gameTheme() WRITE setTheme NOTIFY themeChanged)
 //------------------------------------------------------------------------------------------------
+
+
+signals:
+       void buttonSizeChanged();
+       void screenHeightChanged();
+       void screenWidthChanged();
+       void rowsChanged();
+       void largeFontSizeChanged();
+       void mediumFontSizeChanged();
+       void smallFontSizeChanged();
+       void bigGridSpacingChanged();
+       void outerGridSizeChanged();
+       void smallGridSpacingChanged();
+       void innerRectSizeChanged();
+       void innerGridSizeChanged();
+       void squareSizeChanged();
+       void themeChanged();
+
+//----------------------------------------------------------------------------------------------------
+
+public:
+       void setTheme(QString s) { this->m_gameTheme = s; }
+
 
 public:
        void setScreenSize(int screenWidth, int screenHeight);

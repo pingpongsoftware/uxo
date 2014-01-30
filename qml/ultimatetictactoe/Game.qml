@@ -4,8 +4,8 @@ import "GameTracker.js" as GameTracker_js
 Item
 {
     id: main;
-    width: Vals.SCREEN_WIDTH;
-    height: Vals.SCREEN_HEIGHT;
+    width: Vals.screenWidth;
+    height: Vals.screenHeight;
 
     property int numInvalidPresses: 0;
 
@@ -31,7 +31,7 @@ Item
 //        {
 //            id: titleText;
 //            font.family: prime_lite.name;
-//            font.pixelSize: Vals.SMALL_FONT_SIZE;
+//            font.pixelSize: Vals.smallFontSize;
 //            text: "Ultimate Tic Tac Toe";
 //            color: "gray";
 //            anchors.centerIn: parent;
@@ -83,10 +83,10 @@ Item
         Grid
         {
             id: bigGrid;
-            rows: Vals.ROWS;
+            rows: Vals.rows;
             columns: rows;
             anchors.centerIn: parent;
-            width: Vals.OUTER_GRID_SIZE;
+            width: Vals.outerGridSize;
             height: width;
 
             Repeater

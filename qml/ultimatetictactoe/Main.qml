@@ -7,11 +7,11 @@ Rectangle
 
     width:
     {
-        width = Vals.SCREEN_WIDTH;
+        width = Vals.screenWidth;
     }
     height:
     {
-        height = Vals.SCREEN_HEIGHT;
+        height = Vals.screenHeight;
     }
 
     property string previous: "Menu.qml";
@@ -21,7 +21,7 @@ Rectangle
     {
         id: background;
         anchors.fill: parent;
-        source: "Images/" + Vals.THEME + "/background.png";
+        source: "Images/" + Vals.theme + "/background.png";
     }
 
     Loader

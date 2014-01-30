@@ -34,7 +34,7 @@ Rectangle
         Image
         {
             id: xImage;
-            source: "Images/" + Vals.THEME + "/x.png";
+            source: "Images/" + Vals.theme + "/x.png";
             x: parent.leftRightMargin;
             anchors.verticalCenter: parent.verticalCenter;
         }
@@ -42,7 +42,7 @@ Rectangle
         Image
         {
             id: oImage;
-            source: "Images/" + Vals.THEME + "/o.png";
+            source: "Images/" + Vals.theme + "/o.png";
             x: main.width - parent.leftRightMargin - width;
             anchors.verticalCenter: parent.verticalCenter;
         }
@@ -60,7 +60,7 @@ Rectangle
 //            {
 //                id: backImage;
 //                anchors.fill: parent;
-//                source: "Images/" + Vals.THEME + "/backArrow.png";
+//                source: "Images/" + Vals.theme + "/backArrow.png";
 //                fillMode: Image.PreserveAspectFit;
 //            }
 
