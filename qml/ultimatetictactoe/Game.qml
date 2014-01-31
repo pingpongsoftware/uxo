@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import "GameTracker.js" as GameTracker_js
 
 Item
@@ -19,40 +19,6 @@ Item
     signal exitButtonClicked();
     signal resetButtonClicked();
     signal helpButtonClicked();
-
-//    Rectangle
-//    {
-//        id: titleRect;
-//        width: main.width;
-//        height: 35;
-//        color: Qt.rgba(0,0,0,.2);
-
-//        Text
-//        {
-//            id: titleText;
-//            font.family: prime_lite.name;
-//            font.pixelSize: Vals.smallFontSize;
-//            text: "Ultimate Tic Tac Toe";
-//            color: "gray";
-//            anchors.centerIn: parent;
-//        }
-//    }
-
-//    Rectangle
-//    {
-//        id: topToolbarGradient;
-//        anchors.top: topToolbar.top;
-//        width: main.width;
-//        height:topToolbar.height * 1.6;
-//        gradient: Gradient
-//        {
-//            //GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.18); }
-//            GradientStop { position: 0.31; color: Qt.rgba(1, 1, 1, 0.15); }
-//            GradientStop { position: 0.59; color: Qt.rgba(1, 1, 1, 0.1); }
-//            GradientStop { position: .85; color: Qt.rgba(1, 1, 1, 0.015); }
-//            GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.0); }
-//        }
-//    }
 
     TopToolbar
     {
@@ -135,22 +101,6 @@ Item
         }
     }
 
-
-//    Rectangle
-//    {
-//        id: bottomToolbarGradient;
-//        anchors.bottom: bottomToolbar.bottom;
-//        width: main.width;
-//        height:bottomToolbar.height * 1.6;
-//        gradient: Gradient
-//        {
-//            GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.0); }
-//            GradientStop { position: 0.15; color: Qt.rgba(1, 1, 1, 0.015); }
-//            GradientStop { position: 0.40; color: Qt.rgba(1, 1, 1, 0.1); }
-//            GradientStop { position: .69; color: Qt.rgba(1, 1, 1, 0.15); }
-//            //GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, 0.18); }
-//        }
-//    }
 
     BottomToolbar
     {

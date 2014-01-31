@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.2
 
 Rectangle
 {
@@ -42,7 +42,7 @@ Rectangle
                 "firebrick"
         }
 
-        //opacity: .5;
+        opacity: .6;
 
         anchors.horizontalCenter: main.horizontalCenter;
         anchors.top: main.top;
@@ -59,7 +59,7 @@ Rectangle
         property int buttonHeight: 100;
 
 
-        Button //new game button
+        MyButton //new game button
         {
             id: newGameButton;
             width: parent.width;
@@ -76,12 +76,13 @@ Rectangle
                     opacity = .6;
                 }
             }
+            opacity: .8;
 
             onClick: (playButtonClicked());
 
         }
 
-        Button //how to play button
+        MyButton //how to play button
         {
             id: tutorialButton;
             width: parent.width;
@@ -98,11 +99,12 @@ Rectangle
                     opacity = .6;
                 }
             }
+            opacity: .8;
 
             onClick:(tutorialButtonClicked());
         }
 
-        Button //how to play button
+        MyButton //how to play button
         {
             id: settingsButton;
             width: parent.width;
@@ -119,6 +121,7 @@ Rectangle
                     opacity = .6;
                 }
             }
+            opacity: .8;
 
             onClick:(settingsButtonClicked());
         }
