@@ -15,7 +15,7 @@ Rectangle
     }
 
     property string previous: "Menu.qml";
-    property string theme: "light"
+
 
     Image
     {
@@ -63,6 +63,11 @@ Rectangle
         onExitButtonClicked:
         {
             loader.source = "Menu.qml"
+        }
+
+        onSwitchThemeButtonClicked:
+        {
+            background.source = "Images/" + Vals.theme + "/background.png";
         }
     }
 }

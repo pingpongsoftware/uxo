@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import "GameTracker.js" as GameTracker_js
 
+
 Item
 {
     id: main;
@@ -8,6 +9,7 @@ Item
     height: Vals.screenHeight;
 
     property int numInvalidPresses: 0;
+
 
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
@@ -33,12 +35,11 @@ Item
         {
             topToolbarBackButtonClicked();
         }
-
-        anchors.top: titleRect.bottom;
     }
 
     Rectangle
     {
+        id: gameRect;
         //centers the grid in the middle of the toolbars.
         width: parent.width;
         height: parent.height - topToolbar.height - titleRect.height - bottomToolbar.height;

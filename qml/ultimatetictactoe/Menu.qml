@@ -66,16 +66,7 @@ Rectangle
             height: parent.buttonHeight;
             buttonText: "New Game";
             fontSize: Vals.mediumFontSize;
-            textColor:
-            {
-                if (Vals.theme === "light")
-                    "steelblue";
-                else if (Vals.theme === "dark")
-                {
-                    textColor = "#33aadd"
-                    opacity = .6;
-                }
-            }
+            textColor: "steelblue";
             opacity: .8;
 
             onClick: (playButtonClicked());
@@ -89,16 +80,7 @@ Rectangle
             height: parent.buttonHeight;
             buttonText: "How To Play";
             fontSize: Vals.mediumFontSize;
-            textColor:
-            {
-                if (Vals.theme === "light")
-                    "steelblue";
-                else if (Vals.theme === "dark")
-                {
-                    textColor = "#33aadd"
-                    opacity = .6;
-                }
-            }
+            textColor: "steelblue";
             opacity: .8;
 
             onClick:(tutorialButtonClicked());
@@ -111,16 +93,7 @@ Rectangle
             height: parent.buttonHeight;
             buttonText: "Settings";
             fontSize: Vals.mediumFontSize;
-            textColor:
-            {
-                if (Vals.theme === "light")
-                    "steelblue";
-                else if (Vals.theme === "dark")
-                {
-                    textColor = "#33aadd"
-                    opacity = .6;
-                }
-            }
+            textColor: "steelblue";
             opacity: .8;
 
             onClick:(settingsButtonClicked());

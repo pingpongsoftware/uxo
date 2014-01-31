@@ -60,7 +60,9 @@ public:
        Q_PROPERTY(int innerRectSize READ innerRectSize() NOTIFY innerRectSizeChanged)
        Q_PROPERTY(int innerGridSize READ innerGridSize() NOTIFY innerGridSizeChanged)
        Q_PROPERTY(int squareSize READ squareSize() NOTIFY squareSizeChanged)
-       Q_PROPERTY(QString theme READ gameTheme() WRITE setTheme NOTIFY themeChanged)
+       Q_PROPERTY(QString theme READ gameTheme() NOTIFY themeChanged)
+
+       Q_INVOKABLE void setTheme(QString s);
 //------------------------------------------------------------------------------------------------
 
 
@@ -81,9 +83,6 @@ signals:
        void themeChanged();
 
 //----------------------------------------------------------------------------------------------------
-
-public:
-       void setTheme(QString s) { this->m_gameTheme = s; }
 
 
 public:

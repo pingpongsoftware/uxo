@@ -39,4 +39,10 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
     //--------------------------------------------------------------------------------------------
 
     m_gameTheme = "light";
+
+}
+
+void Scale::setTheme(QString s)
+{
+    this->m_gameTheme = s;
 }

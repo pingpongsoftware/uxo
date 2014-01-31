@@ -1,4 +1,5 @@
 import QtQuick 2.2
+import "GameTracker.js" as GameTracker_js
 
 Rectangle
 {
@@ -43,7 +44,6 @@ Rectangle
                 parent.color = main.releasedColor;
                 backButtonClicked();
                 GameTracker_js.resetGame();
-
             }
         }
     }
