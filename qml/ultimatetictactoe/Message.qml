@@ -32,7 +32,7 @@ Rectangle
             text: main.messageText;
         }
 
-        Button
+        MyButton
         {
             id: button1;
             width: parent.width/2 - anchors.margins*2;
@@ -52,7 +52,7 @@ Rectangle
             }
         }   
 
-        Button
+        MyButton
         {
             id: button2;
             width: parent.width/2 - anchors.margins*2;
