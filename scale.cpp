@@ -41,7 +41,7 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
 
     //--------------------------------------------------------------------------------------------
 
-    m_gameTheme = "dark";
+    m_gameTheme = "light";
 
 }
 

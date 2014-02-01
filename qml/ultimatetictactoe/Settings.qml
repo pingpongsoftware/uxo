@@ -111,7 +111,6 @@ Rectangle
 
                 width: lightThemeButton.width;
                 height: lightThemeButton.height;
-                y: lightThemeButton.y*15
 
                 buttonText: "Dark"
 
