@@ -1,5 +1,8 @@
 .pragma library
 
+var currentFile = "Menu.qml"; //so the loader in Main.qml can track the current and previous file
+var previousFile = "";
+
 var xTurn = true;
 var gameWon = false;
 var winningPlayer = "";

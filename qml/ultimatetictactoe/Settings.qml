@@ -13,29 +13,10 @@ Rectangle
     property int smallButtonHeight: Vals.buttonSize/4;
     property int smallButtonWidth: Vals.buttonSize/1.2;
 
-    signal topToolbarBackButtonClicked();
     signal switchThemeButtonClicked();
 
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
-
-    TopToolbar
-    {
-        id: topToolbar;
-
-        width: main.width;
-        //makes the toolbar fill the space between the board and the top of the screen
-        height: main.height / 12;
-        color: "transparent";
-
-        onBackButtonClicked:
-        {
-            topToolbarBackButtonClicked();
-        }
-
-        anchors.top: titleRect.bottom;
-    }
-
 
     Flickable
     {
@@ -80,7 +61,7 @@ Rectangle
                 font.wordSpacing: 0;
                 font.family: prime_reg.name;
                 color: {changeColorsToMatchTheme();}
-                opacity: .7;
+                opacity: .6;
 
             }
 
@@ -244,7 +225,7 @@ Rectangle
 
         else if (Vals.theme === "dark")
         {
-            title.color = "gray"
+            title.color = "white"
             setThemeText.color = "steelblue";
         }
 

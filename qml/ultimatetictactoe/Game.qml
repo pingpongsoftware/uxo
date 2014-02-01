@@ -17,34 +17,18 @@ Item
     FontLoader { id: nexa_bold; source: "Fonts/Nexa Bold.ttf" }
     FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
 
-    signal topToolbarBackButtonClicked();
     signal exitButtonClicked();
     signal resetButtonClicked();
     signal helpButtonClicked();
-
-    TopToolbar
-    {
-        id: topToolbar;
-
-        width: main.width;
-        //makes the toolbar fill the space between the board and the top of the screen
-        height: main.height / 12;
-        color: "transparent";
-
-        onBackButtonClicked:
-        {
-            topToolbarBackButtonClicked();
-        }
-    }
 
     Rectangle
     {
         id: gameRect;
         //centers the grid in the middle of the toolbars.
         width: parent.width;
-        height: parent.height - topToolbar.height - bottomToolbar.height;
+        height: parent.height - bottomToolbar.height;
         anchors.horizontalCenter: parent.horizontalCenter;
-        y: main.height/13; //random ratio that makes it look good
+        y: main.height - height - bottomToolbar.height*.8 ; //random ratio that makes it look good
         color: "transparent";
 
         Grid
@@ -109,8 +93,6 @@ Item
 
         height: main.height / 7;
         width: main.width;
-
-
 
         anchors.bottom: main.bottom;
         anchors.horizontalCenter: main.horizontalCenter;

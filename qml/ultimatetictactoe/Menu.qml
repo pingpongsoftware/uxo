@@ -17,7 +17,6 @@ Rectangle
 
     property color reallyDarkGray: "#444444";
 
-
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
 
@@ -36,7 +35,7 @@ Rectangle
         color:
         {
             if (Vals.theme === "dark")
-                "gray";
+                "white";
 
             else if (Vals.theme === "light")
                 "firebrick"

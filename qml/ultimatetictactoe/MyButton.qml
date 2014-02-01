@@ -14,6 +14,7 @@ Rectangle
     property string fontLocation: prime_reg.name;
     property color textColor;
 
+
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
     FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
     FontLoader { id: nexa_bold; source: "Fonts/Nexa Bold.ttf" }
