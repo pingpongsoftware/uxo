@@ -36,6 +36,9 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
 
     m_squareSize = m_innerGridSize / m_rows - 7;
 
+    m_topMargin = m_screenHeight/25;
+    m_menuSpacing = m_topMargin/1.25;
+
     //--------------------------------------------------------------------------------------------
 
     m_gameTheme = "dark";

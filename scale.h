@@ -26,6 +26,8 @@ private:
        int m_innerRectSize;
        int m_innerGridSize;
        int m_squareSize;
+       int m_topMargin;
+       int m_menuSpacing;
        QString m_gameTheme;
 
 
@@ -43,6 +45,8 @@ public:
        int innerRectSize() {return m_innerRectSize;}
        int innerGridSize() {return m_innerGridSize;}
        int squareSize() {return m_squareSize;}
+       int topMargin() {return m_topMargin;}
+       int menuSpacing() {return m_menuSpacing;}
        QString gameTheme() {return m_gameTheme;}
 
 
@@ -60,6 +64,8 @@ public:
        Q_PROPERTY(int innerRectSize READ innerRectSize() NOTIFY innerRectSizeChanged)
        Q_PROPERTY(int innerGridSize READ innerGridSize() NOTIFY innerGridSizeChanged)
        Q_PROPERTY(int squareSize READ squareSize() NOTIFY squareSizeChanged)
+       Q_PROPERTY(int topMargin READ topMargin() NOTIFY topMarginChanged)
+       Q_PROPERTY(int menuSpacing READ menuSpacing() NOTIFY menuSpacingChanged)
        Q_PROPERTY(QString theme READ gameTheme() NOTIFY themeChanged)
 
        Q_INVOKABLE void setTheme(QString s);
@@ -80,8 +86,9 @@ signals:
        void innerRectSizeChanged();
        void innerGridSizeChanged();
        void squareSizeChanged();
+       void topMarginChanged();
        void themeChanged();
-
+       void menuSpacingChanged();
 //----------------------------------------------------------------------------------------------------
 
 

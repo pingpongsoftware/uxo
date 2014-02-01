@@ -25,11 +25,14 @@ Rectangle
     Text
     {
         id: buttonTextBox
-        anchors.centerIn: parent;
+        //anchors.centerIn: parent;
         font.pixelSize: main.fontSize;
         font.family: fontLocation;
         text: main.buttonText;
         color: textColor;
+        anchors.horizontalCenter: parent.horizontalCenter;
+        anchors.bottom: parent.bottom;
+        anchors.margins: parent.width/75;  //random ratio to get it perfectly centered
     }
 
     MouseArea

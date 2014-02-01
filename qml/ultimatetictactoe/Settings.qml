@@ -11,7 +11,7 @@ Rectangle
     property int titleHeight: height/7;
     property int buttonHeight: Vals.buttonSize/2.5;
     property int smallButtonHeight: Vals.buttonSize/4;
-    property int smallButtonWidth: Vals.buttonSize/1.2;
+    property int smallButtonWidth: Vals.buttonSize/1.29;  //random ratio that makes it look right
 
     signal switchThemeButtonClicked();
 
@@ -22,11 +22,11 @@ Rectangle
     {
         id: flowListFLickable;
         width: main.width;
-        height: titleHeight + buttonHeight + smallButtonHeight + 20*2;  //this is the height of all the objects in the flow added together plus the spacing (20 is the spacing of the flow and the number multiplied by 20 is the number of objects in it)
+        height: titleHeight + buttonHeight + smallButtonHeight + Flow.spacing*2;  //this is the height of all the objects in the flow added together plus the spacing (20 is the spacing of the flow and the number multiplied by 20 is the number of objects in it)
 
 
         anchors.top: main.top;
-        anchors.topMargin: 50;
+        anchors.topMargin: Vals.topMargin;
         anchors.horizontalCenter: main.horizontalCenter;
 
         interactive: true;
@@ -43,7 +43,7 @@ Rectangle
             height: parent.height;
             anchors.centerIn: parent;
 
-            spacing: 10;
+            spacing: Vals.menuSpacing;
 
             Text
             {
@@ -86,8 +86,8 @@ Rectangle
             Rectangle //This rectangle is merely for the purpose of fixing the spacing for the light and dark theme buttons
             {
                 id: spacingRect;
-                width: Vals.buttonSize*.3;
-                height: Vals.buttonSize*.3;
+                width: 1
+                height: 1
                 color: "transparent"
             }
 
@@ -95,8 +95,8 @@ Rectangle
             {
                 id: lightThemeButton;
 
-                width: darkThemeButton.width;
-                height: darkThemeButton.height;
+                width: main.smallButtonWidth;
+                height: main.smallButtonHeight;
                 buttonText: "Light"
 
                 fontSize: Vals.smallFontSize;
@@ -109,8 +109,10 @@ Rectangle
             {
                 id: darkThemeButton;
 
-                width: main.smallButtonWidth;
-                height: main.smallButtonHeight;
+                width: lightThemeButton.width;
+                height: lightThemeButton.height;
+                y: lightThemeButton.y*15
+
                 buttonText: "Dark"
 
                 fontSize: Vals.smallFontSize;
@@ -141,8 +143,7 @@ Rectangle
                 opacity: .8;
                 z: -5; //so it is behind the other objects
 
-
-                y: lightThemeButton.y * .989;  //For some reason it wasn't quite centered on the text, so multiplying it by .989 fixes that problem
+                y: lightThemeButton.y;//*.986;  //For some reason it wasn't quite centered on the text, so multiplying it by .986 fixes that problem
                 state:
                 {
                     if (Vals.theme === "dark")
@@ -160,6 +161,7 @@ Rectangle
                         {
                             target: themeRect;
                             x: darkThemeButton.x;
+                            height: darkThemeButton.height*.9;
                         }
                     },
                     State
@@ -184,6 +186,11 @@ Rectangle
                         {
                             properties: "x";
                             duration: 150;  // if this is changed, be sure the duration of the animation in Main.qml is also changed.
+                        }
+                        PropertyAnimation
+                        {
+                            properties: "height";
+                            duration: 150;
                         }
                     }
 

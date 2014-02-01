@@ -45,7 +45,7 @@ Rectangle
 
         anchors.horizontalCenter: main.horizontalCenter;
         anchors.top: main.top;
-        anchors.margins: 50;
+        anchors.margins: Vals.topMargin;
     }
 
     // Sets the layout for the menu buttons
@@ -53,7 +53,7 @@ Rectangle
     {
         anchors.centerIn: parent;
         width: 350;
-        spacing: 30;
+        spacing: Vals.menuSpacing;
 
         property int buttonHeight: main.height/20;
 
