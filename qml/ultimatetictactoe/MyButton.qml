@@ -38,10 +38,21 @@ Rectangle
         anchors.fill: parent;
         hoverEnabled: true;
 
+        onPressed: buttonTextBox.opacity = .5;
 
-        onReleased:
+        onExited: textOpacityToOne();
+
+        onCanceled: textOpacityToOne();
+
+        onClicked:
         {
+            textOpacityToOne();
             click();
+        }
+
+        function textOpacityToOne()
+        {
+            buttonTextBox.opacity = 1;
         }
     }
 }

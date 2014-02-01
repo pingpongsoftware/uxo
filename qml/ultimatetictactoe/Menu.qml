@@ -53,9 +53,9 @@ Rectangle
     {
         anchors.centerIn: parent;
         width: 350;
-        spacing: 20;
+        spacing: 30;
 
-        property int buttonHeight: 100;
+        property int buttonHeight: main.height/20;
 
 
         MyButton //new game button

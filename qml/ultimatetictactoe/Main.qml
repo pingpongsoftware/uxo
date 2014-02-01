@@ -16,14 +16,13 @@ Rectangle
     {
         if (event.key === Qt.BackButton)  //android back button???
         {
-            console.log(previous);
             backButtonPressed();
         }
     }
 
     function backButtonPressed()
     {
-        console.log("success")
+        GameTracker_js.currentFile = GameTracker_js.previousFile;
         loader.source = GameTracker_js.previousFile;
     }
 
@@ -148,12 +147,17 @@ Rectangle
             sourceSize.height: parent.width;
             sourceSize.width: parent.width;
             anchors.centerIn: parent;
-            opacity:
+            visible:
             {
                 if (main.backButtonEnabled)
-                    1;
+                    true;
                 else
-                    0;
+                    false;
+            }
+
+            function changeOpacityToOne()
+            {
+                backImage.opacity = 1;
             }
         }
 
@@ -161,21 +165,25 @@ Rectangle
         {
             anchors.fill: parent;
 
-            onReleased:
+            onPressed: backImage.opacity = .5;
+            onExited: backImage.changeOpacityToOne();
+            onCanceled: backImage.changeOpacityToOne();
+
+            onClicked:
             {
-                console.log(backButtonEnabled)
+                backImage.changeOpacityToOne();
+
                 if (main.backButtonEnabled)
                 {
-                    console.log("back button pressed")
                     backButtonPressed();
                     GameTracker_js.resetGame();
                 }
 
-                console.log(GameTracker_js.previousFile)
                 if (GameTracker_js.previousFile === "Menu.qml")
                     main.backButtonEnabled = false;
             }
         }
+
     }
 
 }
