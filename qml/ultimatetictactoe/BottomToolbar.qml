@@ -47,53 +47,6 @@ Rectangle
             anchors.verticalCenter: parent.verticalCenter;
         }
 
-//        Rectangle // back button
-//        {
-//            id: backRect
-
-//            width: 90;
-//            height: parent.height - 10;
-//            color: main.releasedColor;
-//            radius: 7;
-
-//            Image
-//            {
-//                id: backImage;
-//                anchors.fill: parent;
-//                source: "Images/" + Vals.theme + "/backArrow.png";
-//                fillMode: Image.PreserveAspectFit;
-//            }
-
-////            Text
-////            {
-////                text: "Menu";
-////                color: "white";
-////                opacity: .4;
-////                font.family: prime_reg.name;
-////                font.pixelSize: 20;
-////                anchors.centerIn: parent;
-////            }
-
-//            MouseArea
-//            {
-//                anchors.fill: parent;
-//                hoverEnabled: true;
-
-//                onEntered: parent.color = main.enteredColor;
-//                onExited: parent.color = main.releasedColor;
-//                onPressed: parent.color = main.pressedColor;
-
-//                onReleased:
-//                {
-//                    parent.color = main.releasedColor;
-//                    backButtonClicked();
-//                }
-//            }
-//        }
-
-
-
-
     }
 
     function setTurn()

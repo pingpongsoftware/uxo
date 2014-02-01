@@ -154,13 +154,51 @@ Rectangle
 
 
             y: lightThemeButton.y * .989;  //For some reason it wasn't quite centered on the text, so multiplying it by .989 fixes that problem
-            x:
+            state:
             {
-                if (Vals.theme === "light")
-                    lightThemeButton.x;  //switchTheme(Vals.theme); //gets initial theme and puts the rect at appropriate location
-                else if (Vals.theme === "dark")
-                    darkThemeButton.x;
+                if (Vals.theme === "dark")
+                    "darkState";
+                else if (Vals.theme === "light")
+                    "lightState"
             }
+
+            states:  //the state its in determines its location
+            [
+                State
+                {
+                    name: "darkState";
+                    PropertyChanges
+                    {
+                        target: themeRect;
+                        x: darkThemeButton.x;
+                    }
+                },
+                State
+                {
+                    name: "lightState";
+                    PropertyChanges
+                    {
+                        target: themeRect;
+                        x: lightThemeButton.x;
+                    }
+                }
+            ]
+
+            transitions:  //makes the themeRect move between locations instead of jump between locations
+            [
+                Transition
+                {
+                    from: "*";
+                    to: "*";
+
+                    PropertyAnimation
+                    {
+                        properties: "x";
+                        duration: 150;  // if this is changed, be sure the duration of the animation in Main.qml is also changed.
+                    }
+                }
+
+            ]
 
         }
 
@@ -172,10 +210,10 @@ Rectangle
         Vals.setTheme(theme)
 
         if (theme === "dark")
-            themeRect.x = darkThemeButton.x
+            themeRect.state = "darkState";
 
         else if (theme === "light")
-            themeRect.x = lightThemeButton.x;
+            themeRect.state = "lightState";
 
         switchThemeButtonClicked(); //sends signal to the main.qml file so the background image will change
         changeColorsToMatchTheme(); //calls the function that changes the colors of all the text and button, etc.

@@ -16,12 +16,58 @@ Rectangle
 
     property string previous: "Menu.qml";
 
-
     Image
     {
-        id: background;
+        id: lightBackground;
         anchors.fill: parent;
-        source: "Images/" + Vals.theme + "/background.png";
+        source: "Images/light/background.png";
+    }
+
+    Image  //the theme depends on the opacity of this image (dark background)
+    {
+        id: darkBackground;
+        anchors.fill: parent;
+        source: "Images/dark/background.png";
+
+        state: Vals.theme;
+        states: //changes the opacity of the dark background depending on which theme is selected;
+        [
+            State
+            {
+                name: "dark";
+                PropertyChanges
+                {
+                    target: darkBackground;
+                    opacity: 1;
+                }
+            },
+
+            State
+            {
+                name: "light";
+                PropertyChanges
+                {
+                    target: darkBackground;
+                    opacity: 0;
+                }
+            }
+        ]
+
+        transitions:
+        [
+            Transition
+            {
+                from: "*"
+                to: "*"
+
+                PropertyAnimation
+                {
+                    target: darkBackground;
+                    property: "opacity";
+                    duration: 150;
+                }
+            }
+        ]
     }
 
     Loader
@@ -67,7 +113,7 @@ Rectangle
 
         onSwitchThemeButtonClicked:
         {
-            background.source = "Images/" + Vals.theme + "/background.png";
+            darkBackground.state = Vals.theme;
         }
     }
 }
