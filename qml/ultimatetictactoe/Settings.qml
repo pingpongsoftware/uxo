@@ -38,7 +38,7 @@ Rectangle
         {
             id: flow;
 
-            width: parent.width/3;
+            width: parent.width/2.5;
             height: parent.height;
             anchors.centerIn: parent;
 
