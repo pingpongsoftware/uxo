@@ -85,7 +85,7 @@ Rectangle
             onClick:(tutorialButtonClicked());
         }
 
-        MyButton //how to play button
+        MyButton //settings button
         {
             id: settingsButton;
             width: parent.width;

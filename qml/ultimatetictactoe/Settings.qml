@@ -8,7 +8,6 @@ Rectangle
     height: Vals.screenHeight;
     color: "transparent";
 
-    property int titleHeight: height/7;
     property int buttonHeight: Vals.buttonSize/2.5;
     property int smallButtonHeight: Vals.buttonSize/4;
     property int smallButtonWidth: Vals.buttonSize/1.29;  //random ratio that makes it look right
@@ -22,7 +21,7 @@ Rectangle
     {
         id: flowListFLickable;
         width: main.width;
-        height: titleHeight + buttonHeight + smallButtonHeight + Flow.spacing*2;  //this is the height of all the objects in the flow added together plus the spacing (20 is the spacing of the flow and the number multiplied by 20 is the number of objects in it)
+        height: Vals.menuTitleHeight + main.buttonHeight + main.smallButtonHeight + flow.spacing*2;  //this is the height of all the objects in the flow added together plus the spacing (20 is the spacing of the flow and the number multiplied by 20 is the number of objects in it)
 
 
         anchors.top: main.top;
@@ -50,7 +49,7 @@ Rectangle
                 id: title;
 
                 width: parent.width;
-                height: main.titleHeight;
+                height: Vals.menuTitleHeight;
 
                 text: "Settings";
                 font.capitalization: Font.SmallCaps;

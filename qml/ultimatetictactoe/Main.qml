@@ -109,12 +109,12 @@ Rectangle
             loader.source = "Settings.qml"
         }
 
-        onHelpButtonClicked:
+        onTutorialButtonClicked:
         {
             backButtonEnabled = true;
             GameTracker_js.previousFile = GameTracker_js.currentFile;
-            GameTracker_js.currentFile = "Settings.qml";
-            loader.source = "Settings.qml"
+            GameTracker_js.currentFile = "Tutorial.qml";
+            loader.source = "Tutorial.qml"
         }
 
         onExitButtonClicked:

@@ -31,6 +31,7 @@ private:
        int m_squareSize;
        int m_topMargin;
        int m_menuSpacing;
+       int m_menuTitleHeight;
        QString m_gameTheme;
 
 
@@ -50,6 +51,7 @@ public:
        int squareSize() {return m_squareSize;}
        int topMargin() {return m_topMargin;}
        int menuSpacing() {return m_menuSpacing;}
+       int menuTitleHeight() {return m_menuTitleHeight;}
        QString gameTheme() {return m_gameTheme;}
 
 
@@ -69,6 +71,7 @@ public:
        Q_PROPERTY(int squareSize READ squareSize() NOTIFY squareSizeChanged)
        Q_PROPERTY(int topMargin READ topMargin() NOTIFY topMarginChanged)
        Q_PROPERTY(int menuSpacing READ menuSpacing() NOTIFY menuSpacingChanged)
+       Q_PROPERTY(int menuTitleHeight READ menuTitleHeight() NOTIFY menuTitleHeightChanged)
        Q_PROPERTY(QString theme READ gameTheme() NOTIFY themeChanged)
 
        Q_INVOKABLE void setTheme(QString s);
@@ -92,6 +95,7 @@ signals:
        void topMarginChanged();
        void themeChanged();
        void menuSpacingChanged();
+       void menuTitleHeightChanged();
 //----------------------------------------------------------------------------------------------------
 
 

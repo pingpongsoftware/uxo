@@ -42,6 +42,7 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
 
     m_topMargin = m_screenHeight/25;
     m_menuSpacing = m_topMargin/1.25;
+    m_menuTitleHeight = m_screenHeight/7;
 
     //--------------------------------------------------------------------------------------------
 
