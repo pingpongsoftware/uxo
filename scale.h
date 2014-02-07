@@ -2,6 +2,9 @@
 #define SCALE_H
 
 #include <QObject>
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 class Scale : public QObject
 {

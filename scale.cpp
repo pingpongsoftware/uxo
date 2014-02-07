@@ -1,10 +1,14 @@
 #include "scale.h"
 #include <QtCore/qmath.h>
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 
 Scale::Scale(QObject *parent) :
     QObject(parent)
 {
+
 }
 
 void Scale::setScreenSize(int screenWidth, int screenHeight)
@@ -41,11 +45,21 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
 
     //--------------------------------------------------------------------------------------------
 
-    m_gameTheme = "light";
+    ifstream readTheme;
+    string theme;
+    readTheme.open("theme.txt");
+    readTheme >> theme;
+    readTheme.close();
+    m_gameTheme = QString::fromStdString(theme);
 
 }
 
 void Scale::setTheme(QString s)
 {
     this->m_gameTheme = s;
+    ofstream writeTheme;
+    writeTheme.open ("theme.txt");
+    writeTheme << s.toStdString();
+    writeTheme.close();
+
 }

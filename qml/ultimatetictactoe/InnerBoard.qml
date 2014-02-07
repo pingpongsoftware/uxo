@@ -25,7 +25,7 @@ Rectangle
 
         source:
         {
-            if (main.canClick)
+            if (main.canClick === true)
                 "Images/" + Vals.theme + "/outline.png";
             else
                 "Images/transparent.png"
