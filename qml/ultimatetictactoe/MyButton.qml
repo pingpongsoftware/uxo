@@ -1,5 +1,4 @@
-import QtQuick 2.2
-
+import QtQuick 2.0
 Rectangle
 {
     id: main;

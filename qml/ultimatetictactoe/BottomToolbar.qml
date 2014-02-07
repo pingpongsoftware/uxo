@@ -1,4 +1,4 @@
-import QtQuick 2.2
+import QtQuick 2.0
 import "GameTracker.js" as GameTracker_js
 
 Rectangle
