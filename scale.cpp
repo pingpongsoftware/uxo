@@ -22,16 +22,16 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
     m_screenWidth = screenWidth;
 
     if (m_screenWidth > m_screenHeight*.75)
-        m_screenWidth = m_screenHeight*.75;
+        m_screenWidth = m_screenHeight*.7;
 
     m_rows = 3;
 
-    m_largeFontSize = m_screenWidth/10;
-    m_mediumFontSize = m_screenWidth/20;
-    m_smallFontSize = m_screenWidth/35;
+    m_largeFontSize = m_screenWidth/7;
+    m_mediumFontSize = m_screenWidth/14;
+    m_smallFontSize = m_screenWidth/21;
 
     m_bigGridSpacing = m_screenWidth/100;
-    m_outerGridSize = m_screenWidth - (m_bigGridSpacing * m_rows) - m_bigGridSpacing;
+    m_outerGridSize = m_screenWidth;// - (m_bigGridSpacing * m_rows); //- m_bigGridSpacing;
 
     m_smallGridSpacing = m_screenWidth/120;
     m_innerRectSize = m_outerGridSize/m_rows;
@@ -40,8 +40,8 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
 
     m_squareSize = m_innerGridSize / m_rows - 7;
 
-    m_topMargin = m_screenHeight/25;
-    m_menuSpacing = m_topMargin/1.25;
+    m_topMargin = m_screenHeight/16;
+    m_menuSpacing = m_topMargin/1.40;
     m_menuTitleHeight = m_screenHeight/7;
 
     //--------------------------------------------------------------------------------------------

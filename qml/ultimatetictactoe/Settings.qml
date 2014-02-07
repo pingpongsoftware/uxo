@@ -38,7 +38,7 @@ Rectangle
         {
             id: flow;
 
-            width: parent.width/2.5;
+            width: parent.width/2;
             height: parent.height;
             anchors.centerIn: parent;
 
@@ -94,8 +94,8 @@ Rectangle
             {
                 id: lightThemeButton;
 
-                width: main.smallButtonWidth;
-                height: main.smallButtonHeight;
+                width: Vals.buttonSize;
+                height: Vals.buttonSize/2.6;
                 buttonText: "Light"
 
                 fontSize: Vals.smallFontSize;
@@ -124,6 +124,7 @@ Rectangle
 
         Rectangle //this rect has same size and position as the flow in order for the themeRect to be correctly positioned
         {
+            id: flowRect
             height: flow.height;
             width: flow.width;
             x: flow.x;

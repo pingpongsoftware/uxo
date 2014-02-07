@@ -26,7 +26,7 @@ Item
         id: gameRect;
         //centers the grid in the middle of the toolbars.
         width: parent.width;
-        height: parent.height - bottomToolbar.height;
+        height: parent.height - bottomToolbar.height + bottomToolbar.anchors.bottomMargin*.7;  //correctly centers the grid
         anchors.horizontalCenter: parent.horizontalCenter;
         y: main.height - height - bottomToolbar.height*.8 ; //random ratio that makes it look good
         color: "transparent";
@@ -96,6 +96,7 @@ Item
 
         anchors.bottom: main.bottom;
         anchors.horizontalCenter: main.horizontalCenter;
+        anchors.bottomMargin: height/2;
 
 //        onResetButtonClicked:
 //        {
