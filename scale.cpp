@@ -51,7 +51,7 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
     readTheme >> theme;
     readTheme.close();
 
-    if (theme != "light" || theme != "dark")
+    if (theme != "light" && theme != "dark")
         theme = "light";
 
     m_gameTheme = QString::fromStdString(theme);
