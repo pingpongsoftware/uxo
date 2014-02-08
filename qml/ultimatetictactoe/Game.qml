@@ -29,7 +29,7 @@ Item
         width: parent.width;
         height: Vals.outerGridSize;
         anchors.horizontalCenter: parent.horizontalCenter;
-        y: Vals.backButtonHeight; //puts the top of the grid at the bottom of the back button
+        y: Vals.backButtonHeight*1.2; //puts the top of the grid at the bottom of the back button, multiplied by 1.2 to add some space in between
         color: "transparent";
         //opacity: .5;
 
@@ -122,10 +122,9 @@ Item
         height: main.height / 7;
         width: main.width;
 
-        //anchors.bottom: main.bottom;
         anchors.top: gameRect.bottom;
+        anchors.topMargin: height/5;
         anchors.horizontalCenter: main.horizontalCenter;
-        //anchors.bottomMargin: height/2;
 
 //        onResetButtonClicked:
 //        {
