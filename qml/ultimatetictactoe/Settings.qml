@@ -78,78 +78,63 @@ Rectangle
 
             }
 
-            Rectangle //This rectangle is merely for the purpose of fixing the spacing for the light and dark theme buttons
-            {
-                id: spacingRect;
-                width: 1
-                height: 1
-                color: "transparent"
-            }
-
             Flow //to easier format the theme buttons
             {
                 id: themeFlow
-                spacing: Vals.menuSpacing /3.82;
-                MyButton
+                width: parent.width;
+                spacing: 0;
+                height: Vals.smallButtonHeight;
+                //effectiveLayoutDirection: Flow.LeftToRight;
+
+                Rectangle //The rectangles containing the buttons make it easier to center the buttons appropriately
                 {
-                    id: lightThemeButton;
+                    id: lightThemeRect;
+                    width: parent.width/2;
+                    height: parent.height
+                    color: "transparent";
 
-                    width: Vals.smallButtonWidth;
-                    height: Vals.smallButtonHeight;
-                    buttonText: "Light"
+                    MyButton
+                    {
+                        id: lightThemeButton;
 
-                    fontSize: Vals.smallFontSize;
-                    textColor: "lightgray"
+                        width: Vals.smallButtonWidth;
+                        height: Vals.smallButtonHeight;
+                        anchors.centerIn: parent;
 
-                    onClick: switchTheme("light");
+                        buttonText: "Light"
+
+                        fontSize: Vals.smallFontSize;
+                        textColor: "lightgray"
+
+                        onClick: switchTheme("light");
+                    }
                 }
 
-                MyButton
+                Rectangle
                 {
-                    id: darkThemeButton;
+                    id: darkThemeRect;
+                    width: parent.width/2;
+                    height: parent.height
+                    color: "transparent";
 
-                    width: Vals.smallButtonWidth;
-                    height: Vals.smallButtonHeight;
+                    MyButton
+                    {
+                        id: darkThemeButton;
 
-                    buttonText: "Dark"
+                        width: Vals.smallButtonWidth;
+                        height: Vals.smallButtonHeight;
+                        anchors.centerIn: parent;
 
-                    fontSize: Vals.smallFontSize;
-                    textColor: "#333333"
+                        buttonText: "Dark"
 
-                    onClick: switchTheme("dark");
+                        fontSize: Vals.smallFontSize;
+                        textColor: "#333333"
+
+                        onClick: switchTheme("dark");
+                    }
                 }
+
             }
-
-
-
-//            MyButton
-//            {
-//                id: lightThemeButton2
-//                width: Vals.smallButtonWidth;
-//                height: Vals.smallButtonHeight;
-//                buttonText: "Light"
-
-//                fontSize: Vals.smallFontSize;
-//                textColor: "lightgray"
-
-//                onClick: switchTheme("light");
-//            }
-
-//            MyButton
-//            {
-//                id: darkThemeButton2;
-
-//                width: Vals.smallButtonWidth;
-//                height: Vals.smallButtonHeight;
-
-//                buttonText: "Dark"
-
-//                fontSize: Vals.smallFontSize;
-//                textColor: "#333333"
-
-//                onClick: switchTheme("dark");
-//            }
-
 
         }
 
@@ -202,8 +187,7 @@ Rectangle
                             PropertyChanges
                             {
                                 target: themeRect;
-                                x: darkThemeButton.x;
-                                height: darkThemeButton.height*.9;
+                                x: darkThemeRect.x + (darkThemeRect.width-themeRect.width)/2;
                             }
                         },
                         State
@@ -212,7 +196,7 @@ Rectangle
                             PropertyChanges
                             {
                                 target: themeRect;
-                                x: lightThemeButton.x;
+                                x: lightThemeRect.x + (lightThemeRect.width-themeRect.width)/2;
                             }
                         }
                     ]
@@ -229,11 +213,11 @@ Rectangle
                                 properties: "x";
                                 duration: 150;  // if this is changed, be sure the duration of the animation in Main.qml is also changed.
                             }
-                            PropertyAnimation
-                            {
-                                properties: "height";
-                                duration: 150;
-                            }
+//                            PropertyAnimation
+//                            {
+//                                properties: "height";
+//                                duration: 150;
+//                            }
                         }
 
                     ]

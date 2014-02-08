@@ -2,7 +2,8 @@ import QtQuick 2.0
 Rectangle
 {
     id: main;
-    color: "transparent";
+    color: "gray";
+    opacity: .5;
 
     property color releasedColor: Qt.rgba(.2,.2,.2,.9);
     property color pressedColor: Qt.rgba(.2,.7,.8,.95);

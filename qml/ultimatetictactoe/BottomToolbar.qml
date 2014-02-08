@@ -9,10 +9,6 @@ Rectangle
     signal resetButtonClicked();
     signal backButtonClicked();
 
-    property color releasedColor: Qt.rgba(0,0,0,.5);
-    property color enteredColor: Qt.rgba(0,0,0,.75);
-    property color pressedColor: Qt.rgba(0,0,0,1);
-
 
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }

@@ -28,8 +28,8 @@ Item
         //centers the grid in the middle of the toolbars.
         width: parent.width;
         height: Vals.outerGridSize;
-        anchors.horizontalCenter: parent.horizontalCenter;
-        y: Vals.backButtonHeight*1.2; //puts the top of the grid at the bottom of the back button, multiplied by 1.2 to add some space in between
+        anchors.horizontalCenter: main.horizontalCenter;
+        y: (Vals.backButtonHeight + bottomToolbar.y)/2 - height/2; //this algorithm centers the grid between the back button and the bottom toolbar
         color: "transparent";
         //opacity: .5;
 
@@ -122,8 +122,8 @@ Item
         height: main.height / 7;
         width: main.width;
 
-        anchors.top: gameRect.bottom;
-        anchors.topMargin: height/5;
+        anchors.bottom: main.bottom;
+        anchors.bottomMargin: height/5;
         anchors.horizontalCenter: main.horizontalCenter;
 
 //        onResetButtonClicked:
