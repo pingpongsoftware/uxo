@@ -6,7 +6,7 @@ Rectangle
     id: main;
     color: "transparent";
     state: "xTurn";
-
+    opacity: .5;
     signal resetButtonClicked();
     signal backButtonClicked();
 
@@ -38,6 +38,51 @@ Rectangle
             x: parent.leftRightMargin;
             anchors.verticalCenter: parent.verticalCenter;
         }
+
+        Flow
+        {
+            id: zoomFlow
+            anchors.centerIn: parent;
+            spacing: Vals.menuSpacing;
+
+            MyButton
+            {
+                width: Vals.smallButtonWidth;
+                height: Vals.smallButtonHeight;
+
+                buttonText: "zoom in";
+
+                onClick:
+                {
+                    console.log(Vals.outerGridSize + "   " + bigGrid.width);
+                    Vals.zoomIn();
+
+                    console.log(Vals.outerGridSize + "   " + bigGrid.width);
+                    bigGrid.width = Vals.outerGridSize;
+                }
+
+            }
+
+            MyButton
+            {
+                width: Vals.smallButtonWidth;
+                height: Vals.smallButtonHeight;
+
+                buttonText: "zoom out";
+
+                onClick:
+                {
+                    console.log(Vals.outerGridSize + "   " + bigGrid.width);
+                    Vals.zoomOut();
+
+                    console.log(Vals.outerGridSize + "   " + bigGrid.width);
+                    bigGrid.width = Vals.outerGridSize;
+                }
+
+            }
+        }
+
+
 
         Image
         {

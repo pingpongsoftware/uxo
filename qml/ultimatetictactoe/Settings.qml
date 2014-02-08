@@ -8,10 +8,6 @@ Rectangle
     height: Vals.screenHeight;
     color: "transparent";
 
-    property int buttonHeight: Vals.buttonSize/2.5;
-    property int smallButtonHeight: Vals.buttonSize/4;
-    property int smallButtonWidth: Vals.buttonSize/1.29;  //random ratio that makes it look right
-
     signal switchThemeButtonClicked();
 
     //load fonts from a file
@@ -90,37 +86,74 @@ Rectangle
                 color: "transparent"
             }
 
-            MyButton
+            Flow //to easier format the theme buttons
             {
-                id: lightThemeButton;
+                id: themeFlow
+                spacing: Vals.menuSpacing /3.82;
+                MyButton
+                {
+                    id: lightThemeButton;
 
-                width: Vals.buttonSize;
-                height: Vals.buttonSize/2.6;
-                buttonText: "Light"
+                    width: Vals.smallButtonWidth;
+                    height: Vals.smallButtonHeight;
+                    buttonText: "Light"
 
-                fontSize: Vals.smallFontSize;
-                textColor: "lightgray"
+                    fontSize: Vals.smallFontSize;
+                    textColor: "lightgray"
 
-                onClick: switchTheme("light");
+                    onClick: switchTheme("light");
+                }
+
+                MyButton
+                {
+                    id: darkThemeButton;
+
+                    width: Vals.smallButtonWidth;
+                    height: Vals.smallButtonHeight;
+
+                    buttonText: "Dark"
+
+                    fontSize: Vals.smallFontSize;
+                    textColor: "#333333"
+
+                    onClick: switchTheme("dark");
+                }
             }
 
-            MyButton
-            {
-                id: darkThemeButton;
 
-                width: lightThemeButton.width;
-                height: lightThemeButton.height;
 
-                buttonText: "Dark"
+//            MyButton
+//            {
+//                id: lightThemeButton2
+//                width: Vals.smallButtonWidth;
+//                height: Vals.smallButtonHeight;
+//                buttonText: "Light"
 
-                fontSize: Vals.smallFontSize;
-                textColor: "#333333"
+//                fontSize: Vals.smallFontSize;
+//                textColor: "lightgray"
 
-                onClick: switchTheme("dark");
-            }
+//                onClick: switchTheme("light");
+//            }
+
+//            MyButton
+//            {
+//                id: darkThemeButton2;
+
+//                width: Vals.smallButtonWidth;
+//                height: Vals.smallButtonHeight;
+
+//                buttonText: "Dark"
+
+//                fontSize: Vals.smallFontSize;
+//                textColor: "#333333"
+
+//                onClick: switchTheme("dark");
+//            }
 
 
         }
+
+        //-----Everything inside this rectangle mirrors the Flow layouts above.  This is in order for the rectangles that indicate the selected settings are correctly located.
 
         Rectangle //this rect has same size and position as the flow in order for the themeRect to be correctly positioned
         {
@@ -131,71 +164,84 @@ Rectangle
             y: flow.y;
             z: -5; //so it is behind the other objects
             color: "transparent"    //change if you want to see the dimensions and position of the flow layout
+            //opacity: .3;
 
             Rectangle
             {
-                id: themeRect;
-                width: lightThemeButton.width;
-                height: lightThemeButton.height;
-                radius: height;
-                color: "steelblue";
-                opacity: .8;
-                z: -5; //so it is behind the other objects
+                x: themeFlow.x;
+                y: themeFlow.y;
+                width: themeFlow.width;
+                height: themeFlow.height;
+                color: "transparent";
+                //opacity: .3;
 
-                y: lightThemeButton.y;//*.986;  //For some reason it wasn't quite centered on the text, so multiplying it by .986 fixes that problem
-                state:
+                Rectangle
                 {
-                    if (Vals.theme === "dark")
-                        "darkState";
-                    else if (Vals.theme === "light")
-                        "lightState"
+                    id: themeRect;
+                    width: lightThemeButton.width;
+                    height: lightThemeButton.height;
+                    radius: height;
+                    color: "steelblue";
+                    opacity: .8;
+                    z: -5; //so it is behind the other objects
+
+                    y: lightThemeButton.y;//*.986;  //For some reason it wasn't quite centered on the text, so multiplying it by .986 fixes that problem
+                    state:
+                    {
+                        if (Vals.theme === "dark")
+                            "darkState";
+                        else if (Vals.theme === "light")
+                            "lightState"
+                    }
+
+                    states:  //the state its in determines its location
+                    [
+                        State
+                        {
+                            name: "darkState";
+                            PropertyChanges
+                            {
+                                target: themeRect;
+                                x: darkThemeButton.x;
+                                height: darkThemeButton.height*.9;
+                            }
+                        },
+                        State
+                        {
+                            name: "lightState";
+                            PropertyChanges
+                            {
+                                target: themeRect;
+                                x: lightThemeButton.x;
+                            }
+                        }
+                    ]
+
+                    transitions:  //makes the themeRect move between locations instead of jump between locations
+                    [
+                        Transition
+                        {
+                            from: "*";
+                            to: "*";
+
+                            PropertyAnimation
+                            {
+                                properties: "x";
+                                duration: 150;  // if this is changed, be sure the duration of the animation in Main.qml is also changed.
+                            }
+                            PropertyAnimation
+                            {
+                                properties: "height";
+                                duration: 150;
+                            }
+                        }
+
+                    ]
+
                 }
-
-                states:  //the state its in determines its location
-                [
-                    State
-                    {
-                        name: "darkState";
-                        PropertyChanges
-                        {
-                            target: themeRect;
-                            x: darkThemeButton.x;
-                            height: darkThemeButton.height*.9;
-                        }
-                    },
-                    State
-                    {
-                        name: "lightState";
-                        PropertyChanges
-                        {
-                            target: themeRect;
-                            x: lightThemeButton.x;
-                        }
-                    }
-                ]
-
-                transitions:  //makes the themeRect move between locations instead of jump between locations
-                [
-                    Transition
-                    {
-                        from: "*";
-                        to: "*";
-
-                        PropertyAnimation
-                        {
-                            properties: "x";
-                            duration: 150;  // if this is changed, be sure the duration of the animation in Main.qml is also changed.
-                        }
-                        PropertyAnimation
-                        {
-                            properties: "height";
-                            duration: 150;
-                        }
-                    }
-
-                ]
-
             }
+
+
 
         }
 

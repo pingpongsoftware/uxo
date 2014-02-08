@@ -21,69 +21,97 @@ Item
     signal resetButtonClicked();
     signal helpButtonClicked();
 
+
     Rectangle
     {
         id: gameRect;
         //centers the grid in the middle of the toolbars.
         width: parent.width;
-        height: parent.height - bottomToolbar.height + bottomToolbar.anchors.bottomMargin*.7;  //correctly centers the grid
+        height: Vals.outerGridSize;
         anchors.horizontalCenter: parent.horizontalCenter;
-        y: main.height - height - bottomToolbar.height*.8 ; //random ratio that makes it look good
+        y: Vals.backButtonHeight; //puts the top of the grid at the bottom of the back button
         color: "transparent";
+        //opacity: .5;
 
-        Grid
+        Flickable  //allows user to move around the board when zoomed in
         {
-            id: bigGrid;
-            rows: Vals.rows;
-            columns: rows;
+            width: parent.width;
+            height: parent.height;
             anchors.centerIn: parent;
-            width: Vals.outerGridSize;
-            height: width;
 
-            Repeater
+            Rectangle  // this rectangle is so you can see how big the gameRect is (if it is set to not transparent)
             {
+                anchors.fill: parent;
+                color: "transparent";
+                opacity: .5;
+            }
+
+            flickableDirection:
+            {
+                if (Vals.isGameZoomedIn)
+                    Flickable.HorizontalAndVerticalFlick
+            }
+
+
+            Grid
+            {
+                id: bigGrid;
+                rows: Vals.rows;
+                columns: rows;
                 anchors.centerIn: parent;
-                id: bigGridRepeater;
-                model: 9;
+                width: Vals.outerGridSize;
+                height: width;
 
-                InnerBoard
+                Repeater
                 {
-                    onBoardClicked:
+                    anchors.centerIn: parent;
+                    id: bigGridRepeater;
+                    model: 9;
+
+                    InnerBoard
                     {
-                        if (isValid)
+                        onBoardClicked:
                         {
-                            GameTracker_js.makeMove(smallIndex, index);
-                            highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
-
-//                            GameTracker.makeMove(smallIndex, index);
-//                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
-
-                            assignSquares(); //method in InnerBoard
-                            assignBoards();
-                            bottomToolbar.setTurn();
-
-                            invalidPressesMessage.visible = false;
-                            numInvalidPresses = 0;
-                        }
-                        else
-                        {
-                            numInvalidPresses++;
-
-                            if (numInvalidPresses >= 5)
+                            if (isValid)
                             {
-                                invalidPressesMessage.visible = true;
-                            }
-                        }
+                                GameTracker_js.makeMove(smallIndex, index);
+                                highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
 
-                        //shows the message when the game is over.
-                        if (GameTracker_js.gameWon) //(GameTracker.gameWon)
-                        {
-                            gameOverMessage.visible = true;
+    //                            GameTracker.makeMove(smallIndex, index);
+    //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
+
+                                assignSquares(); //method in InnerBoard
+                                assignBoards();
+                                bottomToolbar.setTurn();
+
+                                invalidPressesMessage.visible = false;
+                                numInvalidPresses = 0;
+                            }
+                            else
+                            {
+                                numInvalidPresses++;
+
+                                if (numInvalidPresses >= 5)
+                                {
+                                    invalidPressesMessage.visible = true;
+                                }
+                            }
+
+                            //shows the message when the game is over.
+                            if (GameTracker_js.gameWon) //(GameTracker.gameWon)
+                            {
+                                gameOverMessage.visible = true;
+                            }
                         }
                     }
                 }
             }
+
+            contentWidth: bigGrid.width;
+            contentHeight: bigGrid.height;
         }
+
+
     }
 
 
@@ -94,14 +122,17 @@ Item
         height: main.height / 7;
         width: main.width;
 
-        anchors.bottom: main.bottom;
+        //anchors.bottom: main.bottom;
+        anchors.top: gameRect.bottom;
         anchors.horizontalCenter: main.horizontalCenter;
-        anchors.bottomMargin: height/2;
+        //anchors.bottomMargin: height/2;
 
 //        onResetButtonClicked:
 //        {
 //            resetGame();
 //        }
+
+
     }
 
     Message

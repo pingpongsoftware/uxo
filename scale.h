@@ -16,7 +16,12 @@ public:
 //----------------------------------------------------------------------------------------------------
 
 private:
-       int m_buttonSize;
+       int m_buttonHeight;
+       int m_buttonWidth;
+       int m_smallButtonHeight;
+       int m_smallButtonWidth;
+       int m_backButtonWidth;
+       int m_backButtonHeight;
        int m_screenWidth;
        int m_screenHeight;
        int m_rows;
@@ -32,11 +37,17 @@ private:
        int m_topMargin;
        int m_menuSpacing;
        int m_menuTitleHeight;
+       bool m_isZoomedIn;
        QString m_gameTheme;
 
 
 public:
-       int buttonSize() {return m_buttonSize;}
+       int buttonWidth() {return m_buttonWidth;}
+       int buttonHeight() {return m_buttonHeight;}
+       int smallButtonWidth() {return m_smallButtonWidth;}
+       int smallButtonHeight() {return m_smallButtonHeight;}
+       int backButtonWidth() {return m_backButtonWidth;}
+       int backButtonHeight() {return m_backButtonHeight;}
        int screenWidth() {return m_screenWidth;}
        int screenHeight() {return m_screenHeight;}
        int rows() {return m_rows;}
@@ -52,11 +63,17 @@ public:
        int topMargin() {return m_topMargin;}
        int menuSpacing() {return m_menuSpacing;}
        int menuTitleHeight() {return m_menuTitleHeight;}
+       bool isGameZoomedIn() {return m_isZoomedIn;}
        QString gameTheme() {return m_gameTheme;}
 
 
 //------------------------------------------------------------------------------------------
-       Q_PROPERTY(int buttonSize READ buttonSize() NOTIFY buttonSizeChanged)
+       Q_PROPERTY(int buttonWidth READ buttonWidth() NOTIFY buttonWidthChanged)
+       Q_PROPERTY(int buttonHeight READ buttonHeight() NOTIFY buttonHeightChanged)
+       Q_PROPERTY(int smallButtonWidth READ smallButtonWidth() NOTIFY smallButtonWidthChanged)
+       Q_PROPERTY(int smallButtonHeight READ smallButtonHeight() NOTIFY smallButtonHeightChanged)
+       Q_PROPERTY(int backButtonWidth READ backButtonWidth() NOTIFY backButtonWidthChanged)
+       Q_PROPERTY(int backButtonHeight READ backButtonHeight() NOTIFY backButtonHeightChanged)
        Q_PROPERTY(int screenHeight READ screenHeight() NOTIFY screenHeightChanged)
        Q_PROPERTY(int screenWidth READ screenWidth() NOTIFY screenWidthChanged)
        Q_PROPERTY(int rows READ rows() NOTIFY rowsChanged)
@@ -72,14 +89,22 @@ public:
        Q_PROPERTY(int topMargin READ topMargin() NOTIFY topMarginChanged)
        Q_PROPERTY(int menuSpacing READ menuSpacing() NOTIFY menuSpacingChanged)
        Q_PROPERTY(int menuTitleHeight READ menuTitleHeight() NOTIFY menuTitleHeightChanged)
+       Q_PROPERTY(int isGameZoomedIn READ isGameZoomedIn() NOTIFY isGameZoomedInChanged)
        Q_PROPERTY(QString theme READ gameTheme() NOTIFY themeChanged)
 
        Q_INVOKABLE void setTheme(QString s);
+       Q_INVOKABLE void zoomIn();
+       Q_INVOKABLE void zoomOut();
 //------------------------------------------------------------------------------------------------
 
 
 signals:
-       void buttonSizeChanged();
+       void buttonWidthChanged();
+       void buttonHeightChanged();
+       void smallButtonWidthChanged();
+       void smallButtonHeightChanged();
+       void backButtonWidthChanged();
+       void backButtonHeightChanged();
        void screenHeightChanged();
        void screenWidthChanged();
        void rowsChanged();
@@ -96,11 +121,13 @@ signals:
        void themeChanged();
        void menuSpacingChanged();
        void menuTitleHeightChanged();
+       void isGameZoomedInChanged();
 //----------------------------------------------------------------------------------------------------
 
 
 public:
        void setScreenSize(int screenWidth, int screenHeight);
+       void setGameSize();
     
 signals:
     

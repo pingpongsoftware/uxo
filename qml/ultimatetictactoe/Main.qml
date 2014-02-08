@@ -134,8 +134,8 @@ Rectangle
     {
         id: backRect;
         color: "transparent"
-        width: Vals.buttonSize/1.5;
-        height: width*1.2;
+        width: Vals.backButtonWidth;
+        height: Vals.backButtonHeight;
         anchors.top: parent.top;
         anchors.left: parent.left
         anchors.margins: 10

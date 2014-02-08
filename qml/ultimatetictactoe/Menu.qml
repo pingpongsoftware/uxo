@@ -51,18 +51,15 @@ Rectangle
     // Sets the layout for the menu buttons
     Flow
     {
-        anchors.centerIn: parent;
-        width: 350;
+        width: Vals.buttonWidth; //the flow is the same width as the buttons so the buttons are centered in the flow
         spacing: Vals.menuSpacing;
-
-        property int buttonHeight: main.height/20;
-
+        anchors.centerIn: parent;
 
         MyButton //new game button
         {
             id: newGameButton;
-            width: parent.width;
-            height: parent.buttonHeight;
+            width: Vals.buttonWidth;
+            height: Vals.buttonHeight;
             buttonText: "New Game";
             fontSize: Vals.mediumFontSize;
             textColor: "steelblue";
@@ -75,8 +72,8 @@ Rectangle
         MyButton //how to play button
         {
             id: tutorialButton;
-            width: parent.width;
-            height: parent.buttonHeight;
+            width: Vals.buttonWidth;
+            height: Vals.buttonHeight;
             buttonText: "How To Play";
             fontSize: Vals.mediumFontSize;
             textColor: "steelblue";
@@ -88,8 +85,8 @@ Rectangle
         MyButton //settings button
         {
             id: settingsButton;
-            width: parent.width;
-            height: parent.buttonHeight;
+            width: Vals.buttonWidth;
+            height: Vals.buttonHeight;
             buttonText: "Settings";
             fontSize: Vals.mediumFontSize;
             textColor: "steelblue";

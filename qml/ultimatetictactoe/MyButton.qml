@@ -9,7 +9,7 @@ Rectangle
     property color hoverColor: Qt.rgba(.2,.25,.3,.95);
 
     property string buttonText;
-    property int fontSize;
+    property int fontSize: Vals.smallFontSize;
     property string fontLocation: prime_reg.name;
     property color textColor;
 
