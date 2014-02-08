@@ -38,6 +38,7 @@ private:
        int m_topMargin;
        int m_menuSpacing;
        int m_menuTitleHeight;
+       int m_transitionTime;
        bool m_isZoomedIn;
        QString m_gameTheme;
 
@@ -66,6 +67,7 @@ public:
        int menuSpacing() {return m_menuSpacing;}
        int menuTitleHeight() {return m_menuTitleHeight;}
        bool isGameZoomedIn() {return m_isZoomedIn;}
+       int transitionTime() {return m_transitionTime;}
        QString gameTheme() {return m_gameTheme;}
 
 
@@ -93,6 +95,7 @@ public:
        Q_PROPERTY(int menuSpacing READ menuSpacing() NOTIFY menuSpacingChanged)
        Q_PROPERTY(int menuTitleHeight READ menuTitleHeight() NOTIFY menuTitleHeightChanged)
        Q_PROPERTY(int isGameZoomedIn READ isGameZoomedIn() NOTIFY isGameZoomedInChanged)
+       Q_PROPERTY(int transitionTime READ transitionTime() NOTIFY transitionTimeChanged)
        Q_PROPERTY(QString theme READ gameTheme() NOTIFY themeChanged)
 
        Q_INVOKABLE void setTheme(QString s);
@@ -126,6 +129,7 @@ signals:
        void menuSpacingChanged();
        void menuTitleHeightChanged();
        void isGameZoomedInChanged();
+       void transitionTimeChanged();
 //----------------------------------------------------------------------------------------------------
 
 

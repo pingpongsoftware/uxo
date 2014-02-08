@@ -51,10 +51,7 @@ Rectangle
 
                 onClick:
                 {
-                    console.log(Vals.outerGridSize + "   " + bigGrid.width);
                     Vals.zoomIn();
-
-                    console.log(Vals.outerGridSize + "   " + bigGrid.width);
                     resizeGame();  //signals Game.qml which signals Main.qml that the game has been resized
                 }
 
@@ -70,10 +67,7 @@ Rectangle
 
                 onClick:
                 {
-                    console.log(Vals.outerGridSize + "   " + bigGrid.width);
                     Vals.zoomOut();
-
-                    console.log(Vals.outerGridSize + "   " + bigGrid.width);
                     resizeGame();  //signals Game.qml which signals Main.qml that the game has been resized
                 }
 

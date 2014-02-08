@@ -130,13 +130,6 @@ Rectangle
             darkBackground.state = Vals.theme;  //switches the background image
             backImage.source = "Images/" + Vals.theme + "/backArrow.png";  //updates the back button for the new theme
         }
-
-        onGameResized:
-        {
-            loader.source = "";
-            console.log("works")
-            loader.source = "Game.qml";
-        }
     }
 
     Rectangle  //for the back button

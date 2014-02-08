@@ -19,7 +19,41 @@ Item
     signal exitButtonClicked();
     signal resetButtonClicked();
     signal helpButtonClicked();
-    signal gameResized();
+
+    function zoomGame()
+    {
+        //console.log("game");
+        for (var i = 0; i < bigGridRepeater.model; i++)
+            bigGridRepeater.itemAt(i).zoomGame();
+
+        if (zStates.state === "z1")
+            zStates.state = "z2"
+        else if (zStates.state === "z2")
+            zStates.state = "z1"
+
+        bigGrid.state = zStates.state;
+    }
+
+    Rectangle  //this item is solely for the purpose of having a place to put the states for the zoom function
+    {
+        id: zStates;
+        state: "z1";
+        opacity: .3
+
+        states:  //I have two identical states because I need it to update when the variables in Vals update.
+        [
+            State
+            {
+                name: "z1";
+                PropertyChanges { target: gameFlickable; contentWidth: Vals.outerGridSize; contentHeight: Vals.outerGridSize; }
+            },
+            State
+            {
+                name: "z2";
+                PropertyChanges { target: gameFlickable; contentWidth: Vals.outerGridSize; contentHeight: Vals.outerGridSize; }
+            }
+        ]
+    }
 
 
     Rectangle
@@ -35,9 +69,19 @@ Item
 
         Flickable  //allows user to move around the board when zoomed in
         {
+            id: gameFlickable;
             width: parent.width;
             height: parent.height;
-            anchors.centerIn: parent;
+            anchors.centerIn: parent;            
+
+            contentWidth: Vals.outerGridSize;
+            contentHeight: Vals.outerGridSize;
+
+            flickableDirection:
+            {
+                if (Vals.isGameZoomedIn)
+                    Flickable.HorizontalAndVerticalFlick
+            }
 
             Rectangle  // this rectangle is so you can see how big the gameRect is (if it is set to not transparent)
             {
@@ -46,21 +90,37 @@ Item
                 opacity: .3;
             }
 
-            flickableDirection:
-            {
-                if (Vals.isGameZoomedIn)
-                    Flickable.HorizontalAndVerticalFlick
-            }
-
 
             Grid
             {
                 id: bigGrid;
                 rows: Vals.rows;
                 columns: rows;
-                anchors.centerIn: parent;
-                width: Vals.outerGridSize;
-                height: width;
+                state: "z1";
+
+                states:  //I have two identical states because I need it to update when the variables in Vals update.
+                [
+                    State
+                    {
+                        name: "z1";
+                        PropertyChanges { target: bigGrid; width: Vals.outerGridSize; height: Vals.outerGridSize; }
+                    },
+                    State
+                    {
+                        name: "z2";
+                        PropertyChanges { target: bigGrid; width: Vals.outerGridSize; height: Vals.outerGridSize; }
+                    }
+                ]
+
+                transitions:
+                [
+                    Transition
+                    {
+                        from: "*"; to: "*";
+                        PropertyAnimation { properties: "width"; duration: Vals.transitionTime; }
+                        PropertyAnimation { properties: "height"; duration: Vals.transitionTime; }
+                    }
+                ]
 
                 Repeater
                 {
@@ -107,11 +167,17 @@ Item
                 }
             }
 
-            contentWidth: Vals.outerGridSize;
-            contentHeight: Vals.outerGridSize;
+            Rectangle  // this rectangle is so you can see how big the bigGrid is (if it is set to not transparent)
+            {
+                id: testRect
+                width: bigGrid.width;
+                height: bigGrid.height;
+                x: bigGrid.x;
+                y: bigGrid.y;
+                color: "transparent";
+                opacity: .3;
+            }
         }
-
-
     }
 
 
@@ -123,10 +189,10 @@ Item
         width: main.width;
 
         anchors.bottom: main.bottom;
-        anchors.bottomMargin: height/5;
+        anchors.bottomMargin: height/4;
         anchors.horizontalCenter: main.horizontalCenter;
 
-        onResizeGame: gameResized(); //signals Main.qml that the game has been resized
+        onResizeGame: zoomGame(); //signals Main.qml that the game has been resized
 
 //        onResetButtonClicked:
 //        {
@@ -204,15 +270,15 @@ Item
 
             if (GameTracker_js.boardWon[i] === 1) //(GameTracker.getVal(GameTracker.boardsWon, i) === 1)
             {
-                boardAtIndex.state = "wonByX";
+                boardAtIndex.setIbStates("wonByX");
             }
             else if(GameTracker_js.boardWon[i] === -1)
             {
-                boardAtIndex.state = "wonByO";
+                boardAtIndex.setIbStates("wonByO");
             }
             else
             {
-                boardAtIndex.state = "default";
+                boardAtIndex.setIbStates("default");
             }
         }
     }

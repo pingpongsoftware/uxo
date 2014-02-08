@@ -41,6 +41,8 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
 
     m_outerGridSize = m_screenWidth;// - (m_bigGridSpacing * m_rows); //- m_bigGridSpacing;
 
+    m_transitionTime = 150;
+
     this->setGameSize();  //sets all of the other variables based on m_outerGridSize;
     //this->zoomIn(); //temporary,  remove
 
