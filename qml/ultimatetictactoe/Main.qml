@@ -21,20 +21,6 @@ Rectangle
         }
     }
 
-//    Keys.onReleased:
-//    {
-//        console.log("KEY: " + event.key)
-//        for (var i = 0; i < 1000000000000; i++)
-//        {
-
-//        }
-
-////        if (event.key === Qt.Key)  //android back button???
-////        {
-////
-////        }
-//    }
-
     function backButtonPressed()
     {
         GameTracker_js.currentFile = GameTracker_js.previousFile;
