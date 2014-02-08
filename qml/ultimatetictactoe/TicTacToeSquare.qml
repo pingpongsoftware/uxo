@@ -4,7 +4,7 @@ Rectangle
 {
     id: main;
     color: "transparent";
-    state: "z1";
+    state: "z";
 
     property string imageSource: "tttsquare.png";
 
@@ -15,20 +15,16 @@ Rectangle
     signal squareClicked();
     signal invalidSquareClicked();
 
+    property string winningPlayer: "";
+
     function changeColor(player)
     {
-        if (player === "x")
-            main.imageSource = "tttsquare_x.png";
-        else if (player === "o")
-            main.imageSource = "tttsquare_o.png";
+        winningPlayer = player;
     }
-
     function zoomGame()
     {
-        if (main.state === "z1")
-            main.state = "z2"
-        else if (zStates.state === "z2")
-            main.state = "z1"
+        main.state = "default";
+        main.state = "z"
     }
 
 
@@ -36,14 +32,10 @@ Rectangle
     [
         State
         {
-            name: "z1";
+            name: "z";
             PropertyChanges { target: main; width: Vals.squareSize; height: Vals.squareSize; }
         },
-        State
-        {
-            name: "z2";
-            PropertyChanges { target: main; width: Vals.squareSize; height: Vals.squareSize; }
-        }
+        State { name: "default"; }
     ]
 
     transitions:
@@ -56,11 +48,34 @@ Rectangle
         }
     ]
 
-    Image
+    Rectangle
     {
-        id: fillImage;
-        source: "Images/" + Vals.theme + "/" + imageSource;
+        id: fillRect;
         anchors.fill: parent;
+        property color emptyColor:
+        {
+            if (Vals.theme === "dark")
+                "white";
+            else
+                "black";
+        }
+
+        color:
+        {
+            if (winningPlayer == "x")
+            {
+                color = "steelblue";
+                opacity = .5;
+            }
+            else if (winningPlayer == "o")
+            {
+                color = "firebrick"
+                opacity = .5;
+            }
+            else
+                emptyColor;
+        }
+        opacity: .1
     }
 
     MouseArea
@@ -142,5 +157,3 @@ Rectangle
 
 
 }
-
-

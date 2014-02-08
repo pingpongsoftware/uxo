@@ -22,16 +22,15 @@ Item
 
     function zoomGame()
     {
-        //console.log("game");
-        for (var i = 0; i < bigGridRepeater.model; i++)
-            bigGridRepeater.itemAt(i).zoomGame();
-
         if (zStates.state === "z1")
             zStates.state = "z2"
         else if (zStates.state === "z2")
             zStates.state = "z1"
 
         bigGrid.state = zStates.state;
+
+        for (var i = 0; i < bigGridRepeater.model; i++)
+            bigGridRepeater.itemAt(i).zoomGame();
     }
 
     Rectangle  //this item is solely for the purpose of having a place to put the states for the zoom function

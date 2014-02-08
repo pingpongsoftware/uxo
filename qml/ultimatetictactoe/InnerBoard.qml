@@ -6,9 +6,10 @@ Rectangle
     id: main;
     width: Vals.innerRectSize;
     height: width
-    state: "default"
+    state: "z"
     radius: 10;
     color: "transparent";
+    layer.enabled: true;
 
     property bool canClick: true;
 
@@ -17,46 +18,26 @@ Rectangle
 
     function zoomGame()
     {
-        //console.log("inner");
         for (var i = 0; i < littleGridRepeater.model; i++)
             littleGridRepeater.itemAt(i).zoomGame();
 
-        //console.log(Vals.innerRectSize);
-
-        if (zStates.state === "z1")
-            zStates.state = "z2"
-        else if (zStates.state === "z2")
-            zStates.state = "z1"
-
-        outline.state = zStates.state;
-        main.state = zStates.state;
-        littleGrid.state = zStates.state;
+        main.state = "default";
+        outline.state = "default";
+        littleGrid.state = "default"
+        main.state = "z";
+        outline.state = "z";
+        littleGrid.state = "z"
     }
-
-    Item //keeps track of which state the zoom is in
-    {
-        id: zStates;
-        state: "z1";
-        states:
-        [
-            State { name: "z1"; },
-            State { name: "z2"; }
-        ]
-    }
-
 
     states:  //I have two identical states because I need it to update when the variables in Vals update.
     [
         State
         {
-            name: "z1";
+            name: "z";
             PropertyChanges { target: main; width: Vals.innerRectSize; height: Vals.innerRectSize; }
         },
-        State
-        {
-            name: "z2";
-            PropertyChanges { target: main; width: Vals.innerRectSize; height: Vals.innerRectSize; }
-        }
+        State { name: "default"; }
+
     ]
 
     transitions:
@@ -77,21 +58,18 @@ Rectangle
         smooth: true;
         sourceSize.width: main.width*2;
         sourceSize.height: main.height*2;
+        asynchronous: true;
 
-        state: "z1";
+        state: "z";
 
         states:  //I have two identical states because I need it to update when the variables in Vals update.
         [
             State
             {
-                name: "z1";
+                name: "z";
                 PropertyChanges { target: outline; width: Vals.innerRectSize; height: Vals.innerRectSize; }
             },
-            State
-            {
-                name: "z2";
-                PropertyChanges { target: outline; width: Vals.innerRectSize; height: Vals.innerRectSize; }
-            }
+            State { name: "default"; }
         ]
 
         transitions:
@@ -129,21 +107,18 @@ Rectangle
         columns: rows;
         spacing: Vals.smallGridSpacing;
         anchors.centerIn: parent;
+        //layer.enabled: true;
 
-        state: "z1";
+        state: "z";
 
         states:  //I have two identical states because I need it to update when the variables in Vals update.
         [
             State
             {
-                name: "z1";
+                name: "z";
                 PropertyChanges { target: littleGrid; spacing: Vals.smallGridSpacing;}
             },
-            State
-            {
-                name: "z2";
-                PropertyChanges { target: littleGrid; spacing: Vals.smallGridSpacing;}
-            }
+            State { name: "default"; }
         ]
 
         transitions:
@@ -172,9 +147,9 @@ Rectangle
                 }
 
                 onSquareClicked:
-                {                    
+                {
                     boardClicked(smallSquareIndex, true);
-                }   
+                }
             }
         }
     }
@@ -250,4 +225,3 @@ Rectangle
 
 
 }
-
