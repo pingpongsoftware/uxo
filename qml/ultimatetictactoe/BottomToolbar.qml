@@ -6,7 +6,6 @@ Rectangle
     id: main;
     color: "transparent";
     state: "xTurn";
-    opacity: .5;
     signal resetButtonClicked();
     signal backButtonClicked();
 

@@ -7,18 +7,33 @@ Rectangle
 
     width: Vals.screenWidth;
     height: Vals.screenHeight;
-
+    focus:true;
 
     property string previous: "Menu.qml";
     property bool backButtonEnabled: false;
 
-    Keys.onReleased:
-    {
-        if (event.key === Qt.BackButton)  //android back button???
-        {
-            backButtonPressed();
+    Keys.onReleased: {
+        console.log("KEY_PRESSED: " + event.key)
+        if (event.key === Qt.Key_Back    ) {
+            event.accepted = true;
+            console.log("Back Button Pressed!!!");
+            backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
         }
     }
+
+//    Keys.onReleased:
+//    {
+//        console.log("KEY: " + event.key)
+//        for (var i = 0; i < 1000000000000; i++)
+//        {
+
+//        }
+
+////        if (event.key === Qt.Key)  //android back button???
+////        {
+////
+////        }
+//    }
 
     function backButtonPressed()
     {
