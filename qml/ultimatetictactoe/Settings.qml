@@ -167,7 +167,7 @@ Rectangle
                     height: lightThemeButton.height;
                     radius: height;
                     color: "steelblue";
-                    opacity: .8;
+                    //opacity: .8;
                     z: -5; //so it is behind the other objects
 
                     y: lightThemeButton.y;//*.986;  //For some reason it wasn't quite centered on the text, so multiplying it by .986 fixes that problem

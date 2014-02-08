@@ -2,8 +2,8 @@ import QtQuick 2.0
 Rectangle
 {
     id: main;
-    color: "gray";
-    opacity: .5;
+    color: "transparent";
+    //opacity: .5;
 
     property color releasedColor: Qt.rgba(.2,.2,.2,.9);
     property color pressedColor: Qt.rgba(.2,.7,.8,.95);
@@ -13,6 +13,8 @@ Rectangle
     property int fontSize: Vals.smallFontSize;
     property string fontLocation: prime_reg.name;
     property color textColor;
+
+    property bool showColorWhenClicked: false;
 
 
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
@@ -35,13 +37,31 @@ Rectangle
         anchors.margins: parent.width/75;  //random ratio to get it perfectly centered
     }
 
+    Rectangle
+    {
+        id: fillRect;
+        anchors.centerIn: main;
+        height: main.height;
+        width: buttonTextBox.width * 1.3
+        color: "#222222";
+        radius: height;
+        opacity: 0;
+    }
+
     MouseArea
     {
         id: buttonMouseArea;
         anchors.fill: parent;
-        hoverEnabled: true;
+        //hoverEnabled: true;
 
-        onPressed: buttonTextBox.opacity = .5;
+        onPressed:
+        {
+            buttonTextBox.opacity = .5;
+            if (showColorWhenClicked)
+                fillRect.opacity = .2;
+        }
+
+        onReleased: textOpacityToOne();
 
         onExited: textOpacityToOne();
 
@@ -56,6 +76,7 @@ Rectangle
         function textOpacityToOne()
         {
             buttonTextBox.opacity = 1;
+            fillRect.opacity = 0;
         }
     }
 }

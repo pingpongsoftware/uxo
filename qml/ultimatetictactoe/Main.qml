@@ -25,6 +25,7 @@ Rectangle
     {
         GameTracker_js.currentFile = GameTracker_js.previousFile;
         loader.source = GameTracker_js.previousFile;
+        Vals.zoomOut();
     }
 
     Image
@@ -128,6 +129,13 @@ Rectangle
         {
             darkBackground.state = Vals.theme;  //switches the background image
             backImage.source = "Images/" + Vals.theme + "/backArrow.png";  //updates the back button for the new theme
+        }
+
+        onGameResized:
+        {
+            loader.source = "";
+            console.log("works")
+            loader.source = "Game.qml";
         }
     }
 

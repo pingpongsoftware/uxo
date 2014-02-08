@@ -8,6 +8,7 @@ Rectangle
     state: "xTurn";
     signal resetButtonClicked();
     signal backButtonClicked();
+    signal resizeGame();
 
 
     //load fonts from a file
@@ -44,6 +45,7 @@ Rectangle
             {
                 width: Vals.smallButtonWidth;
                 height: Vals.smallButtonHeight;
+                showColorWhenClicked: true;
 
                 buttonText: "zoom in";
 
@@ -53,7 +55,7 @@ Rectangle
                     Vals.zoomIn();
 
                     console.log(Vals.outerGridSize + "   " + bigGrid.width);
-                    bigGrid.width = Vals.outerGridSize;
+                    resizeGame();  //signals Game.qml which signals Main.qml that the game has been resized
                 }
 
             }
@@ -62,6 +64,7 @@ Rectangle
             {
                 width: Vals.smallButtonWidth;
                 height: Vals.smallButtonHeight;
+                showColorWhenClicked: true;
 
                 buttonText: "zoom out";
 
@@ -71,7 +74,7 @@ Rectangle
                     Vals.zoomOut();
 
                     console.log(Vals.outerGridSize + "   " + bigGrid.width);
-                    bigGrid.width = Vals.outerGridSize;
+                    resizeGame();  //signals Game.qml which signals Main.qml that the game has been resized
                 }
 
             }

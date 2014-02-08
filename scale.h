@@ -30,6 +30,7 @@ private:
        int m_smallFontSize;
        int m_bigGridSpacing;
        int m_outerGridSize;
+       int m_originalOuterGridSize; //--- m_outerGridSize will change depending on whether or not the game is zoomed in, so this will store the original
        int m_smallGridSpacing;
        int m_innerRectSize;
        int m_innerGridSize;
@@ -56,6 +57,7 @@ public:
        int smallFontSize() {return m_smallFontSize;}
        int bigGridSpacing() {return m_bigGridSpacing;}
        int outerGridSize() {return m_outerGridSize;}
+       int originalOuterGridSize() {return m_originalOuterGridSize;}
        int smallGridSpacing() {return m_smallGridSpacing;}
        int innerRectSize() {return m_innerRectSize;}
        int innerGridSize() {return m_innerGridSize;}
@@ -82,6 +84,7 @@ public:
        Q_PROPERTY(int smallFontSize READ smallFontSize() NOTIFY smallFontSizeChanged)
        Q_PROPERTY(int bigGridSpacing READ bigGridSpacing() NOTIFY bigGridSpacingChanged)
        Q_PROPERTY(int outerGridSize READ outerGridSize() NOTIFY outerGridSizeChanged)
+       Q_PROPERTY(int originalOuterGridSize READ originalOuterGridSize() NOTIFY originalOuterGridSizeChanged)
        Q_PROPERTY(int smallGridSpacing READ smallGridSpacing() NOTIFY smallGridSpacingChanged)
        Q_PROPERTY(int innerRectSize READ innerRectSize() NOTIFY innerRectSizeChanged)
        Q_PROPERTY(int innerGridSize READ innerGridSize() NOTIFY innerGridSizeChanged)
@@ -113,6 +116,7 @@ signals:
        void smallFontSizeChanged();
        void bigGridSpacingChanged();
        void outerGridSizeChanged();
+       void originalOuterGridSizeChanged();
        void smallGridSpacingChanged();
        void innerRectSizeChanged();
        void innerGridSizeChanged();

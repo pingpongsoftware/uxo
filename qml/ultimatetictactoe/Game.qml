@@ -10,7 +10,6 @@ Item
 
     property int numInvalidPresses: 0;
 
-
     //load fonts from a file
     FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
     FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
@@ -20,6 +19,7 @@ Item
     signal exitButtonClicked();
     signal resetButtonClicked();
     signal helpButtonClicked();
+    signal gameResized();
 
 
     Rectangle
@@ -27,11 +27,11 @@ Item
         id: gameRect;
         //centers the grid in the middle of the toolbars.
         width: parent.width;
-        height: Vals.outerGridSize;
+        height: parent.width;
         anchors.horizontalCenter: main.horizontalCenter;
         y: (Vals.backButtonHeight + bottomToolbar.y)/2 - height/2; //this algorithm centers the grid between the back button and the bottom toolbar
         color: "transparent";
-        //opacity: .5;
+        //opacity: .5;  //for debugging purposes
 
         Flickable  //allows user to move around the board when zoomed in
         {
@@ -43,7 +43,7 @@ Item
             {
                 anchors.fill: parent;
                 color: "transparent";
-                opacity: .5;
+                opacity: .3;
             }
 
             flickableDirection:
@@ -107,8 +107,8 @@ Item
                 }
             }
 
-            contentWidth: bigGrid.width;
-            contentHeight: bigGrid.height;
+            contentWidth: Vals.outerGridSize;
+            contentHeight: Vals.outerGridSize;
         }
 
 
@@ -125,6 +125,8 @@ Item
         anchors.bottom: main.bottom;
         anchors.bottomMargin: height/5;
         anchors.horizontalCenter: main.horizontalCenter;
+
+        onResizeGame: gameResized(); //signals Main.qml that the game has been resized
 
 //        onResetButtonClicked:
 //        {
