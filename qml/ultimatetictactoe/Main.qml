@@ -23,6 +23,7 @@ Rectangle
 
     function backButtonPressed()
     {
+        GameTracker_js.resetGame();
         GameTracker_js.currentFile = GameTracker_js.previousFile;
         loader.source = GameTracker_js.previousFile;
         Vals.zoomOut();

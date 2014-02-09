@@ -5,6 +5,8 @@ Rectangle
     id: main;
     color: "transparent";
     state: "z";
+    width: Vals.squareSize;
+    height: width;
 
     property string imageSource: "tttsquare.png";
 
@@ -21,32 +23,6 @@ Rectangle
     {
         winningPlayer = player;
     }
-    function zoomGame()
-    {
-        main.state = "default";
-        main.state = "z"
-    }
-
-
-    states:  //I have two identical states because I need it to update when the variables in Vals update.
-    [
-        State
-        {
-            name: "z";
-            PropertyChanges { target: main; width: Vals.squareSize; height: Vals.squareSize; }
-        },
-        State { name: "default"; }
-    ]
-
-    transitions:
-    [
-        Transition
-        {
-            from: "*"; to: "*";
-            PropertyAnimation { properties: "width"; duration: Vals.transitionTime; }
-            PropertyAnimation { properties: "height"; duration: Vals.transitionTime; }
-        }
-    ]
 
     Rectangle
     {
@@ -97,7 +73,11 @@ Rectangle
     {
         id: playerWinImage;
         anchors.fill: parent;
+        sourceSize.width: main.width*2;
+        sourceSize.height: main.height*2;
+        smooth: true;
     }
+
 
     function setTTTStates(str)
     {

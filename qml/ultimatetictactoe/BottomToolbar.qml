@@ -4,11 +4,11 @@ import "GameTracker.js" as GameTracker_js
 Rectangle
 {
     id: main;
-    color: "transparent";
     state: "xTurn";
     signal resetButtonClicked();
     signal backButtonClicked();
     signal resizeGame();
+    color: "transparent"
 
 
     //load fonts from a file
@@ -40,38 +40,6 @@ Rectangle
             id: zoomFlow
             anchors.centerIn: parent;
             spacing: Vals.menuSpacing;
-
-            MyButton
-            {
-                width: Vals.smallButtonWidth;
-                height: Vals.smallButtonHeight;
-                showColorWhenClicked: true;
-
-                buttonText: "zoom in";
-
-                onClick:
-                {
-                    Vals.zoomIn();
-                    resizeGame();  //signals Game.qml which signals Main.qml that the game has been resized
-                }
-
-            }
-
-            MyButton
-            {
-                width: Vals.smallButtonWidth;
-                height: Vals.smallButtonHeight;
-                showColorWhenClicked: true;
-
-                buttonText: "zoom out";
-
-                onClick:
-                {
-                    Vals.zoomOut();
-                    resizeGame();  //signals Game.qml which signals Main.qml that the game has been resized
-                }
-
-            }
         }
 
 

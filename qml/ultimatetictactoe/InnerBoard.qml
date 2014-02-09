@@ -16,71 +16,14 @@ Rectangle
     // passes the index of the small tic tac toe square into the main file when a small tile is clicked
     signal boardClicked(int smallIndex, bool isValid);
 
-    function zoomGame()
-    {
-        for (var i = 0; i < littleGridRepeater.model; i++)
-            littleGridRepeater.itemAt(i).zoomGame();
-
-        main.state = "default";
-        outline.state = "default";
-        littleGrid.state = "default"
-        main.state = "z";
-        outline.state = "z";
-        littleGrid.state = "z"
-    }
-
-    states:  //I have two identical states because I need it to update when the variables in Vals update.
-    [
-        State
-        {
-            name: "z";
-            PropertyChanges { target: main; width: Vals.innerRectSize; height: Vals.innerRectSize; }
-        },
-        State { name: "default"; }
-
-    ]
-
-    transitions:
-    [
-        Transition
-        {
-            from: "*"; to: "*";
-            PropertyAnimation { properties: "width"; duration: Vals.transitionTime; }
-            PropertyAnimation { properties: "height"; duration: Vals.transitionTime; }
-        }
-    ]
-
-
     Image
     {
         id: outline;
-        anchors.centerIn: parent;
         smooth: true;
         sourceSize.width: main.width*2;
         sourceSize.height: main.height*2;
         asynchronous: true;
-
-        state: "z";
-
-        states:  //I have two identical states because I need it to update when the variables in Vals update.
-        [
-            State
-            {
-                name: "z";
-                PropertyChanges { target: outline; width: Vals.innerRectSize; height: Vals.innerRectSize; }
-            },
-            State { name: "default"; }
-        ]
-
-        transitions:
-        [
-            Transition
-            {
-                from: "*"; to: "*";
-                PropertyAnimation { properties: "width"; duration: Vals.transitionTime; }
-                PropertyAnimation { properties: "height"; duration: Vals.transitionTime; }
-            }
-        ]
+        anchors.fill: parent;
 
         source:
         {
@@ -96,8 +39,8 @@ Rectangle
         id: playerBigWinImage;
         width: main.width;
         height: main.height;
-        sourceSize.width: main.width*1.5;
-        sourceSize.height: main.width*1.5;
+        sourceSize.width: main.width*2;
+        sourceSize.height: main.width*2;
     }
 
     Grid
@@ -107,28 +50,6 @@ Rectangle
         columns: rows;
         spacing: Vals.smallGridSpacing;
         anchors.centerIn: parent;
-        //layer.enabled: true;
-
-        state: "z";
-
-        states:  //I have two identical states because I need it to update when the variables in Vals update.
-        [
-            State
-            {
-                name: "z";
-                PropertyChanges { target: littleGrid; spacing: Vals.smallGridSpacing;}
-            },
-            State { name: "default"; }
-        ]
-
-        transitions:
-        [
-            Transition
-            {
-                from: "*"; to: "*";
-                PropertyAnimation { properties: "spacing"; duration: Vals.transitionTime; }
-            }
-        ]
 
         Repeater
         {
@@ -176,14 +97,14 @@ Rectangle
     }
 
 
-    function setIbStates(str)
+    function setStates(str)
     {
-        ibStates.state = str;
+        innerBoardStates.state = str;
     }
 
     Item
     {
-        id: ibStates;
+        id: innerBoardStates;
         state: "default";
         states:
         [

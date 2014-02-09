@@ -20,150 +20,171 @@ Item
     signal resetButtonClicked();
     signal helpButtonClicked();
 
-    function zoomGame()
-    {
-        if (zStates.state === "z1")
-            zStates.state = "z2"
-        else if (zStates.state === "z2")
-            zStates.state = "z1"
-
-        bigGrid.state = zStates.state;
-
-        for (var i = 0; i < bigGridRepeater.model; i++)
-            bigGridRepeater.itemAt(i).zoomGame();
-    }
-
-    Rectangle  //this item is solely for the purpose of having a place to put the states for the zoom function
-    {
-        id: zStates;
-        state: "z1";
-        opacity: .3
-
-        states:  //I have two identical states because I need it to update when the variables in Vals update.
-        [
-            State
-            {
-                name: "z1";
-                PropertyChanges { target: gameFlickable; contentWidth: Vals.outerGridSize; contentHeight: Vals.outerGridSize; }
-            },
-            State
-            {
-                name: "z2";
-                PropertyChanges { target: gameFlickable; contentWidth: Vals.outerGridSize; contentHeight: Vals.outerGridSize; }
-            }
-        ]
-    }
+    property int gridFlickContentSize: Vals.outerGridSize;
 
 
     Rectangle
     {
-        id: gameRect;
-        //centers the grid in the middle of the toolbars.
-        width: parent.width;
-        height: parent.width;
-        anchors.horizontalCenter: main.horizontalCenter;
-        y: (Vals.backButtonHeight + bottomToolbar.y)/2 - height/2; //this algorithm centers the grid between the back button and the bottom toolbar
+        id: zoomBounds; //the grid will only appear inside this rect;
+        width: main.width;
+        height: main.height - Vals.backButtonHeight - bottomToolbar.height - bottomToolbar.anchors.bottomMargin;
         color: "transparent";
-        //opacity: .5;  //for debugging purposes
+        y: Vals.backButtonHeight;
+        //layer.enabled: true;
+        clip: true;
 
-        Flickable  //allows user to move around the board when zoomed in
+        Rectangle
         {
-            id: gameFlickable;
-            width: parent.width;
-            height: parent.height;
-            anchors.centerIn: parent;            
+            id: gameRect;
+            width: main.width;
+            height: main.width;
+            anchors.horizontalCenter: parent.horizontalCenter;
+            anchors.verticalCenter: parent.verticalCenter;
+            color: "transparent";
+            //opacity: .5;  //for debugging purposes
 
-            contentWidth: Vals.outerGridSize;
-            contentHeight: Vals.outerGridSize;
 
-            flickableDirection:
+            PinchArea
             {
-                if (Vals.isGameZoomedIn)
-                    Flickable.HorizontalAndVerticalFlick
-            }
-
-            Rectangle  // this rectangle is so you can see how big the gameRect is (if it is set to not transparent)
-            {
+                id: gridPinch;
+                pinch.target: gridFlick.contentItem;
+                pinch.dragAxis: Pinch.NoDrag;
                 anchors.fill: parent;
-                color: "transparent";
-                opacity: .3;
-            }
+                enabled: true;
+                pinch.minimumScale: 1.0;
+                pinch.maximumScale: 2.0;
+                focus: false;
 
+                property double realScale: 1.0;
+                property double oldScale: 1.0
+                property int xPoint;
+                property int yPoint;
+                property int centerX;
+                property int centerY;
 
-            Grid
-            {
-                id: bigGrid;
-                rows: Vals.rows;
-                columns: rows;
-                state: "z1";
-
-                states:  //I have two identical states because I need it to update when the variables in Vals update.
-                [
-                    State
-                    {
-                        name: "z1";
-                        PropertyChanges { target: bigGrid; width: Vals.outerGridSize; height: Vals.outerGridSize; }
-                    },
-                    State
-                    {
-                        name: "z2";
-                        PropertyChanges { target: bigGrid; width: Vals.outerGridSize; height: Vals.outerGridSize; }
-                    }
-                ]
-
-                transitions:
-                [
-                    Transition
-                    {
-                        from: "*"; to: "*";
-                        PropertyAnimation { properties: "width"; duration: Vals.transitionTime; }
-                        PropertyAnimation { properties: "height"; duration: Vals.transitionTime; }
-                    }
-                ]
-
-                Repeater
+                onPinchStarted:
                 {
-                    anchors.centerIn: parent;
-                    id: bigGridRepeater;
-                    model: 9;
+                    //console.log("pinch");
+                }
 
-                    InnerBoard
+                onPinchFinished:
+                {
+                    realScale *= pinch.scale;
+
+                    if (realScale < 1)
+                        realScale = 1;
+                    else if (realScale > 2)
+                        realScale = 2;
+
+                    main.gridFlickContentSize = Vals.outerGridSize*realScale;
+
+                    xPoint = pinch.center.x;
+                    yPoint = pinch.center.y;
+
+                    centerX = parent.width/2;
+                    centerY = parent.height/2;
+
+                    console.log(xPoint + "   " + yPoint);
+
+                    if (realScale != oldScale) //prevents the grid from recentering if you try to zoom while its already zoomed in
                     {
-                        onBoardClicked:
+                        gridFlick.contentX = gridFlick.contentWidth*(centerX/gridFlick.width) - centerX;
+                        gridFlick.contentY = gridFlick.contentHeight*(centerY/gridFlick.height) - centerY;
+                    }
+
+                    console.log(gridFlick.contentX + "   " + gridFlick.contentY);
+
+                    oldScale = realScale;
+
+                }
+
+                Flickable
+                {
+                    id: gridFlick;
+                    anchors.fill: parent;
+
+                    contentWidth: main.gridFlickContentSize;
+                    contentHeight: contentWidth;
+
+                    flickableDirection: Flickable.AutoFlickDirection
+
+                    Grid
+                    {
+                        id: bigGrid;
+                        rows: Vals.rows;
+                        columns: rows;
+                        width: Vals.outerGridSize;
+                        height: width;
+                        anchors.centerIn: parent;
+
+                        Repeater
                         {
-                            if (isValid)
+                            anchors.centerIn: parent;
+                            id: bigGridRepeater;
+                            model: 9;
+
+                            InnerBoard
                             {
-                                GameTracker_js.makeMove(smallIndex, index);
-                                highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
-
-    //                            GameTracker.makeMove(smallIndex, index);
-    //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
-
-                                assignSquares(); //method in InnerBoard
-                                assignBoards();
-                                bottomToolbar.setTurn();
-
-                                invalidPressesMessage.visible = false;
-                                numInvalidPresses = 0;
-                            }
-                            else
-                            {
-                                numInvalidPresses++;
-
-                                if (numInvalidPresses >= 5)
+                                onBoardClicked:
                                 {
-                                    invalidPressesMessage.visible = true;
-                                }
-                            }
+                                    if (isValid)
+                                    {
+                                        GameTracker_js.makeMove(smallIndex, index);
+                                        highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
 
-                            //shows the message when the game is over.
-                            if (GameTracker_js.gameWon) //(GameTracker.gameWon)
-                            {
-                                gameOverMessage.visible = true;
+            //                            GameTracker.makeMove(smallIndex, index);
+            //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
+
+                                        assignSquares(); //method in InnerBoard
+                                        assignBoards();
+                                        bottomToolbar.setTurn();
+
+                                        invalidPressesMessage.visible = false;
+                                        numInvalidPresses = 0;
+                                    }
+                                    else
+                                    {
+                                        numInvalidPresses++;
+
+                                        if (numInvalidPresses >= 5)
+                                        {
+                                            invalidPressesMessage.visible = true;
+                                        }
+                                    }
+
+                                    //shows the message when the game is over.
+                                    if (GameTracker_js.gameWon) //(GameTracker.gameWon)
+                                    {
+                                        gameOverMessage.visible = true;
+                                    }
+                                }
                             }
                         }
                     }
                 }
+            }
+
+
+            Rectangle
+            {
+                id: fcr
+                width: gridFlick.contentItem.width;
+                height: gridFlick.contentItem.height;
+                x: gridFlick.contentItem.x;
+                y: gridFlick.contentItem.y;
+                color: "transparent";
+                opacity: .3;
+            }
+
+            Rectangle
+            {
+                id: fr
+                width: gridFlick.width;
+                height: gridFlick.height;
+                x: gridFlick.x;
+                y: gridFlick.y;
+                color: "transparent";
+                opacity: .3;
             }
 
             Rectangle  // this rectangle is so you can see how big the bigGrid is (if it is set to not transparent)
@@ -176,6 +197,7 @@ Item
                 color: "transparent";
                 opacity: .3;
             }
+
         }
     }
 
@@ -269,15 +291,15 @@ Item
 
             if (GameTracker_js.boardWon[i] === 1) //(GameTracker.getVal(GameTracker.boardsWon, i) === 1)
             {
-                boardAtIndex.setIbStates("wonByX");
+                boardAtIndex.setStates("wonByX");
             }
             else if(GameTracker_js.boardWon[i] === -1)
             {
-                boardAtIndex.setIbStates("wonByO");
+                boardAtIndex.setStates("wonByO");
             }
             else
             {
-                boardAtIndex.setIbStates("default");
+                boardAtIndex.setStates("default");
             }
         }
     }
