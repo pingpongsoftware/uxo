@@ -30,7 +30,7 @@ Item
         height: main.height - Vals.backButtonHeight - bottomToolbar.height - bottomToolbar.anchors.bottomMargin;
         color: "transparent";
         y: Vals.backButtonHeight;
-        //clip: true;
+        clip: true;
 
         Rectangle
         {
@@ -53,118 +53,140 @@ Item
                 pinch.maximumScale: 2.2;
                 focus: false;
 
+                //property double oldScale: 1.0;
+
                 onPinchUpdated:
                 {
-                    console.log(pinch.scale);
+                    if (pinch.scale > oldScale)  //if they are zooming in
+                    {
+                        bigGrid.transformOrigin = getTransformOrigin(getGridIndex(pinch.center.x, pinch.center.y));
+                        bigGrid.state = "zoomedOut";
+                    }
+                    else if (pinch.scale < oldScale) //if they are zooming out
+                    {
+                        bigGrid.state = "zoomedIn";
+                    }
 
-                    if (pinch.scale < 1.15 && pinch.scale > .85)
-                        setTransformOrigin(getGridIndex(pinch.center.x, pinch.center.y));
+                    oldScale = scale;
                 }
 
-//                onPinchFinished:
-//                {
-//                    realScale *= pinch.scale;
 
-//                    if (realScale < 1)
-//                        realScale = 1;
-//                    else if (realScale > 2)
-//                        realScale = 2;
-
-//                    main.gridFlickContentSize = Vals.outerGridSize*realScale;
-
-//                    console.log(xPoint + "   " + yPoint);
-
-//                    if (realScale != oldScale) //prevents the grid from recentering if you try to zoom while its already zoomed in
-//                    {
-//                        gridFlick.contentX = gridFlick.contentWidth*(xPoint/gridFlick.width) - xPoint;
-//                        gridFlick.contentY = gridFlick.contentHeight*(yPoint/gridFlick.height) - yPoint;
-//                    }
-
-//                    console.log(gridFlick.contentX + "   " + gridFlick.contentY);
-
-//                    oldScale = realScale;
-
-//                }
-
-                function setTransformOrigin(index)
+                function getTransformOrigin(index)
                 {
                     if (index === 0)
-                        bigGrid.transformOrigin = Item.TopLeft;
-                    else if (index === 1)
-                        bigGrid.transformOrigin = Item.Top;
-                    else if (index === 2)
-                        bigGrid.transformOrigin = Item.TopRight;
-                    else if (index === 3)
-                        bigGrid.transformOrigin = Item.Left;
-                    else if (index === 4)
-                        bigGrid.transformOrigin = Item.Center;
-                    else if (index === 5)
-                        bigGrid.transformOrigin = Item.Right;
-                    else if (index === 6)
-                        bigGrid.transformOrigin = Item.BottomLeft;
-                    else if (index === 7)
-                        bigGrid.transformOrigin = Item.Bottom;
-                    else if (index === 8)
-                        bigGrid.transformOrigin = Item.BottomRight;
-                    else
-                        console.log("Grid Index: " + gridIndexOfPinch);
+                        return Item.TopLeft;
+                    if (index === 1)
+                        return Item.Top;
+                    if (index === 2)
+                        return Item.TopRight;
+                    if (index === 3)
+                        return Item.Left;
+                    if (index === 4)
+                        return Item.Center;
+                    if (index === 5)
+                        return Item.Right;
+                    if (index === 6)
+                        return Item.BottomLeft;
+                    if (index === 7)
+                        return Item.Bottom;
+                    if (index === 8)
+                        return Item.BottomRight;
+
+                    console.log("Grid Index: " + gridIndexOfPinch);
+                    return Item.Center;
                 }
 
 
-                Grid
+                MouseArea
                 {
-                    id: bigGrid;
-                    rows: Vals.rows;
-                    columns: rows;
-                    width: Vals.outerGridSize;
-                    height: width;
-                    anchors.centerIn: parent;
+                    anchors.fill: parent;
 
-                    Repeater
+                    onDoubleClicked:
                     {
+                        if (bigGrid.state === "zoomedIn")
+                            bigGrid.state = "zoomedOut";
+                        else
+                            bigGrid.state = "zoomedIn";
+                    }
+
+                    Grid
+                    {
+                        id: bigGrid;
+                        rows: Vals.rows;
+                        columns: rows;
+                        width: Vals.outerGridSize;
+                        height: width;
                         anchors.centerIn: parent;
-                        id: bigGridRepeater;
-                        model: 9;
+                        state: "zoomedOut";
 
-                        InnerBoard
+                        Repeater
                         {
-                            onBoardClicked:
+                            anchors.centerIn: parent;
+                            id: bigGridRepeater;
+                            model: 9;
+
+                            InnerBoard
                             {
-                                if (isValid)
+                                onBoardClicked:
                                 {
-                                    GameTracker_js.makeMove(smallIndex, index);
-                                    highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
-
-        //                            GameTracker.makeMove(smallIndex, index);
-        //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
-
-                                    assignSquares(); //method in InnerBoard
-                                    assignBoards();
-                                    bottomToolbar.setTurn();
-
-                                    invalidPressesMessage.visible = false;
-                                    numInvalidPresses = 0;
-                                }
-                                else
-                                {
-                                    numInvalidPresses++;
-
-                                    if (numInvalidPresses >= 5)
+                                    if (isValid)
                                     {
-                                        invalidPressesMessage.visible = true;
-                                    }
-                                }
+                                        GameTracker_js.makeMove(smallIndex, index);
+                                        highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
 
-                                //shows the message when the game is over.
-                                if (GameTracker_js.gameWon) //(GameTracker.gameWon)
-                                {
-                                    gameOverMessage.visible = true;
+            //                            GameTracker.makeMove(smallIndex, index);
+            //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
+
+                                        assignSquares(); //method in InnerBoard
+                                        assignBoards();
+                                        bottomToolbar.setTurn();
+
+                                        invalidPressesMessage.visible = false;
+                                        numInvalidPresses = 0;
+                                    }
+                                    else
+                                    {
+                                        numInvalidPresses++;
+
+                                        if (numInvalidPresses >= 5)
+                                        {
+                                            invalidPressesMessage.visible = true;
+                                        }
+                                    }
+
+                                    //shows the message when the game is over.
+                                    if (GameTracker_js.gameWon) //(GameTracker.gameWon)
+                                    {
+                                        gameOverMessage.visible = true;
+                                    }
                                 }
                             }
                         }
+
+
+                        states:
+                        [
+                            State { name: "zoomedIn"; PropertyChanges { target: bigGrid; scale: gridPinch.pinch.maximumScale; } },
+                            State { name: "zoomedOut"; PropertyChanges { target: bigGrid; scale: gridPinch.pinch.minimumScale; } }
+                        ]
+
+
+                        transitions:
+                        [
+                            Transition
+                            {
+                                from: "*"; to: "*";
+                                NumberAnimation { target: br; property: "scale"; duration: 200; }
+                            }
+
+                        ]
+
                     }
                 }
-            }
+
+
+                }
+
 
 
             Rectangle  // this rectangle is so you can see how big the bigGrid is (if it is set to not transparent)

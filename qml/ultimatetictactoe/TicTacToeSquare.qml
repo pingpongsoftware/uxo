@@ -19,6 +19,9 @@ Rectangle
 
     property string winningPlayer: "";
 
+    property bool clickEnabled: true;
+
+
     function changeColor(player)
     {
         winningPlayer = player;
@@ -104,17 +107,39 @@ Rectangle
         id: squareMouseArea;
         anchors.fill: parent;
 
-        onClicked:
+        onDoubleClicked:  //
         {
-            console.log("Touch Point: " + mouseX + ", " + mouseY);
-            console.log(main.getRealClickLoc());
-            console.log("grid index: " + main.gridIndex);
+            clickEnabled = false;
+            fillRect.opacity = .1;
+        }
 
-            if (smallSquareCanClick)
-                squareClicked();
+        onReleased:
+        {
+            delayTimer.start();
+            fillRect.opacity = .3;
+        }
 
-            else
-                invalidSquareClicked();
+        Timer
+        {
+            id: delayTimer;
+            interval: 250;
+            onTriggered:
+            {
+                if (clickEnabled)
+                {
+                    console.log("Touch Point: " + parent.mouseX + ", " + parent.mouseY);
+                    console.log(main.getRealClickLoc());
+                    console.log("grid index: " + main.gridIndex);
+
+                    if (smallSquareCanClick)
+                        squareClicked();
+
+                    else
+                        invalidSquareClicked();
+                }
+
+                fillRect.opacity = .1;
+            }
         }
     }
 
