@@ -46,178 +46,119 @@ Item
             PinchArea
             {
                 id: gridPinch;
-                pinch.target: gridFlick.contentItem;
+                pinch.target: bigGrid;
                 pinch.dragAxis: Pinch.NoDrag;
                 anchors.fill: parent;
-                enabled: true;
                 pinch.minimumScale: 1.0;
-                pinch.maximumScale: 2.0;
+                pinch.maximumScale: 2.2;
                 focus: false;
 
-                property double realScale: 1.0;
-                property double oldScale: 1.0
-                property int xPoint;
-                property int yPoint;
-                property int centerX;
-                property int centerY;
-
-                onPinchStarted:
+                onPinchUpdated:
                 {
-                    xPoint = pinch.center.x;
-                    yPoint = pinch.center.y;
+                    console.log(pinch.scale);
 
-                    setTransformOrigin(getGridIndex(xPoint, yPoint));
+                    if (pinch.scale < 1.15 && pinch.scale > .85)
+                        setTransformOrigin(getGridIndex(pinch.center.x, pinch.center.y));
                 }
 
-                onPinchFinished:
-                {
-                    realScale *= pinch.scale;
+//                onPinchFinished:
+//                {
+//                    realScale *= pinch.scale;
 
-                    if (realScale < 1)
-                        realScale = 1;
-                    else if (realScale > 2)
-                        realScale = 2;
+//                    if (realScale < 1)
+//                        realScale = 1;
+//                    else if (realScale > 2)
+//                        realScale = 2;
 
-                    main.gridFlickContentSize = Vals.outerGridSize*realScale;
+//                    main.gridFlickContentSize = Vals.outerGridSize*realScale;
 
-                    console.log(xPoint + "   " + yPoint);
+//                    console.log(xPoint + "   " + yPoint);
 
-                    if (realScale != oldScale) //prevents the grid from recentering if you try to zoom while its already zoomed in
-                    {
-                        gridFlick.contentX = gridFlick.contentWidth*(xPoint/gridFlick.width) - xPoint;
-                        gridFlick.contentY = gridFlick.contentHeight*(yPoint/gridFlick.height) - yPoint;
-                    }
+//                    if (realScale != oldScale) //prevents the grid from recentering if you try to zoom while its already zoomed in
+//                    {
+//                        gridFlick.contentX = gridFlick.contentWidth*(xPoint/gridFlick.width) - xPoint;
+//                        gridFlick.contentY = gridFlick.contentHeight*(yPoint/gridFlick.height) - yPoint;
+//                    }
 
-                    console.log(gridFlick.contentX + "   " + gridFlick.contentY);
+//                    console.log(gridFlick.contentX + "   " + gridFlick.contentY);
 
-                    oldScale = realScale;
+//                    oldScale = realScale;
 
-                }
+//                }
 
                 function setTransformOrigin(index)
                 {
                     if (index === 0)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.TopLeft;
-                        xPoint = 0;
-                        yPoint = 0;
-                    }
+                        bigGrid.transformOrigin = Item.TopLeft;
                     else if (index === 1)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.Top;
-                        xPoint = Vals.innerRectSize*1.5;
-                        yPoint = 0;
-                    }
+                        bigGrid.transformOrigin = Item.Top;
                     else if (index === 2)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.TopRight;
-                        xPoint = Vals.innerRectSize*3;
-                        yPoint = 0;
-                    }
+                        bigGrid.transformOrigin = Item.TopRight;
                     else if (index === 3)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.Left;
-                        xPoint = 0;
-                        yPoint = Vals.innerRectSize;
-                    }
+                        bigGrid.transformOrigin = Item.Left;
                     else if (index === 4)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.Center;
-                        xPoint = Vals.innerRectSize*1.5;
-                        yPoint = Vals.innerRectSize*1.5;
-                    }
+                        bigGrid.transformOrigin = Item.Center;
                     else if (index === 5)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.Right;
-                        xPoint = Vals.innerRectSize*3;
-                        yPoint = Vals.innerRectSize*1.5;
-                    }
+                        bigGrid.transformOrigin = Item.Right;
                     else if (index === 6)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.BottomLeft;
-                        xPoint = 0;
-                        yPoint = Vals.innerRectSize*3;
-                    }
+                        bigGrid.transformOrigin = Item.BottomLeft;
                     else if (index === 7)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.Bottom;
-                        xPoint = Vals.innerRectSize*1.5;
-                        yPoint = Vals.innerRectSize*3;
-                    }
+                        bigGrid.transformOrigin = Item.Bottom;
                     else if (index === 8)
-                    {
-                        gridFlick.contentItem.transformOrigin = Item.BottomRight;
-                        xPoint = Vals.innerRectSize*3;
-                        yPoint = Vals.innerRectSize*3;
-                    }
+                        bigGrid.transformOrigin = Item.BottomRight;
                     else
                         console.log("Grid Index: " + gridIndexOfPinch);
-
-                    console.log(bigGrid.transformOrigin === gridFlick.contentItem.transformOrigin);
                 }
 
 
-
-
-                Flickable
+                Grid
                 {
-                    id: gridFlick;
-                    anchors.fill: parent;
+                    id: bigGrid;
+                    rows: Vals.rows;
+                    columns: rows;
+                    width: Vals.outerGridSize;
+                    height: width;
+                    anchors.centerIn: parent;
 
-                    contentWidth: main.gridFlickContentSize;
-                    contentHeight: contentWidth;
-
-                    flickableDirection: Flickable.AutoFlickDirection
-
-                    Grid
+                    Repeater
                     {
-                        id: bigGrid;
-                        rows: Vals.rows;
-                        columns: rows;
-                        width: Vals.outerGridSize;
-                        height: width;
                         anchors.centerIn: parent;
+                        id: bigGridRepeater;
+                        model: 9;
 
-                        Repeater
+                        InnerBoard
                         {
-                            anchors.centerIn: parent;
-                            id: bigGridRepeater;
-                            model: 9;
-
-                            InnerBoard
+                            onBoardClicked:
                             {
-                                onBoardClicked:
+                                if (isValid)
                                 {
-                                    if (isValid)
+                                    GameTracker_js.makeMove(smallIndex, index);
+                                    highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
+
+        //                            GameTracker.makeMove(smallIndex, index);
+        //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
+
+                                    assignSquares(); //method in InnerBoard
+                                    assignBoards();
+                                    bottomToolbar.setTurn();
+
+                                    invalidPressesMessage.visible = false;
+                                    numInvalidPresses = 0;
+                                }
+                                else
+                                {
+                                    numInvalidPresses++;
+
+                                    if (numInvalidPresses >= 5)
                                     {
-                                        GameTracker_js.makeMove(smallIndex, index);
-                                        highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
-
-            //                            GameTracker.makeMove(smallIndex, index);
-            //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
-
-                                        assignSquares(); //method in InnerBoard
-                                        assignBoards();
-                                        bottomToolbar.setTurn();
-
-                                        invalidPressesMessage.visible = false;
-                                        numInvalidPresses = 0;
+                                        invalidPressesMessage.visible = true;
                                     }
-                                    else
-                                    {
-                                        numInvalidPresses++;
+                                }
 
-                                        if (numInvalidPresses >= 5)
-                                        {
-                                            invalidPressesMessage.visible = true;
-                                        }
-                                    }
-
-                                    //shows the message when the game is over.
-                                    if (GameTracker_js.gameWon) //(GameTracker.gameWon)
-                                    {
-                                        gameOverMessage.visible = true;
-                                    }
+                                //shows the message when the game is over.
+                                if (GameTracker_js.gameWon) //(GameTracker.gameWon)
+                                {
+                                    gameOverMessage.visible = true;
                                 }
                             }
                         }
@@ -225,28 +166,6 @@ Item
                 }
             }
 
-
-            Rectangle
-            {
-                id: fcr
-                width: gridFlick.contentItem.width;
-                height: gridFlick.contentItem.height;
-                x: gridFlick.contentItem.x;
-                y: gridFlick.contentItem.y;
-                color: "blue";
-                opacity: .3;
-            }
-
-            Rectangle
-            {
-                id: fr
-                width: gridFlick.width;
-                height: gridFlick.height;
-                x: gridFlick.x;
-                y: gridFlick.y;
-                color: "transparent";
-                opacity: .3;
-            }
 
             Rectangle  // this rectangle is so you can see how big the bigGrid is (if it is set to not transparent)
             {
