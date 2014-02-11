@@ -30,8 +30,7 @@ Item
         height: main.height - Vals.backButtonHeight - bottomToolbar.height - bottomToolbar.anchors.bottomMargin;
         color: "transparent";
         y: Vals.backButtonHeight;
-        //layer.enabled: true;
-        clip: true;
+        //clip: true;
 
         Rectangle
         {
@@ -64,7 +63,10 @@ Item
 
                 onPinchStarted:
                 {
-                    //console.log("pinch");
+                    xPoint = pinch.center.x;
+                    yPoint = pinch.center.y;
+
+                    setTransformOrigin(getGridIndex(xPoint, yPoint));
                 }
 
                 onPinchFinished:
@@ -78,18 +80,12 @@ Item
 
                     main.gridFlickContentSize = Vals.outerGridSize*realScale;
 
-                    xPoint = pinch.center.x;
-                    yPoint = pinch.center.y;
-
-                    centerX = parent.width/2;
-                    centerY = parent.height/2;
-
                     console.log(xPoint + "   " + yPoint);
 
                     if (realScale != oldScale) //prevents the grid from recentering if you try to zoom while its already zoomed in
                     {
-                        gridFlick.contentX = gridFlick.contentWidth*(centerX/gridFlick.width) - centerX;
-                        gridFlick.contentY = gridFlick.contentHeight*(centerY/gridFlick.height) - centerY;
+                        gridFlick.contentX = gridFlick.contentWidth*(xPoint/gridFlick.width) - xPoint;
+                        gridFlick.contentY = gridFlick.contentHeight*(yPoint/gridFlick.height) - yPoint;
                     }
 
                     console.log(gridFlick.contentX + "   " + gridFlick.contentY);
@@ -97,6 +93,71 @@ Item
                     oldScale = realScale;
 
                 }
+
+                function setTransformOrigin(index)
+                {
+                    if (index === 0)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.TopLeft;
+                        xPoint = 0;
+                        yPoint = 0;
+                    }
+                    else if (index === 1)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.Top;
+                        xPoint = Vals.innerRectSize*1.5;
+                        yPoint = 0;
+                    }
+                    else if (index === 2)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.TopRight;
+                        xPoint = Vals.innerRectSize*3;
+                        yPoint = 0;
+                    }
+                    else if (index === 3)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.Left;
+                        xPoint = 0;
+                        yPoint = Vals.innerRectSize;
+                    }
+                    else if (index === 4)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.Center;
+                        xPoint = Vals.innerRectSize*1.5;
+                        yPoint = Vals.innerRectSize*1.5;
+                    }
+                    else if (index === 5)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.Right;
+                        xPoint = Vals.innerRectSize*3;
+                        yPoint = Vals.innerRectSize*1.5;
+                    }
+                    else if (index === 6)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.BottomLeft;
+                        xPoint = 0;
+                        yPoint = Vals.innerRectSize*3;
+                    }
+                    else if (index === 7)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.Bottom;
+                        xPoint = Vals.innerRectSize*1.5;
+                        yPoint = Vals.innerRectSize*3;
+                    }
+                    else if (index === 8)
+                    {
+                        gridFlick.contentItem.transformOrigin = Item.BottomRight;
+                        xPoint = Vals.innerRectSize*3;
+                        yPoint = Vals.innerRectSize*3;
+                    }
+                    else
+                        console.log("Grid Index: " + gridIndexOfPinch);
+
+                    console.log(bigGrid.transformOrigin === gridFlick.contentItem.transformOrigin);
+                }
+
+
+
 
                 Flickable
                 {
@@ -172,7 +233,7 @@ Item
                 height: gridFlick.contentItem.height;
                 x: gridFlick.contentItem.x;
                 y: gridFlick.contentItem.y;
-                color: "transparent";
+                color: "blue";
                 opacity: .3;
             }
 
@@ -269,6 +330,39 @@ Item
         }
     }
 
+    function getGridIndex(x, y) //returns the index of the grid that the pinch occurs in
+    {
+        if (x < Vals.innerRectSize)
+        {
+            if (y < Vals.innerRectSize)
+                return 0;
+            if (y < Vals.innerRectSize*2)
+                return 3;
+            if (y < Vals.innerRectSize*3)
+                return 6;
+        }
+        if (x < Vals.innerRectSize*2)
+        {
+            if (y < Vals.innerRectSize)
+                return 1;
+            if (y < Vals.innerRectSize*2)
+                return 4;
+            if (y < Vals.innerRectSize*3)
+                return 7;
+        }
+        if (x < Vals.innerRectSize*3)
+        {
+            if (y < Vals.innerRectSize)
+                return 2;
+            if (y < Vals.innerRectSize*2)
+                return 5;
+            if (y < Vals.innerRectSize*3)
+                return 8;
+        }
+
+        return -1;
+    }
+
     /*recieves the index of the small tic tac square that was clicked,
     and sets the corresponding large square to be clickable, unless
     the large square is already full, then it makes the rest of the
@@ -320,4 +414,3 @@ Item
 
 
 }
-

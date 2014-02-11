@@ -16,6 +16,15 @@ Rectangle
     // passes the index of the small tic tac toe square into the main file when a small tile is clicked
     signal boardClicked(int smallIndex, bool isValid);
 
+    property int gridIndex; //the index, 0-8, of the grid
+
+    function printLoc()
+    {
+        var s = main.toString() + ":  " + main.x + ", " + main.y;
+        console.log(s)
+        return s;
+    }
+
     Image
     {
         id: outline;
@@ -61,6 +70,7 @@ Rectangle
                 //sets the index of each square to the index of the gridcell its placed in
                 smallSquareIndex: index;
                 smallSquareCanClick: canClick; //if the big square can't be clicked, the small square can't be clicked
+                gridIndex: main.gridIndex;
 
                 onInvalidSquareClicked:
                 {
