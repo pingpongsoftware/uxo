@@ -30,7 +30,7 @@ Item
         height: main.height - Vals.backButtonHeight - bottomToolbar.height - bottomToolbar.anchors.bottomMargin;
         color: "transparent";
         y: Vals.backButtonHeight;
-        clip: true;
+        //clip: true;
 
         Rectangle
         {
@@ -50,16 +50,19 @@ Item
                 pinch.dragAxis: Pinch.NoDrag;
                 anchors.fill: parent;
                 pinch.minimumScale: 1.0;
-                pinch.maximumScale: 2.2;
+                pinch.maximumScale: 1.7;
                 focus: false;
 
-                //property double oldScale: 1.0;
+                property double oldScale: 1.0;
+
+                property double xPoint;
+                property double yPoint;
 
                 onPinchUpdated:
                 {
                     if (pinch.scale > oldScale)  //if they are zooming in
                     {
-                        bigGrid.transformOrigin = getTransformOrigin(getGridIndex(pinch.center.x, pinch.center.y));
+                        bigGrid.transformOrigin = getTransformOrigin(getIndex(pinch.center.x, pinch.center.y));
                         bigGrid.state = "zoomedOut";
                     }
                     else if (pinch.scale < oldScale) //if they are zooming out
@@ -70,9 +73,57 @@ Item
                     oldScale = scale;
                 }
 
+                function getIndex(x, y) //returns the index of the grid that the pinch occurs in
+                {
+                    if (x < Vals.innerRectSize)
+                    {
+                        if (y < Vals.innerRectSize)
+                            return 0;
+                        if (y < Vals.innerRectSize*2)
+                            return 3;
+                        if (y < Vals.innerRectSize*3)
+                            return 6;
+                    }
+                    if (x < Vals.innerRectSize*2)
+                    {
+                        if (y < Vals.innerRectSize)
+                            return 1;
+                        if (y < Vals.innerRectSize*2)
+                            return 4;
+                        if (y < Vals.innerRectSize*3)
+                            return 7;
+                    }
+                    if (x < Vals.innerRectSize*3)
+                    {
+                        if (y < Vals.innerRectSize)
+                            return 2;
+                        if (y < Vals.innerRectSize*2)
+                            return 5;
+                        if (y < Vals.innerRectSize*3)
+                            return 8;
+                    }
+
+                    return -1;
+                }
+
 
                 function getTransformOrigin(index)
                 {
+                    if (index % 3 === 0)
+                        xPoint = 0;
+                    else if (index % 3 === 1)
+                        xPoint = Vals.outerGridSize*1.5;
+                    else
+                        xPoint = Vals.outerGridSize*3;
+
+                    if (index < 3)
+                        yPoint = 0;
+                    else if (index < 6)
+                        yPoint = Vals.outerGridSize*1.5;
+                    else
+                        yPoint = Vals.outerGridSize*3;
+
+
                     if (index === 0)
                         return Item.TopLeft;
                     if (index === 1)
@@ -97,26 +148,19 @@ Item
                 }
 
 
-                MouseArea
+                Flickable
                 {
+                    id: gridFlick;
                     anchors.fill: parent;
 
-                    onDoubleClicked:
-                    {
-                        if (bigGrid.state === "zoomedIn")
-                            bigGrid.state = "zoomedOut";
-                        else
-                            bigGrid.state = "zoomedIn";
-                    }
+                    flickableDirection: Flickable.AutoFlickDirection
 
                     Grid
                     {
                         id: bigGrid;
                         rows: Vals.rows;
                         columns: rows;
-                        width: Vals.outerGridSize;
-                        height: width;
-                        anchors.centerIn: parent;
+                        anchors.fill: parent;
                         state: "zoomedOut";
 
                         Repeater
@@ -159,46 +203,67 @@ Item
                                     {
                                         gameOverMessage.visible = true;
                                     }
+
+                                }
+
+                                onDoubleClicked:
+                                {
+                                    if (bigGrid.state === "zoomedIn")
+                                        bigGrid.state = "zoomedOut";
+                                    else
+                                    {
+                                        bigGrid.transformOrigin = gridPinch.getTransformOrigin(index);
+                                        bigGrid.state = "zoomedIn";
+                                    }
+
+                                    gridFlick.returnToBounds();
+                                    gridFlick.resizeContent(bigGrid.width, bigGrid.height, Qt.point(bigGrid.width/2, bigGrid.height/2))
                                 }
                             }
                         }
 
 
-                        states:
+                        states:  //States for the big grid
                         [
-                            State { name: "zoomedIn"; PropertyChanges { target: bigGrid; scale: gridPinch.pinch.maximumScale; } },
-                            State { name: "zoomedOut"; PropertyChanges { target: bigGrid; scale: gridPinch.pinch.minimumScale; } }
+                            State
+                            {
+                                name: "zoomedIn";
+                                PropertyChanges { target: bigGrid; scale: gridPinch.pinch.maximumScale; }
+                                PropertyChanges { target: gridFlick; contentWidth: Vals.outerGridSize*gridPinch.pinch.maximumScale; contentHeight: contentWidth; }
+                            },
+                            State
+                            {
+                                name: "zoomedOut";
+                                PropertyChanges { target: bigGrid; scale: gridPinch.pinch.minimumScale; }
+                                PropertyChanges { target: gridFlick; contentWidth: Vals.outerGridSize; contentHeight: contentWidth; }
+                            }
                         ]
-
 
                         transitions:
                         [
                             Transition
                             {
                                 from: "*"; to: "*";
-                                NumberAnimation { target: br; property: "scale"; duration: 200; }
+                                NumberAnimation { target: bigGrid; property: "scale"; duration: 200; }
                             }
 
                         ]
-
                     }
                 }
+            }
 
 
-                }
-
-
-
-            Rectangle  // this rectangle is so you can see how big the bigGrid is (if it is set to not transparent)
+            Rectangle
             {
-                id: testRect
-                width: bigGrid.width;
-                height: bigGrid.height;
-                x: bigGrid.x;
-                y: bigGrid.y;
-                color: "transparent";
+                id: fcr
+                width: gridFlick.contentItem.width;
+                height: gridFlick.contentItem.height;
+                x: gridFlick.contentItem.x;
+                y: gridFlick.contentItem.y;
+                color: "blue";
                 opacity: .3;
             }
+
 
         }
     }
@@ -269,39 +334,6 @@ Item
             resetGame();
             destroy();
         }
-    }
-
-    function getGridIndex(x, y) //returns the index of the grid that the pinch occurs in
-    {
-        if (x < Vals.innerRectSize)
-        {
-            if (y < Vals.innerRectSize)
-                return 0;
-            if (y < Vals.innerRectSize*2)
-                return 3;
-            if (y < Vals.innerRectSize*3)
-                return 6;
-        }
-        if (x < Vals.innerRectSize*2)
-        {
-            if (y < Vals.innerRectSize)
-                return 1;
-            if (y < Vals.innerRectSize*2)
-                return 4;
-            if (y < Vals.innerRectSize*3)
-                return 7;
-        }
-        if (x < Vals.innerRectSize*3)
-        {
-            if (y < Vals.innerRectSize)
-                return 2;
-            if (y < Vals.innerRectSize*2)
-                return 5;
-            if (y < Vals.innerRectSize*3)
-                return 8;
-        }
-
-        return -1;
     }
 
     /*recieves the index of the small tic tac square that was clicked,

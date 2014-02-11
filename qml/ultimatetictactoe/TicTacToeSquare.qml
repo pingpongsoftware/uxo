@@ -16,6 +16,7 @@ Rectangle
 
     signal squareClicked();
     signal invalidSquareClicked();
+    signal doubleClicked();
 
     property string winningPlayer: "";
 
@@ -107,40 +108,26 @@ Rectangle
         id: squareMouseArea;
         anchors.fill: parent;
 
-        onDoubleClicked:  //
+        onDoubleClicked:
         {
-            clickEnabled = false;
-            fillRect.opacity = .1;
+            main.doubleClicked();
         }
 
-        onReleased:
-        {
-            delayTimer.start();
-            fillRect.opacity = .3;
-        }
+//        onClicked:
+//        {
+//            if (clickEnabled)
+//            {
+//                console.log("Touch Point: " + parent.mouseX + ", " + parent.mouseY);
+//                console.log(main.getRealClickLoc());
+//                console.log("grid index: " + main.gridIndex);
 
-        Timer
-        {
-            id: delayTimer;
-            interval: 250;
-            onTriggered:
-            {
-                if (clickEnabled)
-                {
-                    console.log("Touch Point: " + parent.mouseX + ", " + parent.mouseY);
-                    console.log(main.getRealClickLoc());
-                    console.log("grid index: " + main.gridIndex);
+//                if (smallSquareCanClick)
+//                    squareClicked();
 
-                    if (smallSquareCanClick)
-                        squareClicked();
-
-                    else
-                        invalidSquareClicked();
-                }
-
-                fillRect.opacity = .1;
-            }
-        }
+//                else
+//                    invalidSquareClicked();
+//            }
+//        }
     }
 
     Image
