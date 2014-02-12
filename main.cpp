@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     viewer.engine()->rootContext()->setContextProperty("GameTracker", gTracker);
 
-    viewer.setMainQmlFile(QStringLiteral("qml/ultimatetictactoe/Main.qml"));
+    viewer.setMainQmlFile(QStringLiteral("qml/uXO/Main.qml"));
     viewer.showExpanded();
 
     return app.exec();
