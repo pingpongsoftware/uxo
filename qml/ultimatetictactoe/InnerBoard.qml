@@ -51,6 +51,7 @@ Rectangle
         height: main.height;
         sourceSize.width: main.width*2;
         sourceSize.height: main.width*2;
+        opacity: .6;
     }
 
     Grid

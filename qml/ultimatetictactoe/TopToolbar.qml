@@ -29,7 +29,7 @@ Item
         states:
         [
             State { name: "dark"; PropertyChanges { target: toolbarRect; color: "gray"; } },
-            State { name: "light"; PropertyChanges { target: toolbarRect; color: "#ee0000"; } }
+            State { name: "light"; PropertyChanges { target: toolbarRect; color: "#cc0000"; } }
         ]
 
         transitions:
@@ -37,7 +37,7 @@ Item
             Transition
             {
                 from: "*"; to: "*";
-                PropertyAnimation { target: main; properties: "color"; duration: Vals.transitionTime*50; }
+                PropertyAnimation { target: toolbarRect; properties: "color"; duration: Vals.transitionTime; }
             }
         ]
 
