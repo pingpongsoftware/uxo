@@ -20,8 +20,6 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
     m_buttonHeight = m_buttonWidth/4;
     m_smallButtonHeight = m_buttonHeight/1.5;
     m_smallButtonWidth = m_buttonWidth/2;
-    m_backButtonWidth = m_buttonWidth/3;
-    m_backButtonHeight = m_backButtonWidth;
 
     m_screenHeight = screenHeight;
     m_screenWidth = screenWidth;
@@ -34,10 +32,13 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
     m_largeFontSize = m_screenWidth/7;
     m_mediumFontSize = m_screenWidth/14;
     m_smallFontSize = m_screenWidth/21;
+    m_extraSmallFontSize = m_screenWidth/35;
 
     m_topMargin = m_screenHeight/16;
     m_menuSpacing = m_topMargin/1.65;
     m_menuTitleHeight = m_screenHeight/7;
+
+    m_topToolbarHeight = m_screenHeight/15;
 
     m_outerGridSize = m_screenWidth;// - (m_bigGridSpacing * m_rows); //- m_bigGridSpacing;
 

@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import "GameTracker.js" as GameTracker_js
 
-
 Item
 {
     id: main;
@@ -27,9 +26,9 @@ Item
     {
         id: zoomBounds; //the grid will only appear inside this rect;
         width: main.width;
-        height: main.height - Vals.backButtonHeight - bottomToolbar.height - bottomToolbar.anchors.bottomMargin;
+        height: main.height - Vals.topToolbarHeight - bottomToolbar.height - bottomToolbar.anchors.bottomMargin;
         color: "transparent";
-        y: Vals.backButtonHeight;
+        y: Vals.topToolbarHeight;
         //clip: true;
 
         Rectangle
@@ -206,19 +205,19 @@ Item
 
                                 }
 
-                                onDoubleClicked:
-                                {
-                                    if (bigGrid.state === "zoomedIn")
-                                        bigGrid.state = "zoomedOut";
-                                    else
-                                    {
-                                        bigGrid.transformOrigin = gridPinch.getTransformOrigin(index);
-                                        bigGrid.state = "zoomedIn";
-                                    }
+//                                onDoubleClicked:
+//                                {
+//                                    if (bigGrid.state === "zoomedIn")
+//                                        bigGrid.state = "zoomedOut";
+//                                    else
+//                                    {
+//                                        bigGrid.transformOrigin = gridPinch.getTransformOrigin(index);
+//                                        bigGrid.state = "zoomedIn";
+//                                    }
 
-                                    gridFlick.returnToBounds();
-                                    gridFlick.resizeContent(bigGrid.width, bigGrid.height, Qt.point(bigGrid.width/2, bigGrid.height/2))
-                                }
+//                                    gridFlick.returnToBounds();
+//                                    gridFlick.resizeContent(bigGrid.width, bigGrid.height, Qt.point(bigGrid.width/2, bigGrid.height/2))
+//                                }
                             }
                         }
 
@@ -260,7 +259,7 @@ Item
                 height: gridFlick.contentItem.height;
                 x: gridFlick.contentItem.x;
                 y: gridFlick.contentItem.y;
-                color: "blue";
+                color: "transparent";
                 opacity: .3;
             }
 

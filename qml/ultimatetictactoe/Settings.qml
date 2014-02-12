@@ -11,7 +11,9 @@ Rectangle
     signal switchThemeButtonClicked();
 
     //load fonts from a file
-    FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
+    FontLoader { id: trenchFont; source: "Fonts/Trench.ttf" }
+
+    property string fontName: trenchFont.name;
 
     Flickable
     {
@@ -21,7 +23,7 @@ Rectangle
 
 
         anchors.top: main.top;
-        anchors.topMargin: Vals.topMargin;
+        anchors.topMargin: Vals.topToolbarHeight+ Vals.topMargin;
         anchors.horizontalCenter: main.horizontalCenter;
 
         interactive: true;
@@ -54,7 +56,7 @@ Rectangle
                 font.pixelSize: Vals.largeFontSize;
                 font.letterSpacing: 2;
                 font.wordSpacing: 0;
-                font.family: prime_reg.name;
+                font.family: main.fontName;
                 color: {changeColorsToMatchTheme();}
                 opacity: .6;
 
@@ -72,7 +74,7 @@ Rectangle
                 //font.bold: true;
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: Vals.mediumFontSize;
-                font.family: prime_reg.name;
+                font.family: main.fontName;
                 color: {changeColorsToMatchTheme();}
                 opacity: .7;
 
@@ -211,13 +213,8 @@ Rectangle
                             PropertyAnimation
                             {
                                 properties: "x";
-                                duration: 150;  // if this is changed, be sure the duration of the animation in Main.qml is also changed.
+                                duration: Vals.transitionTime;
                             }
-//                            PropertyAnimation
-//                            {
-//                                properties: "height";
-//                                duration: 150;
-//                            }
                         }
 
                     ]
@@ -232,7 +229,6 @@ Rectangle
 
 
     }
-
 
     function switchTheme(theme)
     {

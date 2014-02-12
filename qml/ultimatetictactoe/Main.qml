@@ -12,23 +12,6 @@ Rectangle
     property string previous: "Menu.qml";
     property bool backButtonEnabled: false;
 
-    Keys.onReleased: {
-        console.log("KEY_PRESSED: " + event.key)
-        if (event.key === Qt.Key_Back    ) {
-            event.accepted = true;
-            console.log("Back Button Pressed!!!");
-            backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
-        }
-    }
-
-    function backButtonPressed()
-    {
-        GameTracker_js.resetGame();
-        GameTracker_js.currentFile = GameTracker_js.previousFile;
-        loader.source = GameTracker_js.previousFile;
-        Vals.zoomOut();
-    }
-
     Image
     {
         id: lightBackground;
@@ -41,44 +24,19 @@ Rectangle
         id: darkBackground;
         anchors.fill: parent;
         source: "Images/dark/background.png";
-
         state: Vals.theme;
         states: //changes the opacity of the dark background depending on which theme is selected;
         [
-            State
-            {
-                name: "dark";
-                PropertyChanges
-                {
-                    target: darkBackground;
-                    opacity: 1;
-                }
-            },
-
-            State
-            {
-                name: "light";
-                PropertyChanges
-                {
-                    target: darkBackground;
-                    opacity: 0;
-                }
-            }
+            State { name: "dark"; PropertyChanges { target: darkBackground; opacity: 1; } },
+            State { name: "light"; PropertyChanges { target: darkBackground; opacity: 0; } }
         ]
 
         transitions:
         [
             Transition
             {
-                from: "*"
-                to: "*"
-
-                PropertyAnimation
-                {
-                    target: darkBackground;
-                    property: "opacity";
-                    duration: 150;
-                }
+                from: "*"; to: "*"
+                PropertyAnimation { target: darkBackground; property: "opacity"; duration: Vals.transitionTime; }
             }
         ]
     }
@@ -129,64 +87,39 @@ Rectangle
         onSwitchThemeButtonClicked:
         {
             darkBackground.state = Vals.theme;  //switches the background image
-            backImage.source = "Images/" + Vals.theme + "/backArrow.png";  //updates the back button for the new theme
+            topToolbar.state = Vals.theme;
         }
     }
 
-    Rectangle  //for the back button
+    TopToolbar
     {
-        id: backRect;
-        color: "transparent"
-        width: Vals.backButtonWidth;
-        height: Vals.backButtonHeight;
-        anchors.top: parent.top;
-        anchors.left: parent.left
-        anchors.margins: 10
+        id: topToolbar;
+        anchors.top: main.top;
+        anchors.horizontalCenter: main.horizontalCenter;
+        state: Vals.theme;
 
-        Image
+        onBackButtonPressed:
         {
-            id: backImage;
-            source: "Images/" + Vals.theme + "/backArrow.png";
-            sourceSize.height: parent.width;
-            sourceSize.width: parent.width;
-            anchors.centerIn: parent;
-            visible:
-            {
-                if (main.backButtonEnabled)
-                    true;
-                else
-                    false;
-            }
-
-            function changeOpacityToOne()
-            {
-                backImage.opacity = 1;
-            }
+            main.backButtonPressed();
         }
-
-        MouseArea
-        {
-            anchors.fill: parent;
-
-            onPressed: backImage.opacity = .5;
-            onExited: backImage.changeOpacityToOne();
-            onCanceled: backImage.changeOpacityToOne();
-
-            onClicked:
-            {
-                backImage.changeOpacityToOne();
-
-                if (main.backButtonEnabled)
-                {
-                    backButtonPressed();
-                    GameTracker_js.resetGame();
-                }
-
-                if (GameTracker_js.previousFile === "Menu.qml")
-                    main.backButtonEnabled = false;
-            }
-        }
-
     }
 
+    Keys.onReleased: {
+        console.log("KEY_PRESSED: " + event.key)
+        if (event.key === Qt.Key_Back    ) {
+            event.accepted = true;
+            console.log("Back Button Pressed!!!");
+            backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
+        }
+    }
+
+    function backButtonPressed()
+    {
+        GameTracker_js.resetGame();
+        GameTracker_js.currentFile = GameTracker_js.previousFile;
+        loader.source = GameTracker_js.previousFile;
+        if (GameTracker_js.previousFile === "Main.qml");
+            backButtonEnabled = false;
+        Vals.zoomOut();
+    }
 }

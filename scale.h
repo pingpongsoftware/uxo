@@ -20,14 +20,13 @@ private:
        int m_buttonWidth;
        int m_smallButtonHeight;
        int m_smallButtonWidth;
-       int m_backButtonWidth;
-       int m_backButtonHeight;
        int m_screenWidth;
        int m_screenHeight;
        int m_rows;
        int m_largeFontSize;
        int m_mediumFontSize;
        int m_smallFontSize;
+       int m_extraSmallFontSize;
        int m_bigGridSpacing;
        int m_outerGridSize;
        int m_originalOuterGridSize; //--- m_outerGridSize will change depending on whether or not the game is zoomed in, so this will store the original
@@ -39,6 +38,7 @@ private:
        int m_menuSpacing;
        int m_menuTitleHeight;
        int m_transitionTime;
+       int m_topToolbarHeight;
        bool m_isZoomedIn;
        QString m_gameTheme;
 
@@ -48,14 +48,13 @@ public:
        int buttonHeight() {return m_buttonHeight;}
        int smallButtonWidth() {return m_smallButtonWidth;}
        int smallButtonHeight() {return m_smallButtonHeight;}
-       int backButtonWidth() {return m_backButtonWidth;}
-       int backButtonHeight() {return m_backButtonHeight;}
        int screenWidth() {return m_screenWidth;}
        int screenHeight() {return m_screenHeight;}
        int rows() {return m_rows;}
        int largeFontSize() {return m_largeFontSize;}
        int mediumFontSize() {return m_mediumFontSize;}
        int smallFontSize() {return m_smallFontSize;}
+       int extraSmallFontSize() {return m_extraSmallFontSize;}
        int bigGridSpacing() {return m_bigGridSpacing;}
        int outerGridSize() {return m_outerGridSize;}
        int originalOuterGridSize() {return m_originalOuterGridSize;}
@@ -68,6 +67,7 @@ public:
        int menuTitleHeight() {return m_menuTitleHeight;}
        bool isGameZoomedIn() {return m_isZoomedIn;}
        int transitionTime() {return m_transitionTime;}
+       int topToolbarHeight() {return m_topToolbarHeight;}
        QString gameTheme() {return m_gameTheme;}
 
 
@@ -76,14 +76,13 @@ public:
        Q_PROPERTY(int buttonHeight READ buttonHeight() NOTIFY buttonHeightChanged)
        Q_PROPERTY(int smallButtonWidth READ smallButtonWidth() NOTIFY smallButtonWidthChanged)
        Q_PROPERTY(int smallButtonHeight READ smallButtonHeight() NOTIFY smallButtonHeightChanged)
-       Q_PROPERTY(int backButtonWidth READ backButtonWidth() NOTIFY backButtonWidthChanged)
-       Q_PROPERTY(int backButtonHeight READ backButtonHeight() NOTIFY backButtonHeightChanged)
        Q_PROPERTY(int screenHeight READ screenHeight() NOTIFY screenHeightChanged)
        Q_PROPERTY(int screenWidth READ screenWidth() NOTIFY screenWidthChanged)
        Q_PROPERTY(int rows READ rows() NOTIFY rowsChanged)
        Q_PROPERTY(int largeFontSize READ largeFontSize() NOTIFY largeFontSizeChanged)
        Q_PROPERTY(int mediumFontSize READ mediumFontSize() NOTIFY mediumFontSizeChanged)
        Q_PROPERTY(int smallFontSize READ smallFontSize() NOTIFY smallFontSizeChanged)
+       Q_PROPERTY(int extraSmallFontSize READ extraSmallFontSize() NOTIFY extraSmallFontSizeChanged)
        Q_PROPERTY(int bigGridSpacing READ bigGridSpacing() NOTIFY bigGridSpacingChanged)
        Q_PROPERTY(int outerGridSize READ outerGridSize() NOTIFY outerGridSizeChanged)
        Q_PROPERTY(int originalOuterGridSize READ originalOuterGridSize() NOTIFY originalOuterGridSizeChanged)
@@ -96,6 +95,7 @@ public:
        Q_PROPERTY(int menuTitleHeight READ menuTitleHeight() NOTIFY menuTitleHeightChanged)
        Q_PROPERTY(int isGameZoomedIn READ isGameZoomedIn() NOTIFY isGameZoomedInChanged)
        Q_PROPERTY(int transitionTime READ transitionTime() NOTIFY transitionTimeChanged)
+       Q_PROPERTY(int topToolbarHeight READ topToolbarHeight() NOTIFY topToolbarHeightChanged)
        Q_PROPERTY(QString theme READ gameTheme() NOTIFY themeChanged)
 
        Q_INVOKABLE void setTheme(QString s);
@@ -109,14 +109,13 @@ signals:
        void buttonHeightChanged();
        void smallButtonWidthChanged();
        void smallButtonHeightChanged();
-       void backButtonWidthChanged();
-       void backButtonHeightChanged();
        void screenHeightChanged();
        void screenWidthChanged();
        void rowsChanged();
        void largeFontSizeChanged();
        void mediumFontSizeChanged();
        void smallFontSizeChanged();
+       void extraSmallFontSizeChanged();
        void bigGridSpacingChanged();
        void outerGridSizeChanged();
        void originalOuterGridSizeChanged();
@@ -130,6 +129,7 @@ signals:
        void menuTitleHeightChanged();
        void isGameZoomedInChanged();
        void transitionTimeChanged();
+       void topToolbarHeightChanged();
 //----------------------------------------------------------------------------------------------------
 
 

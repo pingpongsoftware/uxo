@@ -18,34 +18,24 @@ Rectangle
     property color reallyDarkGray: "#444444";
 
     //load fonts from a file
-    FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
+    FontLoader { id: trenchFont; source: "Fonts/Trench.ttf" }
 
-    Text
+    Image
     {
-        id: title;
+        id: titleImage;
 
-        text: "  Ultimate\nTic Tac Toe";
-        font.capitalization: Font.SmallCaps;
-        font.bold: true;
-        //elide: Text.ElideMiddle;
-        font.pixelSize: Vals.largeFontSize;
-        //font.letterSpacing: 2;
-        //font.wordSpacing: 0;
-        font.family: prime_reg.name;
-        color:
-        {
-            if (Vals.theme === "dark")
-                "white";
+        width: parent.width;
+        height: width/2;
 
-            else if (Vals.theme === "light")
-                "firebrick"
-        }
+        sourceSize.width: width;
+        sourceSize.height: height;
 
-        opacity: .6;
+        smooth: true;
 
-        anchors.horizontalCenter: main.horizontalCenter;
         anchors.top: main.top;
-        anchors.margins: Vals.topMargin;
+        anchors.topMargin: height/10;
+        anchors.horizontalCenter: parent.horizontalCenter;
+        source: "Images/" + Vals.theme + "/title.png";
     }
 
     // Sets the layout for the menu buttons

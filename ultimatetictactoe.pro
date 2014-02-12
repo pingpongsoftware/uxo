@@ -108,7 +108,18 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
-    android/AndroidManifest.xml
+    android/AndroidManifest.xml \
+    qml/TopToolbar.qml \
+    qml/GameTracker.js \
+    qml/Game.qml \
+    qml/InnerBoard.qml \
+    qml/Main.qml \
+    qml/Menu.qml \
+    qml/Message.qml \
+    qml/MyButton.qml \
+    qml/Settings.qml \
+    qml/TicTacToeSquare.qml \
+    qml/Tutorial.qml
 
 HEADERS += \
     scale.h \

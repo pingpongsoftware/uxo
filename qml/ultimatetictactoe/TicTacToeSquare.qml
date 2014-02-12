@@ -113,21 +113,21 @@ Rectangle
             main.doubleClicked();
         }
 
-//        onClicked:
-//        {
-//            if (clickEnabled)
-//            {
-//                console.log("Touch Point: " + parent.mouseX + ", " + parent.mouseY);
-//                console.log(main.getRealClickLoc());
-//                console.log("grid index: " + main.gridIndex);
+        onClicked:
+        {
+            if (clickEnabled)
+            {
+                console.log("Touch Point: " + parent.mouseX + ", " + parent.mouseY);
+                console.log(main.getRealClickLoc());
+                console.log("grid index: " + main.gridIndex);
 
-//                if (smallSquareCanClick)
-//                    squareClicked();
+                if (smallSquareCanClick)
+                    squareClicked();
 
-//                else
-//                    invalidSquareClicked();
-//            }
-//        }
+                else
+                    invalidSquareClicked();
+            }
+        }
     }
 
     Image

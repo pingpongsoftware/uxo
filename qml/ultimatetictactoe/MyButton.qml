@@ -11,16 +11,12 @@ Rectangle
 
     property string buttonText;
     property int fontSize: Vals.smallFontSize;
-    property string fontLocation: prime_reg.name;
     property color textColor;
 
     property bool showColorWhenClicked: false;
 
-
-    FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
-    FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
-    FontLoader { id: nexa_bold; source: "Fonts/Nexa Bold.ttf" }
-    FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
+    //load fonts from a file
+    FontLoader { id: trenchFont; source: "Fonts/Trench.ttf" }
 
     signal click();
 
@@ -29,7 +25,8 @@ Rectangle
         id: buttonTextBox
         //anchors.centerIn: parent;
         font.pixelSize: main.fontSize;
-        font.family: fontLocation;
+        font.family: trenchFont.name;
+        font.capitalization: Font.SmallCaps;
         text: main.buttonText;
         color: textColor;
         anchors.horizontalCenter: parent.horizontalCenter;
@@ -69,7 +66,6 @@ Rectangle
 
         onClicked:
         {
-            textOpacityToOne();
             click();
         }
 
