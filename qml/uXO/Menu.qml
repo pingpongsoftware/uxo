@@ -17,6 +17,9 @@ Rectangle
 
     property color reallyDarkGray: "#444444";
 
+    property int dragMinY;
+    property int dragMaxY;
+
     Image
     {
         id: titleImage;
@@ -40,38 +43,20 @@ Rectangle
     {
         id: listFlick;
         width: main.width/2;
-        height: (main.height - Vals.topToolbarHeight - titleImage.height)/1.85;
+        height: littleButton.y - y;
         anchors.horizontalCenter: main.horizontalCenter;
         anchors.top: titleImage.bottom;
-        anchors.topMargin: 0-(main.height/30);
+        anchors.topMargin: 0;
         clip: true;
 
         contentWidth: width;
         contentHeight: contentItem.childrenRect.height;
 
-        Rectangle  //debugging
+        Component.onCompleted:
         {
-            anchors.fill: parent;
-            color: "transparent"
+            main.dragMinY = y*1.42;
+            main.dragMaxY = y + contentHeight*1.1;
         }
-    }
-
-    Repeater
-    {
-        model: 3
-
-        Rectangle
-        {
-            anchors.horizontalCenter: listFlick.horizontalCenter;
-            anchors.top: listFlick.bottom;
-            anchors.topMargin: height*3*index + width
-
-            width: main.width/50;
-            height: width/10;
-
-            color: "steelblue";
-        }
-
     }
 
 //    Item
@@ -97,7 +82,6 @@ Rectangle
         spacing: Vals.menuSpacing;
         anchors.horizontalCenter: parent.horizontalCenter;
         anchors.top: parent.top;
-        anchors.topMargin: Vals.topMargin/2;
 
         MyButton //new game button
         {
@@ -138,5 +122,48 @@ Rectangle
             textColor: "steelblue";
             onClick: (settingsButtonClicked());
         }
+    }
+
+
+    Rectangle
+    {
+        id: littleButton;
+        color: "transparent";
+        width: main.height/5;
+        height: width;
+
+        y: (main.dragMinY + main.dragMaxY)/2;
+        anchors.horizontalCenter: main.horizontalCenter;
+
+        MouseArea
+        {
+            id: littleButtonMouse
+            anchors.fill: parent;
+
+            drag.target: parent;
+            drag.axis: Drag.YAxis;
+            drag.minimumY: main.dragMinY;
+            drag.maximumY: main.dragMaxY;
+
+            onPressed: console.log(parent.y)
+        }
+    }
+
+    Repeater
+    {
+        model: 3
+
+        Rectangle
+        {
+            anchors.horizontalCenter: littleButton.horizontalCenter;
+            anchors.top: littleButton.top;
+            anchors.topMargin: height*3*index + height*6;  // spreads them apart and centers them
+
+            width: Math.round(littleButton.width/8);
+            height: Math.round(width/10);
+
+            color: "gray";
+        }
+
     }
 }
