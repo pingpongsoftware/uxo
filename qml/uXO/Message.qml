@@ -12,6 +12,9 @@ Rectangle
     signal buttonOneClicked();
     signal buttonTwoClicked();
 
+    //load fonts from a file
+    FontLoader { id: trenchFont; source: "Fonts/trench.ttf" }
+
     Rectangle
     {
         anchors.centerIn: parent;
@@ -38,7 +41,7 @@ Rectangle
             width: parent.width/2 - anchors.margins*2;
             height: 40;
             radius: parent.radius;
-            color: releasedColor;
+            ////color: releasedColor;
 
             anchors.left: parent.left;
             anchors.bottom: parent.bottom;
@@ -58,7 +61,7 @@ Rectangle
             width: parent.width/2 - anchors.margins*2;
             height: 40;
             radius: parent.radius;
-            color: releasedColor;
+            //color: releasedColor;
 
             anchors.right: parent.right;
             anchors.bottom: parent.bottom;

@@ -9,18 +9,11 @@ Item
 
     property int numInvalidPresses: 0;
 
-    //load fonts from a file
-    FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
-    FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
-    FontLoader { id: nexa_bold; source: "Fonts/Nexa Bold.ttf" }
-    FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
-
     signal exitButtonClicked();
     signal resetButtonClicked();
     signal helpButtonClicked();
 
     property int gridFlickContentSize: Vals.outerGridSize;
-
 
     Rectangle
     {

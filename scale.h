@@ -24,7 +24,9 @@ private:
        int m_screenHeight;
        int m_rows;
        int m_largeFontSize;
+       int m_mediumLargeFontSize;
        int m_mediumFontSize;
+       int m_mediumSmallFontSize;
        int m_smallFontSize;
        int m_extraSmallFontSize;
        int m_bigGridSpacing;
@@ -52,7 +54,9 @@ public:
        int screenHeight() {return m_screenHeight;}
        int rows() {return m_rows;}
        int largeFontSize() {return m_largeFontSize;}
+       int mediumLargeFontSize() {return m_mediumLargeFontSize;}
        int mediumFontSize() {return m_mediumFontSize;}
+       int mediumSmallFontSize() {return m_mediumSmallFontSize;}
        int smallFontSize() {return m_smallFontSize;}
        int extraSmallFontSize() {return m_extraSmallFontSize;}
        int bigGridSpacing() {return m_bigGridSpacing;}
@@ -74,15 +78,22 @@ public:
 //------------------------------------------------------------------------------------------
        Q_PROPERTY(int buttonWidth READ buttonWidth() NOTIFY buttonWidthChanged)
        Q_PROPERTY(int buttonHeight READ buttonHeight() NOTIFY buttonHeightChanged)
+
        Q_PROPERTY(int smallButtonWidth READ smallButtonWidth() NOTIFY smallButtonWidthChanged)
        Q_PROPERTY(int smallButtonHeight READ smallButtonHeight() NOTIFY smallButtonHeightChanged)
+
        Q_PROPERTY(int screenHeight READ screenHeight() NOTIFY screenHeightChanged)
        Q_PROPERTY(int screenWidth READ screenWidth() NOTIFY screenWidthChanged)
+
        Q_PROPERTY(int rows READ rows() NOTIFY rowsChanged)
+
        Q_PROPERTY(int largeFontSize READ largeFontSize() NOTIFY largeFontSizeChanged)
+       Q_PROPERTY(int mediumLargeFontSize READ mediumLargeFontSize() NOTIFY mediumLargeFontSizeChanged)
        Q_PROPERTY(int mediumFontSize READ mediumFontSize() NOTIFY mediumFontSizeChanged)
+       Q_PROPERTY(int mediumSmallFontSize READ mediumSmallFontSize() NOTIFY mediumSmallFontSizeChanged)
        Q_PROPERTY(int smallFontSize READ smallFontSize() NOTIFY smallFontSizeChanged)
        Q_PROPERTY(int extraSmallFontSize READ extraSmallFontSize() NOTIFY extraSmallFontSizeChanged)
+
        Q_PROPERTY(int bigGridSpacing READ bigGridSpacing() NOTIFY bigGridSpacingChanged)
        Q_PROPERTY(int outerGridSize READ outerGridSize() NOTIFY outerGridSizeChanged)
        Q_PROPERTY(int originalOuterGridSize READ originalOuterGridSize() NOTIFY originalOuterGridSizeChanged)
@@ -90,12 +101,16 @@ public:
        Q_PROPERTY(int innerRectSize READ innerRectSize() NOTIFY innerRectSizeChanged)
        Q_PROPERTY(int innerGridSize READ innerGridSize() NOTIFY innerGridSizeChanged)
        Q_PROPERTY(int squareSize READ squareSize() NOTIFY squareSizeChanged)
+
        Q_PROPERTY(int topMargin READ topMargin() NOTIFY topMarginChanged)
        Q_PROPERTY(int menuSpacing READ menuSpacing() NOTIFY menuSpacingChanged)
        Q_PROPERTY(int menuTitleHeight READ menuTitleHeight() NOTIFY menuTitleHeightChanged)
+
        Q_PROPERTY(int isGameZoomedIn READ isGameZoomedIn() NOTIFY isGameZoomedInChanged)
        Q_PROPERTY(int transitionTime READ transitionTime() NOTIFY transitionTimeChanged)
+
        Q_PROPERTY(int topToolbarHeight READ topToolbarHeight() NOTIFY topToolbarHeightChanged)
+
        Q_PROPERTY(QString theme READ gameTheme() NOTIFY themeChanged)
 
        Q_INVOKABLE void setTheme(QString s);
@@ -113,7 +128,9 @@ signals:
        void screenWidthChanged();
        void rowsChanged();
        void largeFontSizeChanged();
+       void mediumLargeFontSizeChanged();
        void mediumFontSizeChanged();
+       void mediumSmallFontSizeChanged();
        void smallFontSizeChanged();
        void extraSmallFontSizeChanged();
        void bigGridSpacingChanged();

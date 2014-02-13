@@ -17,19 +17,30 @@ Item
         State { name: "light" }
     ]
 
-    onStateChanged: toolbarRect.state = state;
+    onStateChanged: toolbarImageDark.state = state;
 
-    Rectangle
+    Image
     {
-        id: toolbarRect;
+        id: toolbarImageLight;
+        anchors.fill: parent;
+        sourceSize.width: width;
+        sourceSize.height: height;
+        source: "Images/light/topToolbar.png"
+    }
+
+    Image
+    {
+        id: toolbarImageDark;
         state: Vals.theme;
         anchors.fill: parent;
-        opacity: 1;
+        sourceSize.width: parent.width;
+        sourceSize.height: parent.height;
+        source: "Images/dark/topToolbar.png"
 
         states:
         [
-            State { name: "dark"; PropertyChanges { target: toolbarRect; color: "gray"; } },
-            State { name: "light"; PropertyChanges { target: toolbarRect; color: "#cc0000"; } }
+            State { name: "dark"; PropertyChanges { target: toolbarImageDark; opacity: 1; } },
+            State { name: "light"; PropertyChanges { target: toolbarImageDark; opacity: 0; } }
         ]
 
         transitions:
@@ -37,25 +48,25 @@ Item
             Transition
             {
                 from: "*"; to: "*";
-                PropertyAnimation { target: toolbarRect; properties: "color"; duration: Vals.transitionTime; }
+                PropertyAnimation { target: toolbarImage; properties: "opacity"; duration: Vals.transitionTime; }
             }
         ]
 
-        Rectangle
-        {
-            id: toolbarLine;
-            anchors.top: parent.bottom;
-            width: parent.width;
-            height: parent.height/40;
-            color:
-            {
-                if (parent.state === "light")
-                    "black";
-                else
-                    "lightgray";
-            }
-        }
+    }
 
+    Rectangle
+    {
+        id: toolbarLine;
+        anchors.top: toolbarImageDark.bottom;
+        width: parent.width;
+        height: parent.height/40;
+        color:
+        {
+            if (parent.state === "light")
+                "black";
+            else
+                "lightgray";
+        }
     }
 
     Rectangle  //for the back button
@@ -110,7 +121,7 @@ Item
         anchors.left: backRect.right;
         anchors.leftMargin: backRect.width/2;
         anchors.verticalCenter: main.verticalCenter;
-        font.pixelSize: Vals.extraSmallFontSize;
+        font.pixelSize: Vals.mediumSmallFontSize;
         color: "white";
 
         text: "uXO:  Ultimate Tic-Tac-Toe";

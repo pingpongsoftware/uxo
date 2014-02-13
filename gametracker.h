@@ -11,11 +11,11 @@ public:
     explicit GameTracker(QObject *parent = 0);
 
 private:
-    bool m_xTurn = true;
-    bool m_gameWon= false;
-    char m_winningPlayer = ' ';
-    int m_bigIndex = 0;
-    int m_littleIndex = 0;
+    bool m_xTurn;
+    bool m_gameWon;
+    char m_winningPlayer;
+    int m_bigIndex;
+    int m_littleIndex;
 
     // -1 means O won that square, 0 means nobody has won that square, 1 means X won that square-----------
     QList<QList<int>* > m_squaresWon;

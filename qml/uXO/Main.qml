@@ -12,6 +12,11 @@ Rectangle
     property string previous: "Menu.qml";
     property bool backButtonEnabled: false;
 
+    onFocusChanged:
+    {
+        console.log("focus changed");
+    }
+
     Image
     {
         id: lightBackground;
@@ -106,7 +111,8 @@ Rectangle
 
     Keys.onReleased: {
         console.log("KEY_PRESSED: " + event.key)
-        if (event.key === Qt.Key_Back    ) {
+        if (event.key === Qt.Key_Back)
+        {
             event.accepted = true;
             console.log("Back Button Pressed!!!");
             backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
@@ -115,11 +121,14 @@ Rectangle
 
     function backButtonPressed()
     {
-        GameTracker_js.resetGame();
-        GameTracker_js.currentFile = GameTracker_js.previousFile;
-        loader.source = GameTracker_js.previousFile;
-        if (GameTracker_js.previousFile === "Main.qml");
-            backButtonEnabled = false;
-        Vals.zoomOut();
+        if (GameTracker_js.currentFile !== "Menu.qml")
+        {
+            GameTracker_js.resetGame();
+            GameTracker_js.currentFile = GameTracker_js.previousFile;
+            loader.source = GameTracker_js.previousFile;
+            if (GameTracker_js.previousFile === "Menu.qml");
+                backButtonEnabled = false;
+            Vals.zoomOut();
+        }
     }
 }

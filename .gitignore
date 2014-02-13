@@ -2,5 +2,6 @@ INSTALL.txt
 LICENSE.txt
 README.txt
 *.user
+*.DS_Store
 android/bin/*
 android/gen/*

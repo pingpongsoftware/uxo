@@ -4,6 +4,12 @@
 GameTracker::GameTracker(QObject *parent) :
     QObject(parent)
 {
+    m_xTurn = true;
+    m_gameWon= false;
+    m_winningPlayer = ' ';
+    m_bigIndex = 0;
+    m_littleIndex = 0;
+
     this->init();
 }
 

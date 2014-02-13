@@ -10,13 +10,6 @@ Rectangle
     signal resizeGame();
     color: "transparent"
 
-
-    //load fonts from a file
-    FontLoader { id: prime_reg; source: "Fonts/Prime Regular.ttf" }
-    FontLoader { id: prime_lite; source: "Fonts/Prime Light.ttf" }
-    FontLoader { id: nexa_bold; source: "Fonts/Nexa Bold.ttf" }
-    FontLoader { id: nexa_lite; source: "Fonts/Nexa Light.ttf" }
-
     Rectangle // automatically formats the toolbar in a flow layout
     {
         id: rect;

@@ -30,15 +30,18 @@ void Scale::setScreenSize(int screenWidth, int screenHeight)
     m_rows = 3;
 
     m_largeFontSize = m_screenWidth/7;
-    m_mediumFontSize = m_screenWidth/14;
-    m_smallFontSize = m_screenWidth/21;
-    m_extraSmallFontSize = m_screenWidth/35;
 
-    m_topMargin = m_screenHeight/16;
-    m_menuSpacing = m_topMargin/1.65;
-    m_menuTitleHeight = m_screenHeight/7;
+    m_mediumLargeFontSize = m_largeFontSize/2;
+    m_mediumFontSize = m_largeFontSize/3;
+    m_mediumSmallFontSize = m_largeFontSize/4;
+    m_smallFontSize = m_largeFontSize/5;
+    m_extraSmallFontSize = m_largeFontSize/6;
 
     m_topToolbarHeight = m_screenHeight/15;
+
+    m_topMargin = m_topToolbarHeight * 1.5;
+    m_menuSpacing = m_topMargin/1.65;
+    m_menuTitleHeight = m_screenHeight/7;
 
     m_outerGridSize = m_screenWidth;// - (m_bigGridSpacing * m_rows); //- m_bigGridSpacing;
 
