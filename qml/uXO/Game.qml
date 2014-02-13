@@ -41,25 +41,28 @@ Item
                 pinch.dragAxis: Pinch.NoDrag;
                 anchors.fill: parent;
 
+                property int xPoint;
+                property int yPoint;
+
                 property double oldScale: 1.0;
 
                 property int frameCounter: 0;
 
-                property int xPoint;
-                property int yPoint;
+                onPinchStarted:
+                {
+                    var gridIndex = bigGrid.getIndexAtPoint(pinch.center.x, pinch.center.y)
+                    xPoint = bigGrid.getCenterX(gridIndex);
+                    yPoint = bigGrid.getCenterY(gridIndex);
+                }
 
                 onPinchUpdated:
                 {
                     if (frameCounter < 3 && frameCounter > 0)
                     {
-                        //console.log("Scale: " + pinch.scale)
                         if (pinch.scale > oldScale)  //tests if they are zooming in
-                            gridFlick.zoomIn(pinch.center.x, pinch.center.y)
-                        else if (pinch.scale < oldScale)
+                            gridFlick.zoomIn(xPoint, yPoint);
+                        else if (pinch.scale < oldScale) //if they are zooming out
                             gridFlick.zoomOut(pinch.center.x, pinch.center.y)
-
-                        console.log("pinched: " + (pinch.scale > oldScale));
-                        //console.log("oldScale: " + oldScale)
                     }
 
                     oldScale = pinch.scale;
@@ -101,10 +104,8 @@ Item
 
                     function zoomIn(x, y)
                     {
-                        console.log("In: " + scale)
                         if (scale === minScale)
                         {
-                            console.log("Got In---");
                             gridFlick.setNewPos(x, y)
                             scale = maxScale;
                         }
@@ -112,7 +113,6 @@ Item
 
                     function zoomOut(x, y)
                     {
-                        console.log("Out: " + scale)
                         if (scale === maxScale)
                         {
                             gridFlick.setNewPos(0, 0);
@@ -134,6 +134,32 @@ Item
                         contentY = (centerY/height) * contentHeight;
                     }
 
+
+                    function inBounds(val, min, max)
+                    {
+                        if (val < min)
+                            return min;
+                        else if (val > max)
+                            return max;
+
+                        return val;
+                    }
+
+                    function validContentX(val)
+                    {
+                        return inBounds(val, 0, contentWidth - width);
+                    }
+
+                    function validContentY(val)
+                    {
+                        return inBounds(val, 0, contentHeight - height);
+                    }
+
+                    function setCenter(centerX, centerY)
+                    {
+                        contentX = validContentX(centerX - Math.round(width * 0.5));
+                        contentY = validContentY(centerY - Math.round(height * 0.5));
+                    }
                 }
 
                 Grid
@@ -188,9 +214,66 @@ Item
                                 {
                                     gameOverMessage.visible = true;
                                 }
+                            }
 
+                            onPressedAndHeld:
+                            {
+                                gridFlick.zoomInOrOut(bigGrid.getCenterX(index), bigGrid.getCenterY(index));
                             }
                         }
+                    }
+
+                    function getIndexAtPoint(x, y) //returns the index of the grid that the pinch occurs in
+                    {
+                        if (x < Vals.innerRectSize)
+                        {
+                            if (y < Vals.innerRectSize)
+                                return 0;
+                            if (y < Vals.innerRectSize*2)
+                                return 3;
+                            if (y < Vals.innerRectSize*3)
+                                return 6;
+                        }
+                        if (x < Vals.innerRectSize*2)
+                        {
+                            if (y < Vals.innerRectSize)
+                                return 1;
+                            if (y < Vals.innerRectSize*2)
+                                return 4;
+                            if (y < Vals.innerRectSize*3)
+                                return 7;
+                        }
+                        if (x < Vals.innerRectSize*3)
+                        {
+                            if (y < Vals.innerRectSize)
+                                return 2;
+                            if (y < Vals.innerRectSize*2)
+                                return 5;
+                            if (y < Vals.innerRectSize*3)
+                                return 8;
+                        }
+
+                        return -1;
+                    }
+
+                    function getCenterX(index)  // returns the center of the grid clicked
+                    {
+                        if (index % 3 === 0)
+                            return 0;
+                        if (index % 3 === 1)
+                            return Vals.innerRectSize*1.5;
+
+                        return Vals.innerRectSize*3;
+                    }
+
+                    function getCenterY(index)  // returns the center of the grid clicked
+                    {
+                        if (index < 3)
+                            return 0;
+                        if (index < 6)
+                            return Vals.innerRectSize*1.5;
+
+                        return Vals.innerRectSize*3;
                     }
                 }
             }
@@ -200,19 +283,6 @@ Item
             Rectangle { id: pinchRect; color: "transparent";} //this is here so the pinch area can have something as a target.
         }
     }
-
-
-//    MouseArea
-//    {
-//        parent: gridFlick;
-//        anchors.fill: parent;
-
-//        onClicked:
-//        {
-//            gridFlick.zoom(mouse.x, mouse.y);
-//            console.log("click")
-//        }
-//    }
 
     BottomToolbar
     {

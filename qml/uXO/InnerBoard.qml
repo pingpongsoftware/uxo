@@ -17,7 +17,7 @@ Rectangle
 
     // passes the index of the small tic tac toe square into the main file when a small tile is clicked
     signal boardClicked(int smallIndex, bool isValid);
-    signal doubleClicked();
+    signal pressedAndHeld(var x, var y);
 
     property int gridIndex; //the index, 0-8, of the grid
 
@@ -91,9 +91,9 @@ Rectangle
                     boardClicked(smallSquareIndex, true);
                 }
 
-                onDoubleClicked:
+                onPressedAndHeld:
                 {
-                    main.doubleClicked();
+                    main.pressedAndHeld(x, y);  //x and y passed in TicTacToeSquare.qml
                 }
             }
         }

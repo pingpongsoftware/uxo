@@ -6,7 +6,7 @@ Rectangle
     id: main;
 
     width: Vals.screenWidth;
-    height: { Vals.screenHeight; console.log(Vals.screenHeight); }
+    height: Vals.screenHeight;
     focus:true;
 
     property string previous: "Menu.qml";

@@ -18,7 +18,7 @@ Rectangle
 
     signal squareClicked();
     signal invalidSquareClicked();
-    signal doubleClicked();
+    signal pressedAndHeld(var x,  var y);
 
     property string winningPlayer: "";
 
@@ -110,9 +110,9 @@ Rectangle
         id: squareMouseArea;
         anchors.fill: parent;
 
-        onDoubleClicked:
+        onPressAndHold:
         {
-            main.doubleClicked();
+            main.pressedAndHeld(mouse.x, mouse.y);
         }
 
         onClicked:
