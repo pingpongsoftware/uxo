@@ -74,6 +74,21 @@ Rectangle
 
     }
 
+//    Item
+//    {
+//        anchors.fill: listFlick
+//        Rectangle
+//        {
+//            x: 0-listFlick.contentX;
+//            y: 0-listFlick.contentY;
+//            width: listFlick.contentWidth;
+//            height: listFlick.contentHeight;
+//            opacity: .5
+//        }
+//    }
+
+
+
     // Sets the layout for the menu buttons
     Flow
     {

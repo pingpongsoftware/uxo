@@ -13,8 +13,6 @@ Item
     signal resetButtonClicked();
     signal helpButtonClicked();
 
-    property int gridFlickContentSize: Vals.outerGridSize;
-
     Rectangle
     {
         id: zoomBounds; //the grid will only appear inside this rect;
@@ -22,7 +20,7 @@ Item
         height: main.height - Vals.topToolbarHeight - bottomToolbar.height - bottomToolbar.anchors.bottomMargin;
         color: "transparent";
         y: Vals.topToolbarHeight;
-        //clip: true;
+        clip: true;
 
         Rectangle
         {
@@ -34,232 +32,187 @@ Item
             color: "transparent";
             //opacity: .5;  //for debugging purposes
 
-
-            PinchArea
+            PinchArea  //I'm not actually using the pinch area how it was intended.  Instead I have a "dummy" target, so I can sense when the pinch occurs and use the zoom function in gridFlick to zoom it.
             {
                 id: gridPinch;
-                pinch.target: bigGrid;
+                pinch.target: pinchRect;
+                pinch.minimumScale: 1.0;
+                pinch.maximumScale: 1.5;
                 pinch.dragAxis: Pinch.NoDrag;
                 anchors.fill: parent;
-                pinch.minimumScale: 1.0;
-                pinch.maximumScale: 1.7;
-                focus: false;
 
                 property double oldScale: 1.0;
 
-                property double xPoint;
-                property double yPoint;
+                property int frameCounter: 0;
+
+                property int xPoint;
+                property int yPoint;
 
                 onPinchUpdated:
                 {
-                    if (pinch.scale > oldScale)  //if they are zooming in
+                    if (frameCounter < 3 && frameCounter > 0)
                     {
-                        bigGrid.transformOrigin = getTransformOrigin(getIndex(pinch.center.x, pinch.center.y));
-                        bigGrid.state = "zoomedOut";
-                    }
-                    else if (pinch.scale < oldScale) //if they are zooming out
-                    {
-                        bigGrid.state = "zoomedIn";
+                        //console.log("Scale: " + pinch.scale)
+                        if (pinch.scale > oldScale)  //tests if they are zooming in
+                            gridFlick.zoomIn(pinch.center.x, pinch.center.y)
+                        else if (pinch.scale < oldScale)
+                            gridFlick.zoomOut(pinch.center.x, pinch.center.y)
+
+                        console.log("pinched: " + (pinch.scale > oldScale));
+                        //console.log("oldScale: " + oldScale)
                     }
 
-                    oldScale = scale;
+                    oldScale = pinch.scale;
+                    frameCounter++;
                 }
 
-                function getIndex(x, y) //returns the index of the grid that the pinch occurs in
+                onPinchFinished:
                 {
-                    if (x < Vals.innerRectSize)
-                    {
-                        if (y < Vals.innerRectSize)
-                            return 0;
-                        if (y < Vals.innerRectSize*2)
-                            return 3;
-                        if (y < Vals.innerRectSize*3)
-                            return 6;
-                    }
-                    if (x < Vals.innerRectSize*2)
-                    {
-                        if (y < Vals.innerRectSize)
-                            return 1;
-                        if (y < Vals.innerRectSize*2)
-                            return 4;
-                        if (y < Vals.innerRectSize*3)
-                            return 7;
-                    }
-                    if (x < Vals.innerRectSize*3)
-                    {
-                        if (y < Vals.innerRectSize)
-                            return 2;
-                        if (y < Vals.innerRectSize*2)
-                            return 5;
-                        if (y < Vals.innerRectSize*3)
-                            return 8;
-                    }
-
-                    return -1;
+                    frameCounter = 0;
+                    oldScale = 1.0;
                 }
 
 
-                function getTransformOrigin(index)
-                {
-                    if (index % 3 === 0)
-                        xPoint = 0;
-                    else if (index % 3 === 1)
-                        xPoint = Vals.outerGridSize*1.5;
-                    else
-                        xPoint = Vals.outerGridSize*3;
-
-                    if (index < 3)
-                        yPoint = 0;
-                    else if (index < 6)
-                        yPoint = Vals.outerGridSize*1.5;
-                    else
-                        yPoint = Vals.outerGridSize*3;
-
-
-                    if (index === 0)
-                        return Item.TopLeft;
-                    if (index === 1)
-                        return Item.Top;
-                    if (index === 2)
-                        return Item.TopRight;
-                    if (index === 3)
-                        return Item.Left;
-                    if (index === 4)
-                        return Item.Center;
-                    if (index === 5)
-                        return Item.Right;
-                    if (index === 6)
-                        return Item.BottomLeft;
-                    if (index === 7)
-                        return Item.Bottom;
-                    if (index === 8)
-                        return Item.BottomRight;
-
-                    console.log("Grid Index: " + gridIndexOfPinch);
-                    return Item.Center;
-                }
-
-
+                //---------------------------------------------------------------------------------------------------------
+                // flickable and grid have to be in the pinch view or else the tic tac toe squares will not work
                 Flickable
                 {
                     id: gridFlick;
-                    anchors.fill: parent;
+                    parent: gridPinch;
+                    width: parent.width;
+                    height: parent.height;
+                    anchors.centerIn: parent;
 
-                    flickableDirection: Flickable.AutoFlickDirection
+                    flickableDirection: Flickable.AutoFlickDirection;
 
-                    Grid
+                    contentWidth: Vals.outerGridSize*scale;
+                    contentHeight: contentWidth;
+
+                    property double maxScale: 2.0;
+                    property double minScale: 1.0
+                    property double scale: minScale;
+
+                    property double xPoint;
+                    property double yPoint;
+
+                    Behavior on scale   { NumberAnimation { duration: Vals.transitionTime; } }
+                    Behavior on contentX   { NumberAnimation { duration: Vals.transitionTime; } }
+                    Behavior on contentY   { NumberAnimation { duration: Vals.transitionTime; } }
+
+                    function zoomIn(x, y)
                     {
-                        id: bigGrid;
-                        rows: Vals.rows;
-                        columns: rows;
-                        anchors.fill: parent;
-                        state: "zoomedOut";
-
-                        Repeater
+                        console.log("In: " + scale)
+                        if (scale === minScale)
                         {
-                            anchors.centerIn: parent;
-                            id: bigGridRepeater;
-                            model: 9;
+                            console.log("Got In---");
+                            gridFlick.setNewPos(x, y)
+                            scale = maxScale;
+                        }
+                    }
 
-                            InnerBoard
+                    function zoomOut(x, y)
+                    {
+                        console.log("Out: " + scale)
+                        if (scale === maxScale)
+                        {
+                            gridFlick.setNewPos(0, 0);
+                            scale = minScale;
+                        }
+                    }
+
+                    function zoomInOrOut(x, y)  // if it not specified which way they are zooming
+                    {
+                        if (scale >= maxScale) // if they are already zoomed in
+                            zoomOut(x, y);
+                        else if (scale <= minScale)
+                            zoomIn(x, y) //if they are zoomed out
+                    }
+
+                    function setNewPos(centerX, centerY)
+                    {
+                        contentX = (centerX/width) * contentWidth;
+                        contentY = (centerY/height) * contentHeight;
+                    }
+
+                }
+
+                Grid
+                {
+                    parent: gridFlick.contentItem;
+                    id: bigGrid;
+                    width: Vals.outerGridSize * gridFlick.scale;
+                    height: width;
+                    rows: Vals.rows;
+                    columns: rows;
+                    x: 0;
+                    y: 0;
+
+                    Repeater
+                    {
+                        anchors.centerIn: parent;
+                        id: bigGridRepeater;
+                        model: 9;
+
+                        InnerBoard
+                        {
+                            scale: gridFlick.scale;
+                            onBoardClicked:
                             {
-                                onBoardClicked:
+                                if (isValid)
                                 {
-                                    if (isValid)
+                                    GameTracker_js.makeMove(smallIndex, index);
+                                    highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
+
+        //                            GameTracker.makeMove(smallIndex, index);
+        //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
+
+                                    assignSquares(); //method in InnerBoard
+                                    assignBoards();
+                                    bottomToolbar.setTurn();
+
+                                    invalidPressesMessage.visible = false;
+                                    numInvalidPresses = 0;
+                                }
+                                else
+                                {
+                                    numInvalidPresses++;
+
+                                    if (numInvalidPresses >= 5)
                                     {
-                                        GameTracker_js.makeMove(smallIndex, index);
-                                        highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
-
-            //                            GameTracker.makeMove(smallIndex, index);
-            //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
-
-                                        assignSquares(); //method in InnerBoard
-                                        assignBoards();
-                                        bottomToolbar.setTurn();
-
-                                        invalidPressesMessage.visible = false;
-                                        numInvalidPresses = 0;
+                                        invalidPressesMessage.visible = true;
                                     }
-                                    else
-                                    {
-                                        numInvalidPresses++;
-
-                                        if (numInvalidPresses >= 5)
-                                        {
-                                            invalidPressesMessage.visible = true;
-                                        }
-                                    }
-
-                                    //shows the message when the game is over.
-                                    if (GameTracker_js.gameWon) //(GameTracker.gameWon)
-                                    {
-                                        gameOverMessage.visible = true;
-                                    }
-
                                 }
 
-//                                onDoubleClicked:
-//                                {
-//                                    if (bigGrid.state === "zoomedIn")
-//                                        bigGrid.state = "zoomedOut";
-//                                    else
-//                                    {
-//                                        bigGrid.transformOrigin = gridPinch.getTransformOrigin(index);
-//                                        bigGrid.state = "zoomedIn";
-//                                    }
+                                //shows the message when the game is over.
+                                if (GameTracker_js.gameWon) //(GameTracker.gameWon)
+                                {
+                                    gameOverMessage.visible = true;
+                                }
 
-//                                    gridFlick.returnToBounds();
-//                                    gridFlick.resizeContent(bigGrid.width, bigGrid.height, Qt.point(bigGrid.width/2, bigGrid.height/2))
-//                                }
                             }
                         }
-
-
-                        states:  //States for the big grid
-                        [
-                            State
-                            {
-                                name: "zoomedIn";
-                                PropertyChanges { target: bigGrid; scale: gridPinch.pinch.maximumScale; }
-                                PropertyChanges { target: gridFlick; contentWidth: Vals.outerGridSize*gridPinch.pinch.maximumScale; contentHeight: contentWidth; }
-                            },
-                            State
-                            {
-                                name: "zoomedOut";
-                                PropertyChanges { target: bigGrid; scale: gridPinch.pinch.minimumScale; }
-                                PropertyChanges { target: gridFlick; contentWidth: Vals.outerGridSize; contentHeight: contentWidth; }
-                            }
-                        ]
-
-                        transitions:
-                        [
-                            Transition
-                            {
-                                from: "*"; to: "*";
-                                NumberAnimation { target: bigGrid; property: "scale"; duration: 200; }
-                            }
-
-                        ]
                     }
                 }
             }
 
+            //-------------------------------------------------------------------------------------------
 
-            Rectangle
-            {
-                id: fcr
-                width: gridFlick.contentItem.width;
-                height: gridFlick.contentItem.height;
-                x: gridFlick.contentItem.x;
-                y: gridFlick.contentItem.y;
-                color: "transparent";
-                opacity: .3;
-            }
-
-
+            Rectangle { id: pinchRect; color: "transparent";} //this is here so the pinch area can have something as a target.
         }
     }
 
+
+//    MouseArea
+//    {
+//        parent: gridFlick;
+//        anchors.fill: parent;
+
+//        onClicked:
+//        {
+//            gridFlick.zoom(mouse.x, mouse.y);
+//            console.log("click")
+//        }
+//    }
 
     BottomToolbar
     {
@@ -273,13 +226,6 @@ Item
         anchors.horizontalCenter: main.horizontalCenter;
 
         onResizeGame: zoomGame(); //signals Main.qml that the game has been resized
-
-//        onResetButtonClicked:
-//        {
-//            resetGame();
-//        }
-
-
     }
 
     Message

@@ -6,16 +6,11 @@ Rectangle
     id: main;
 
     width: Vals.screenWidth;
-    height: Vals.screenHeight;
+    height: { Vals.screenHeight; console.log(Vals.screenHeight); }
     focus:true;
 
     property string previous: "Menu.qml";
     property bool backButtonEnabled: false;
-
-    onFocusChanged:
-    {
-        console.log("focus changed");
-    }
 
     Image
     {

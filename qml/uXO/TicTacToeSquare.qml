@@ -5,8 +5,10 @@ Rectangle
     id: main;
     color: "transparent";
     state: "z";
-    width: Vals.squareSize;
+    width: Vals.squareSize*scale;
     height: width;
+
+    property double scale;
 
     property string imageSource: "tttsquare.png";
 
@@ -134,9 +136,10 @@ Rectangle
     {
         id: playerWinImage;
         anchors.fill: parent;
-        sourceSize.width: main.width*2;
-        sourceSize.height: main.height*2;
+        sourceSize.width: main.width;
+        sourceSize.height: main.height;
         smooth: true;
+        asynchronous: true;
     }
 
 

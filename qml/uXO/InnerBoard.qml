@@ -4,12 +4,14 @@ import "GameTracker.js" as GameTracker_js
 Rectangle
 {
     id: main;
-    width: Vals.innerRectSize;
+    width: Vals.innerRectSize*scale;
     height: width
     state: "z"
     radius: 10;
     color: "transparent";
     layer.enabled: true;
+
+    property double scale;
 
     property bool canClick: true;
 
@@ -26,32 +28,36 @@ Rectangle
         return s;
     }
 
-    Image
+    Rectangle
     {
-        id: outline;
-        smooth: true;
-        sourceSize.width: main.width*2;
-        sourceSize.height: main.height*2;
-        asynchronous: true;
-        anchors.fill: parent;
+        id: outlineRect;
+        width: parent.width*.97;
+        height: parent.height*.97;
 
-        source:
+        anchors.centerIn: parent;
+
+        color: "transparent";
+        border.width:
         {
             if (main.canClick === true)
-                "Images/" + Vals.theme + "/outline.png";
+                width/60;
             else
-                "Images/transparent.png"
+                0;
         }
+
+        border.color: "green";
     }
 
     Image
     {
         id: playerBigWinImage;
-        width: main.width;
-        height: main.height;
-        sourceSize.width: main.width*2;
-        sourceSize.height: main.width*2;
+        width: main.width*.95;
+        height: main.height*.95;
+        anchors.centerIn: parent;
+        sourceSize.width: width;
+        sourceSize.height: height;
         opacity: .6;
+        asynchronous: true;
     }
 
     Grid
@@ -69,6 +75,7 @@ Rectangle
 
             TicTacToeSquare
             {
+                scale: main.scale;
                 //sets the index of each square to the index of the gridcell its placed in
                 smallSquareIndex: index;
                 smallSquareCanClick: canClick; //if the big square can't be clicked, the small square can't be clicked
