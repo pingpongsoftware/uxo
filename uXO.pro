@@ -9,7 +9,9 @@ QML_IMPORT_PATH =
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     gametracker.cpp \
-    scale.cpp
+    scale.cpp \
+    innerboard.cpp \
+    winningcombo.cpp
 
 # Installation path
 # target.path =
@@ -20,7 +22,9 @@ qtcAddDeployment()
 
 HEADERS += \
     gametracker.h \
-    scale.h
+    scale.h \
+    innerboard.h \
+    winningcombo.h
 
 OTHER_FILES += \
     android/AndroidManifest.xml
