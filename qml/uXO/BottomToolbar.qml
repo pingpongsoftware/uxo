@@ -8,7 +8,15 @@ Rectangle
     signal resetButtonClicked();
     signal backButtonClicked();
     signal resizeGame();
-    color: "transparent"
+    color: "transparent";
+
+    Rectangle
+    {
+        id: visibleRect;
+        color: "gray";
+        anchors.fill: parent;
+        opacity: .5
+    }
 
     Rectangle // automatically formats the toolbar in a flow layout
     {
@@ -27,15 +35,6 @@ Rectangle
             x: parent.leftRightMargin;
             anchors.verticalCenter: parent.verticalCenter;
         }
-
-        Flow
-        {
-            id: zoomFlow
-            anchors.centerIn: parent;
-            spacing: Vals.menuSpacing;
-        }
-
-
 
         Image
         {
@@ -65,14 +64,14 @@ Rectangle
             PropertyChanges
             {
                 target: xImage;
-                height: main.height;
+                height: main.height/1.2;
                 width: height
                 opacity: 1;
             }
             PropertyChanges
             {
                 target: oImage;
-                height: main.height/1.5;
+                height: main.height/1.7;
                 width: height
                 opacity: .6;
             }
@@ -84,14 +83,14 @@ Rectangle
             PropertyChanges
             {
                 target: oImage;
-                height: main.height;
+                height: main.height/1.2;
                 width: height
                 opacity: 1;
             }
             PropertyChanges
             {
                 target: xImage;
-                height: main.height/1.5;
+                height: main.height/1.7;
                 width: height
                 opacity: .6;
             }
@@ -108,17 +107,17 @@ Rectangle
             PropertyAnimation
             {
                 properties: "width";
-                duration: 150;
+                duration: Vals.transitionTime;
             }
             PropertyAnimation
             {
                 properties: "height";
-                duration: 150;
+                duration: Vals.transitionTime;
             }
             PropertyAnimation
             {
                 properties: "opacity";
-                duration: 150;
+                duration: Vals.transitionTime;
             }
         }
 

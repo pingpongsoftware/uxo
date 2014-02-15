@@ -9,8 +9,13 @@ Rectangle
     height: Vals.screenHeight;
     focus:true;
 
+    Component.onCompleted:
+    {
+        console.log("Vals Screen Size: " + Vals.screenWidth + ", " + Vals.screenHeight)
+        console.log("Main Screen Size: " + main.width + ", " + main.height)
+    }
+
     property string previous: "Menu.qml";
-    property bool backButtonEnabled: false;
 
     Image
     {
@@ -56,7 +61,7 @@ Rectangle
 
         onPlayButtonClicked:
         {
-            backButtonEnabled = true;
+            topToolbar.updateBackButtonEnabled(true);
             GameTracker_js.previousFile = GameTracker_js.currentFile;
             GameTracker_js.currentFile = "Game.qml";
             loader.source = "Game.qml"
@@ -64,7 +69,7 @@ Rectangle
 
         onSettingsButtonClicked:
         {
-            backButtonEnabled = true;
+            topToolbar.updateBackButtonEnabled(true);
             GameTracker_js.previousFile = GameTracker_js.currentFile;
             GameTracker_js.currentFile = "Settings.qml";
             loader.source = "Settings.qml"
@@ -72,7 +77,7 @@ Rectangle
 
         onTutorialButtonClicked:
         {
-            backButtonEnabled = true;
+            topToolbar.updateBackButtonEnabled(true);
             GameTracker_js.previousFile = GameTracker_js.currentFile;
             GameTracker_js.currentFile = "Tutorial.qml";
             loader.source = "Tutorial.qml"
@@ -98,6 +103,8 @@ Rectangle
         anchors.horizontalCenter: main.horizontalCenter;
         state: Vals.theme;
 
+        Component.onCompleted: updateBackButtonEnabled(false);
+
         onBackButtonPressed:
         {
             main.backButtonPressed();
@@ -122,7 +129,7 @@ Rectangle
             GameTracker_js.currentFile = GameTracker_js.previousFile;
             loader.source = GameTracker_js.previousFile;
             if (GameTracker_js.previousFile === "Menu.qml");
-                backButtonEnabled = false;
+                topToolbar.updateBackButtonEnabled(false);
             Vals.zoomOut();
         }
     }

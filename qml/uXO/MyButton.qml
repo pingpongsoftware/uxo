@@ -14,13 +14,15 @@ Rectangle
     color: "transparent";
     //opacity: .3
 
-    width: getClickablWidth();
+    width: getClickableWidth();
     height: getClickableHeight();
 
     property string buttonText;
     property int fontSize;
     property color textColor;
     property bool fontBold: true;
+    property color buttonColor: "transparent";
+    property double buttonOpacity: 1.0;
 
     property bool showColorWhenClicked: false;
 
@@ -58,18 +60,8 @@ Rectangle
         height: bText.height;
         x: (main.width/2) - (width/2);   //I'm manually centering this so that it can be changed from outside
         y: (main.height/2) - (height/2);
-        color: "transparent";
-        //opacity: .5
-
-        TrenchFontText
-        {
-            id: bText
-            color: textColor;
-            anchors.centerIn: parent;
-            fontSize: main.fontSize;
-            fontBold: main.fontBold;
-            text: main.buttonText;
-        }
+        color: main.buttonColor;
+        opacity: main.buttonOpacity;
 
         MouseArea
         {
@@ -79,26 +71,38 @@ Rectangle
 
             onPressed:
             {
-                bText.opacity = .5;
                 if (showColorWhenClicked)
-                    fillRect.opacity = .2;
+                    bRect.opacity = .5;
+                else
+                    bText.opacity = .5;
             }
 
-            onReleased: textOpacityToOne();
+            onReleased: opacityToNormal();
 
-            onExited: textOpacityToOne();
+            onExited: opacityToNormal();
 
-            onCanceled: textOpacityToOne();
+            onCanceled: opacityToNormal();
 
             onClicked:
             {
                 click();
             }
 
-            function textOpacityToOne()
+            function opacityToNormal()
             {
                 bText.opacity = 1;
+                bRect.opacity = main.buttonOpacity;
             }
         }
+    }
+
+    TrenchFontText
+    {
+        id: bText
+        color: textColor;
+        anchors.centerIn: bRect;
+        fontSize: main.fontSize;
+        fontBold: main.fontBold;
+        text: main.buttonText;
     }
 }

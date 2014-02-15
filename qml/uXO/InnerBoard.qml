@@ -9,7 +9,7 @@ Rectangle
     state: "z"
     radius: 10;
     color: "transparent";
-    layer.enabled: true;
+    //layer.enabled: true;
 
     property double scale;
 
@@ -32,7 +32,7 @@ Rectangle
     {
         id: outlineRect;
         width: parent.width*.97;
-        height: parent.height*.97;
+        height: width;
 
         anchors.centerIn: parent;
 
@@ -65,7 +65,7 @@ Rectangle
         id: littleGrid;
         rows: Vals.rows;
         columns: rows;
-        spacing: Vals.smallGridSpacing;
+        spacing: Vals.smallGridSpacing * main.scale;
         anchors.centerIn: parent;
 
         Repeater

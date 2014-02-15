@@ -17,8 +17,8 @@ Rectangle
 
     property color reallyDarkGray: "#444444";
 
-    property int dragMinY;
-    property int dragMaxY;
+    property int dragMinY: listRect.y * 1.20;
+    property int dragMaxY: main.height - Vals.topToolbarHeight*2
 
     Image
     {
@@ -39,45 +39,66 @@ Rectangle
 
     }
 
-    Flickable
+    MouseArea
     {
-        id: listFlick;
+        id: swipeRect;
+
+        anchors.fill: parent;
+
+        property bool isPressed: false;
+        property bool hasPositionChanged: false;
+        property int pressedY;
+        property int frameCounter: 0;
+
+        onPressed:
+        {
+            isPressed = true;
+            pressedY = mouse.y
+        }
+
+        onPositionChanged:
+        {
+            frameCounter++;
+
+            if (isPressed)
+            {
+                hasPositionChanged = true;
+
+                if (frameCounter === 3)
+                {
+                    if (pressedY > mouse.y)  //if they are dragging up
+                        littleButton.y = main.dragMinY;
+                    else if (pressedY < mouse.y)
+                        littleButton.y = main.dragMaxY;
+                }
+            }
+        }
+
+        onReleased:
+        {
+            frameCounter = 0;
+            isPressed = false;
+            hasPositionChanged = false;
+        }
+    }
+
+    Rectangle
+    {
+        id: listRect;
+        color: "transparent"
         width: main.width/2;
         height: littleButton.y - y;
         anchors.horizontalCenter: main.horizontalCenter;
         anchors.top: titleImage.bottom;
         anchors.topMargin: 0;
         clip: true;
-
-        contentWidth: width;
-        contentHeight: contentItem.childrenRect.height;
-
-        Component.onCompleted:
-        {
-            main.dragMinY = y*1.42;
-            main.dragMaxY = y + contentHeight*1.1;
-        }
     }
-
-//    Item
-//    {
-//        anchors.fill: listFlick
-//        Rectangle
-//        {
-//            x: 0-listFlick.contentX;
-//            y: 0-listFlick.contentY;
-//            width: listFlick.contentWidth;
-//            height: listFlick.contentHeight;
-//            opacity: .5
-//        }
-//    }
-
-
 
     // Sets the layout for the menu buttons
     Flow
     {
-        parent: listFlick.contentItem;
+        id: menuFlow;
+        parent: listRect
         width: Vals.buttonWidth; //the flow is the same width as the buttons so the buttons are centered in the flow
         spacing: Vals.menuSpacing;
         anchors.horizontalCenter: parent.horizontalCenter;
@@ -87,16 +108,6 @@ Rectangle
         {
             id: newGameButton;
             buttonText: "New Game";
-            width: parent.width;
-            fontSize: Vals.mediumLargeFontSize;
-            textColor: "steelblue";
-            onClick: (playButtonClicked());
-        }
-
-        MyButton //load game button .... does not currently work
-        {
-            id: newGameButton1;
-            buttonText: "Load Game";
             width: parent.width;
             fontSize: Vals.mediumLargeFontSize;
             textColor: "steelblue";
@@ -129,27 +140,75 @@ Rectangle
     {
         id: littleButton;
         color: "transparent";
-        width: main.height/5;
-        height: width;
+        width: main.width;
+        height: width/5;
 
-        y: (main.dragMinY + main.dragMaxY)/2;
+        y: main.height //listFlick.y + listFlick.contentHeight*1.1;  //this is equal to main.dragMaxY, but if I explicitly set it to that to being, it does weird things
+
+        Component.onCompleted: y = main.dragMaxY
+
         anchors.horizontalCenter: main.horizontalCenter;
+
+        Behavior on y
+        {
+            NumberAnimation { duration: Vals.transitionTime*3; easing.type: Easing.OutBack }
+        }
 
         MouseArea
         {
             id: littleButtonMouse
             anchors.fill: parent;
 
-            drag.target: parent;
-            drag.axis: Drag.YAxis;
-            drag.minimumY: main.dragMinY;
-            drag.maximumY: main.dragMaxY;
+            property bool isPressed: false;
+            property bool hasPositionChanged: false;
+            property int pressedY;
+            property int frameCounter: 0;
 
-            onPressed: console.log(parent.y)
+            onPressed:
+            {
+                isPressed = true;
+                pressedY = mouse.y
+            }
+
+            onPositionChanged:
+            {
+                frameCounter++;
+
+                if (isPressed)
+                {
+                    hasPositionChanged = true;
+
+                    if (frameCounter === 3)
+                    {
+                        if (pressedY > mouse.y)  //if they are dragging up
+                            littleButton.y = main.dragMinY;
+                        else if (pressedY < mouse.y)
+                            littleButton.y = main.dragMaxY;
+                    }
+                }
+            }
+
+            onReleased:
+            {
+                frameCounter = 0;
+                isPressed = false;
+                hasPositionChanged = false;
+            }
+
+            onClicked:
+            {
+                if (!hasPositionChanged)
+                {
+                    if (littleButton.y === main.dragMinY)
+                        littleButton.y = main.dragMaxY;
+                    else if (littleButton.y === main.dragMaxY)
+                        littleButton.y = main.dragMinY;
+                }
+            }
         }
     }
 
-    Repeater
+    Repeater  //the three little rectangles below the menu list
     {
         model: 3
 
@@ -157,13 +216,21 @@ Rectangle
         {
             anchors.horizontalCenter: littleButton.horizontalCenter;
             anchors.top: littleButton.top;
-            anchors.topMargin: height*3*index + height*6;  // spreads them apart and centers them
+            anchors.topMargin: height*3*index + height*3;  // spreads them apart and centers them
 
-            width: Math.round(littleButton.width/8);
-            height: Math.round(width/10);
+            width: Math.round(littleButton.height/5);
+            height: Math.round(width/12);
 
             color: "gray";
         }
 
+    }
+
+    GameList
+    {
+        anchors.horizontalCenter: main.horizontalCenter;
+        y: littleButton.y + littleButton.height/4;
+        width: main.width
+        height: Math.round((main.height - y)*.931);
     }
 }

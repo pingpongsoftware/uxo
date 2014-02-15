@@ -292,7 +292,7 @@ Item
         width: main.width;
 
         anchors.bottom: main.bottom;
-        anchors.bottomMargin: height/4;
+        anchors.bottomMargin: height/5;
         anchors.horizontalCenter: main.horizontalCenter;
 
         onResizeGame: zoomGame(); //signals Main.qml that the game has been resized

@@ -11,6 +11,12 @@ Item
 
     signal backButtonPressed();
 
+    function updateBackButtonEnabled(b)
+    {
+        backMouse.enabled = b;
+        backImage.visible = b;
+    }
+
     states:
     [
         State { name: "dark" },
@@ -87,7 +93,10 @@ Item
 
         MouseArea
         {
+            id: backMouse;
             anchors.fill: parent;
+
+            enabled: main.backButtonEnabled;
 
             onPressed: { backImage.opacity = .5; backRect.opacity = .5 }
             onExited: parent.changeOpacity();
@@ -112,6 +121,7 @@ Item
         sourceSize.height: width;
         sourceSize.width: width;
         anchors.centerIn: backRect;
+        visible: main.backButtonEnabled;
     }
 
     Text

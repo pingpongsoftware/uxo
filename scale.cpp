@@ -1,7 +1,7 @@
 #include "scale.h"
 #include <QtCore/qmath.h>
 //#include <iostream>
-//#include <fstream>
+#include <fstream>
 using namespace std;
 
 
