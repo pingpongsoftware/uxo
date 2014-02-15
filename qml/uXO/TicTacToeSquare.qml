@@ -70,7 +70,6 @@ Rectangle
             yPos += Vals.squareSize*2 + Vals.smallGridSpacing*2;
         //-------------------------------------------------------------------
 
-        console.log("Screen Size: " + Vals.screenWidth + ", " + Vals.screenHeight);
         return "Real Mouse Pos: " + xPos + ", " + yPos;
 
     }
@@ -119,10 +118,6 @@ Rectangle
         {
             if (clickEnabled)
             {
-                console.log("Touch Point: " + parent.mouseX + ", " + parent.mouseY);
-                console.log(main.getRealClickLoc());
-                console.log("grid index: " + main.gridIndex);
-
                 if (smallSquareCanClick)
                     squareClicked();
 

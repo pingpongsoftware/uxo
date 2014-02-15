@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker_js
 
 Item
 {
@@ -26,9 +25,10 @@ Item
         {
             id: gameRect;
             width: main.width;
-            height: main.width;
-            anchors.horizontalCenter: parent.horizontalCenter;
-            anchors.verticalCenter: parent.verticalCenter;
+			height: main.width;
+			anchors.horizontalCenter: parent.horizontalCenter;
+			anchors.verticalCenter: parent.verticalCenter;
+
             color: "transparent";
             //opacity: .5;  //for debugging purposes
 
@@ -185,12 +185,9 @@ Item
                             onBoardClicked:
                             {
                                 if (isValid)
-                                {
-                                    GameTracker_js.makeMove(smallIndex, index);
-                                    highlightPlayableBoards(smallIndex, GameTracker_js.checkForDeadSquare())
-
-        //                            GameTracker.makeMove(smallIndex, index);
-        //                            highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare());
+								{
+									GameTracker.boardClicked(index, smallIndex);
+									highlightPlayableBoards(smallIndex, GameTracker.checkForDeadSquare(index));
 
                                     assignSquares(); //method in InnerBoard
                                     assignBoards();
@@ -210,7 +207,7 @@ Item
                                 }
 
                                 //shows the message when the game is over.
-                                if (GameTracker_js.gameWon) //(GameTracker.gameWon)
+								if (GameTracker.gameWon)
                                 {
                                     gameOverMessage.visible = true;
                                 }
@@ -326,7 +323,7 @@ Item
         anchors.fill: parent;
         visible: false;
 
-        messageText: "Congratulations! " + GameTracker_js.winningPlayer + " has won the game!"
+		messageText: "Congratulations! " + GameTracker.winningPlayer + " has won the game!"
         buttonOneText: "Exit";
         buttonTwoText: "Rematch";
 
@@ -352,10 +349,17 @@ Item
     {
         for(var i=0; i < 9; i++)
         {
-            bigGridRepeater.itemAt(i).canClick = deadSquare;
+			bigGridRepeater.itemAt(i).canClick = deadSquare;
         }
 
-        bigGridRepeater.itemAt(index).canClick = !deadSquare;
+		bigGridRepeater.itemAt(index).canClick = !deadSquare;
+
+		//-----This tests to see if the square has been won, in which case all boards will be available.
+		if (GameTracker.boardWon(index) !== "-")
+		{
+			for (var i = 0; i < 9; i++)
+				bigGridRepeater.itemAt(i).canClick = !deadSquare;
+		}
     }
 
     function assignBoards()
@@ -364,11 +368,11 @@ Item
         {
             var boardAtIndex = bigGridRepeater.itemAt(i);
 
-            if (GameTracker_js.boardWon[i] === 1) //(GameTracker.getVal(GameTracker.boardsWon, i) === 1)
+			if (GameTracker.boardWon(i) === "x")
             {
                 boardAtIndex.setStates("wonByX");
             }
-            else if(GameTracker_js.boardWon[i] === -1)
+			else if(GameTracker.boardWon(i) === "o")
             {
                 boardAtIndex.setStates("wonByO");
             }
@@ -381,7 +385,7 @@ Item
 
     function resetGame()
     {
-        GameTracker_js.resetGame();
+		GameTracker.resetGame();
         //GameTracker.resetGame();
 
         for(var i=0; i<bigGridRepeater.count; i++)

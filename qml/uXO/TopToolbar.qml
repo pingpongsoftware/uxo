@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker_js
 
 Item
 {
@@ -107,7 +106,7 @@ Item
                 backRect.changeOpacity();
 
                 backButtonPressed();
-                GameTracker_js.resetGame();
+				GameTracker.resetGame();
             }
         }
     }

@@ -15,7 +15,13 @@ class InnerBoard
 
 		bool checkForWinningCombos(QList<int> squaresWon);
 
-		bool isBoardDead();
+		bool isBoardWon();
+
+		QString winningPlayer() { return m_winningPlayer; }
+
+		QString squareWon(int index);
+
+		int squaresPlayedLength() { return m_oSquares.length() + m_xSquares.length(); }
 
 
 	private:

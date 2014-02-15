@@ -33,7 +33,5 @@ Item
         showColorWhenClicked: true;
 
         Component.onCompleted: setClickableSize(width, height)
-
-        onClick: console.log(buttonText);
     }
 }

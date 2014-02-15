@@ -1,4 +1,5 @@
 import QtQuick 2.0
+
 Rectangle
 {
     //-----------------
@@ -35,10 +36,8 @@ Rectangle
 
     function setClickablePos(x1, x2)
     {
-        console.log(bRect.x + ", " + bRect.y)
         bRect.x = x1
         bRect.y = x2
-        console.log(bRect.x + ", " + bRect.y)
     }
 
     function setClickableSize(w, h)

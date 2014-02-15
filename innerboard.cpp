@@ -5,14 +5,14 @@
 
 InnerBoard::InnerBoard(int index)
 {
-	winningCombos.push_back(WinningCombo(1,2,3));
-	winningCombos.push_back(WinningCombo(4,5,6));
-	winningCombos.push_back(WinningCombo(7,8,9));
+	winningCombos.push_back(WinningCombo(0,1,2));
+	winningCombos.push_back(WinningCombo(3,4,5));
+	winningCombos.push_back(WinningCombo(6,7,8));
+	winningCombos.push_back(WinningCombo(0,3,6));
 	winningCombos.push_back(WinningCombo(1,4,7));
 	winningCombos.push_back(WinningCombo(2,5,8));
-	winningCombos.push_back(WinningCombo(3,6,9));
-	winningCombos.push_back(WinningCombo(1,5,9));
-	winningCombos.push_back(WinningCombo(3,5,7));
+	winningCombos.push_back(WinningCombo(0,4,8));
+	winningCombos.push_back(WinningCombo(2,4,6));
 }
 
 void InnerBoard::initBoard()
@@ -36,13 +36,14 @@ void InnerBoard::squareClicked(int index, QString letter)
 	if (letter == "x")
 	{
 		this->m_xSquares.push_back(index);
-		if (checkForWinningCombos(this->m_xSquares))
+
+		if (m_xSquares.length() >= 3 && checkForWinningCombos(this->m_xSquares))
 			this->m_winningPlayer = "x";
 	}
 	else if (letter == "o")
 	{
-		this->m_xSquares.push_back(index);
-		if (checkForWinningCombos(this->m_oSquares))
+		this->m_oSquares.push_back(index);
+		if (m_oSquares.length() >= 3 && checkForWinningCombos(this->m_oSquares))
 			this->m_winningPlayer = "o";
 	}
 	else
@@ -58,9 +59,9 @@ bool InnerBoard::checkForWinningCombos(QList<int> squaresWon)
 	{
 		for (int j = 0; j < this->winningCombos[i].getCombo().length(); j++)
 		{
-			for (int k = 0; k < squaresWon.length(); i++)
-			{
-				if (winningCombos[i].getCombo() == squaresWon)
+			for (int k = 0; k < squaresWon.length(); k++)
+			{				
+				if (winningCombos[i].getCombo()[j] == squaresWon[k])
 				{
 					matchCount++;
 					break;
@@ -80,10 +81,16 @@ bool InnerBoard::checkForWinningCombos(QList<int> squaresWon)
 	return boardWon;
 }
 
-bool InnerBoard::isBoardDead()
+bool InnerBoard::isBoardWon()
 {
 	if (this->m_winningPlayer == "-")
-		return true;
+		return false;
 
-	return false;
+	return true;
+}
+
+
+QString InnerBoard::squareWon(int index)
+{
+	return m_squares[index];
 }

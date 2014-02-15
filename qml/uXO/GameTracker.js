@@ -114,7 +114,7 @@ function makeMove(smallIndex, largeIndex)
     else
     {
         oSmallTilesWon[bigIndex].push(littleIndex);
-        squareWon[bigIndex][littleIndex] = -1;
+		squareWon[bigIndex][littleIndex] = -1;
 
         if( checkForWinningCombination(oSmallTilesWon[bigIndex]) && boardWon[bigIndex] === 0 )
         {

@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker_js
+
 
 Rectangle
 {
@@ -24,7 +24,7 @@ Rectangle
     function printLoc()
     {
         var s = main.toString() + ":  " + main.x + ", " + main.y;
-        console.log(s)
+		//console.log(s)
         return s;
     }
 
@@ -105,11 +105,11 @@ Rectangle
         {
             var smallSquareAtIndex = littleGridRepeater.itemAt(i);
 
-            if (GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === 1)  //(GameTracker.get2DVal(GameTracker.squaresWon, GameTracker.bigIndex, i) === 1)
+			if (GameTracker.squareWon(GameTracker.bigIndex, i) === "x") //if (GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === 1)
             {
                 smallSquareAtIndex.setTTTStates("wonByX"); //an individual square was won by x, so it will now have an x on it
             }
-            else if(GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === -1)
+			else if(GameTracker.squareWon(GameTracker.bigIndex, i) === "o")
             {
                 smallSquareAtIndex.setTTTStates("wonByO"); //same as wonByX, but for O.
             }

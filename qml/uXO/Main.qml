@@ -11,8 +11,8 @@ Rectangle
 
     Component.onCompleted:
     {
-        console.log("Vals Screen Size: " + Vals.screenWidth + ", " + Vals.screenHeight)
-        console.log("Main Screen Size: " + main.width + ", " + main.height)
+//        console.log("Vals Screen Size: " + Vals.screenWidth + ", " + Vals.screenHeight)
+//        console.log("Main Screen Size: " + main.width + ", " + main.height)
     }
 
     property string previous: "Menu.qml";
@@ -112,11 +112,10 @@ Rectangle
     }
 
     Keys.onReleased: {
-        console.log("KEY_PRESSED: " + event.key)
+		//console.log("KEY_PRESSED: " + event.key)
         if (event.key === Qt.Key_Back)
         {
             event.accepted = true;
-            console.log("Back Button Pressed!!!");
             backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
         }
     }

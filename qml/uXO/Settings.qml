@@ -169,9 +169,6 @@ Rectangle
 
         switchThemeButtonClicked(); //sends signal to the main.qml file so the background image will change
         changeColorsToMatchTheme(); //calls the function that changes the colors of all the text and button, etc.
-
-        console.log(Vals.theme);
-
     }
 
     function changeColorsToMatchTheme()
