@@ -22,6 +22,8 @@ class GameTracker : public QObject
 		QString m_winningPlayer;
 
 		QList<InnerBoard> m_boards;
+		QList<int> m_xBigBoardsWon;  //list of the indeces of big boards won by x;
+		QList<int> m_oBigBoardsWon;  //list of the indeces of big boards won by y;
 
 
 	public:
@@ -29,8 +31,9 @@ class GameTracker : public QObject
 		Q_INVOKABLE bool checkForDeadSquare(int index);
 		Q_INVOKABLE QString boardWon(int index);
 		Q_INVOKABLE QString squareWon(int bigIndex, int smallIndex);
+		Q_INVOKABLE QString checkForTicTacToe();
+		Q_INVOKABLE void resetGame();
 
-		void resetGame();
 		void initBoards();
 
 		QList<InnerBoard>* boards() { return &m_boards; }
@@ -41,6 +44,10 @@ class GameTracker : public QObject
 		bool xTurn() { return m_xTurn; }
 		bool gameWon() { return m_gameWon; }
 
+		QList<int>* xBigBoardsWon() { return &m_xBigBoardsWon; }
+		QList<int>* oBigBoardsWon() { return &m_oBigBoardsWon; }
+		QString winningPlayer() { return m_winningPlayer; }
+
 		//---------------------------------------------------------------------------
 
 		Q_PROPERTY(QList<InnerBoard>* boards READ boards())
@@ -48,6 +55,9 @@ class GameTracker : public QObject
 		Q_PROPERTY(int smallIndex READ smallIndex())
 		Q_PROPERTY(bool xTurn READ xTurn())
 		Q_PROPERTY(bool gameWon READ gameWon())
+		Q_PROPERTY(QList<int>* xBigBoardsWon READ oBigBoardsWon())
+		Q_PROPERTY(QList<int>* oBigBoardsWon READ oBigBoardsWon())
+		Q_PROPERTY(QString winningPlayer READ winningPlayer())
 
 	signals:
 

@@ -29,6 +29,28 @@ void InnerBoard::initBoard()
 		this->m_oSquares.removeFirst();
 }
 
+void InnerBoard::resetBoard()
+{
+	qDebug() << m_squares.length();
+
+	for (int i = m_squares.length() - 1; i >= 0 ; i--)
+	{
+		qDebug() << i;
+		m_squares.removeLast();
+	}
+
+	for (int i = m_xSquares.length() - 1; i >= 0 ; i--)
+		m_xSquares.removeLast();
+	qDebug() << "x squares";
+
+	for (int i = m_oSquares.length() - 1; i >= 0 ; i--)
+		m_oSquares.removeLast();
+
+	qDebug() << "m squares";
+
+	this->initBoard();
+}
+
 void InnerBoard::squareClicked(int index, QString letter)
 {
 	this->m_squares.replace(index, letter);

@@ -4,15 +4,15 @@
 GameTracker::GameTracker(QObject *parent) :
     QObject(parent)
 {
-	m_xTurn = true;
-	m_gameWon = false;
-	m_winningPlayer = "-";
-
 	this->initBoards();
 }
 
 void GameTracker::initBoards()
 {
+	m_xTurn = true;
+	m_gameWon = false;
+	m_winningPlayer = "-";
+
 	for (int i = 0; i < 9; i++)
 	{
 		m_boards.push_back(InnerBoard(i));
@@ -23,18 +23,30 @@ void GameTracker::initBoards()
 void GameTracker::boardClicked(int bigIndex, int smallIndex)
 {
 	if (m_xTurn)
+	{
 		m_boards[bigIndex].squareClicked(smallIndex, "x");
+		if (m_boards[bigIndex].isBoardWon())
+			m_xBigBoardsWon.push_back(bigIndex);
+
+		this->m_winningPlayer = this->checkForTicTacToe();
+	}
 	else
+	{
 		m_boards[bigIndex].squareClicked(smallIndex, "o");
+		if (m_boards[bigIndex].isBoardWon())
+			m_oBigBoardsWon.push_back(bigIndex);
+
+		this->m_winningPlayer = this->checkForTicTacToe();
+	}
 
 	this->m_bigIndex = bigIndex;
 	this->m_smallIndex = smallIndex;
 
-//	for (int i = 0; i < m_boards.length(); i++)
-//		qDebug() << m_boards[i].winningPlayer();
-
-//	for (int i = 0; i < 10; i++)
-//		qDebug() << " ";
+	if (this->m_winningPlayer != "-")
+	{
+		this->m_winningPlayer = this->m_winningPlayer.toUpper();
+		this->m_gameWon = true;
+	}
 
 	m_xTurn = !m_xTurn;
 }
@@ -42,14 +54,13 @@ void GameTracker::boardClicked(int bigIndex, int smallIndex)
 
 void GameTracker::resetGame()
 {
-	m_xTurn = true;
-	m_gameWon = false;
-	m_winningPlayer = "-";
+	for (int i = m_boards.length()-1; i >= 0; i--)
+	{
+		m_boards[i].resetBoard();
+		m_boards.removeLast();
+	}
 
-	for (int i = 8; i >= 0; i++)
-		m_boards.removeAt(i);
-
-	//this->initBoards();
+	this->initBoards();
 }
 
 bool GameTracker::checkForDeadSquare(int index)
@@ -68,5 +79,16 @@ QString GameTracker::boardWon(int index)
 QString GameTracker::squareWon(int bigIndex, int smallIndex)
 {
 	return m_boards[bigIndex].squareWon(smallIndex);
+}
+
+QString GameTracker::checkForTicTacToe()
+{
+	if (m_boards[0].checkForWinningCombos(m_xBigBoardsWon)) //Using inner boards method for checking for winning combos
+		return "x";
+
+	if (m_boards[0].checkForWinningCombos(m_oBigBoardsWon)) //Using inner boards method for checking for winning combos
+		return "o";
+
+	return "-";
 }
 

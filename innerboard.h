@@ -11,6 +11,7 @@ class InnerBoard
 		InnerBoard(int index = -1);
 
 		void initBoard();
+		void resetBoard();
 		void squareClicked(int index, QString letter);
 
 		bool checkForWinningCombos(QList<int> squaresWon);

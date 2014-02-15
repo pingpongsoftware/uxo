@@ -209,6 +209,7 @@ Item
                                 //shows the message when the game is over.
 								if (GameTracker.gameWon)
                                 {
+									gameOverMessage.winner = GameTracker.winningPlayer;
                                     gameOverMessage.visible = true;
                                 }
                             }
@@ -323,7 +324,9 @@ Item
         anchors.fill: parent;
         visible: false;
 
-		messageText: "Congratulations! " + GameTracker.winningPlayer + " has won the game!"
+		property string winner;
+
+		messageText: "Congratulations! " + winner + " has won the game!"
         buttonOneText: "Exit";
         buttonTwoText: "Rematch";
 
