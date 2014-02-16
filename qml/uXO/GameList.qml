@@ -5,6 +5,8 @@ Item
     clip: true;
     id: main;
 
+	signal itemButtonClicked(var gameName);
+
     Rectangle
     {
         id: headerRect;
@@ -33,6 +35,8 @@ Item
             height: width/9;
             text: name;
             rectOpacity: .5;
+
+			onButtonClicked: itemButtonClicked(gameName);
 
             Rectangle  //this is the thin line in between buttons
             {

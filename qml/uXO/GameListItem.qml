@@ -6,6 +6,8 @@ Item
     property string text;
     property double rectOpacity: 1;
 
+	signal buttonClicked(var gameName);
+
 
     MyButton
     {
@@ -28,6 +30,11 @@ Item
             else
                 "white"
         }
+
+		onClick:
+		{
+			buttonClicked("Test Game 8");
+		}
 
         buttonOpacity: .2
         showColorWhenClicked: true;

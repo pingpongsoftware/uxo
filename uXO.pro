@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     gametracker.cpp \
     scale.cpp \
     innerboard.cpp \
-    winningcombo.cpp
+    winningcombo.cpp \
+    loadsave.cpp
 
 # Installation path
 # target.path =
@@ -24,7 +25,10 @@ HEADERS += \
     gametracker.h \
     scale.h \
     innerboard.h \
-    winningcombo.h
+    winningcombo.h \
+    writer.h \
+    reader.h \
+    loadsave.h
 
 OTHER_FILES += \
     android/AndroidManifest.xml

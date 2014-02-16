@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QList>
 #include <innerboard.h>
+#include <loadsave.h>
 
 using namespace std;
 
@@ -21,9 +22,13 @@ class GameTracker : public QObject
 		int m_smallIndex;
 		QString m_winningPlayer;
 
+		QString m_gameName;
+
 		QList<InnerBoard> m_boards;
 		QList<int> m_xBigBoardsWon;  //list of the indeces of big boards won by x;
 		QList<int> m_oBigBoardsWon;  //list of the indeces of big boards won by y;
+
+		LoadSave *loadSave;
 
 
 	public:
@@ -33,8 +38,10 @@ class GameTracker : public QObject
 		Q_INVOKABLE QString squareWon(int bigIndex, int smallIndex);
 		Q_INVOKABLE QString checkForTicTacToe();
 		Q_INVOKABLE void resetGame();
+		Q_INVOKABLE void startGame(QString name);
+		Q_INVOKABLE void loadGame(QString name);
 
-		void initBoards();
+		void initBoards(QList<InnerBoard> boards);
 
 		QList<InnerBoard>* boards() { return &m_boards; }
 

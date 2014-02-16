@@ -8,9 +8,9 @@
 class InnerBoard
 {
 	public:
-		InnerBoard(int index = -1);
+		InnerBoard(int index = -1, QList<QString> squareList = QList<QString>());
 
-		void initBoard();
+		void initBoard(QList<QString> list);
 		void resetBoard();
 		void squareClicked(int index, QString letter);
 

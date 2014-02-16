@@ -182,6 +182,7 @@ Item
                         InnerBoard
                         {
                             scale: gridFlick.scale;
+							gridIndex: index;
                             onBoardClicked:
                             {
                                 if (isValid)

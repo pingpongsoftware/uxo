@@ -111,7 +111,11 @@ Rectangle
             width: parent.width;
             fontSize: Vals.mediumLargeFontSize;
             textColor: "steelblue";
-            onClick: (playButtonClicked());
+			onClick:
+			{
+				GameTracker.startGame("Test Game 8");
+				(playButtonClicked());
+			}
         }
 
         MyButton //help button
@@ -232,5 +236,11 @@ Rectangle
         y: littleButton.y + littleButton.height/4;
         width: main.width
         height: Math.round((main.height - y)*.931);
+
+		onItemButtonClicked:
+		{
+			GameTracker.loadGame(gameName);
+			(playButtonClicked());
+		}
     }
 }

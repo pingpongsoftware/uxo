@@ -3,7 +3,7 @@
 #include <QString>
 #include "winningcombo.h"
 
-InnerBoard::InnerBoard(int index)
+InnerBoard::InnerBoard(int index, QList<QString> squareList)
 {
 	winningCombos.push_back(WinningCombo(0,1,2));
 	winningCombos.push_back(WinningCombo(3,4,5));
@@ -13,31 +13,42 @@ InnerBoard::InnerBoard(int index)
 	winningCombos.push_back(WinningCombo(2,5,8));
 	winningCombos.push_back(WinningCombo(0,4,8));
 	winningCombos.push_back(WinningCombo(2,4,6));
+
+	this->initBoard(squareList);
 }
 
-void InnerBoard::initBoard()
+void InnerBoard::initBoard(QList<QString> list)
 {
 	m_winningPlayer = "-";
 
-	for (int i = 0; i < 9; i ++)
-		this->m_squares.push_back("-");
+	if (list.length() != 9)
+		for (int i = 0; i < 9; i ++)
+			this->m_squares.push_back("-");
+	else
+		for (int i = 0; i < list.length(); i++)
+			this->m_squares.push_back(list[i]);
 
+	//---resets the xSquares won and oSquares won to what it should be ---------------------
 	for (int i = 0; i < m_xSquares.length(); i++)
 		this->m_xSquares.removeFirst();
-
 	for (int i = 0; i < m_oSquares.length(); i++)
 		this->m_oSquares.removeFirst();
+
+	for (int i = 0; i < m_squares.length(); i++)
+	{
+		if (m_squares[i] == "x")
+			this->m_xSquares.push_back(i);
+		else if (m_squares[i] == "o")
+			this->m_oSquares.push_back(i);
+	}
+	//---------------------------------------------------------------------------------------
+
 }
 
 void InnerBoard::resetBoard()
 {
-	qDebug() << m_squares.length();
-
 	for (int i = m_squares.length() - 1; i >= 0 ; i--)
-	{
-		qDebug() << i;
 		m_squares.removeLast();
-	}
 
 	for (int i = m_xSquares.length() - 1; i >= 0 ; i--)
 		m_xSquares.removeLast();
@@ -46,14 +57,13 @@ void InnerBoard::resetBoard()
 	for (int i = m_oSquares.length() - 1; i >= 0 ; i--)
 		m_oSquares.removeLast();
 
-	qDebug() << "m squares";
 
-	this->initBoard();
+	this->initBoard(QList<QString>());
 }
 
 void InnerBoard::squareClicked(int index, QString letter)
 {
-	this->m_squares.replace(index, letter);
+	m_squares.replace(index, letter);
 
 	if (letter == "x")
 	{

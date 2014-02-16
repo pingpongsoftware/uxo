@@ -4,20 +4,36 @@
 GameTracker::GameTracker(QObject *parent) :
     QObject(parent)
 {
-	this->initBoards();
 }
 
-void GameTracker::initBoards()
+void GameTracker::startGame(QString name)
+{	
+	this->m_gameName = name;
+	loadSave = new LoadSave(name);
+
+	QList<InnerBoard> emptyBoards;
+
+	for (int i = 0; i < 9; i++)
+		emptyBoards.push_back(InnerBoard(i));
+
+	this->initBoards(emptyBoards);
+}
+
+void GameTracker::loadGame(QString name)
+{
+	this->m_gameName = name;
+	loadSave = new LoadSave(name);
+
+	this->initBoards(loadSave->loadBoards());
+}
+
+void GameTracker::initBoards(QList<InnerBoard> boards)
 {
 	m_xTurn = true;
 	m_gameWon = false;
 	m_winningPlayer = "-";
 
-	for (int i = 0; i < 9; i++)
-	{
-		m_boards.push_back(InnerBoard(i));
-		m_boards[i].initBoard();
-	}
+	this->m_boards = boards;
 }
 
 void GameTracker::boardClicked(int bigIndex, int smallIndex)
@@ -48,6 +64,8 @@ void GameTracker::boardClicked(int bigIndex, int smallIndex)
 		this->m_gameWon = true;
 	}
 
+	loadSave->saveBoards(this->m_boards);
+
 	m_xTurn = !m_xTurn;
 }
 
@@ -60,7 +78,12 @@ void GameTracker::resetGame()
 		m_boards.removeLast();
 	}
 
-	this->initBoards();
+	QList<InnerBoard> emptyBoards;
+
+	for (int i = 0; i < 9; i++)
+		emptyBoards.push_back(InnerBoard(i));
+
+	this->initBoards(emptyBoards);
 }
 
 bool GameTracker::checkForDeadSquare(int index)

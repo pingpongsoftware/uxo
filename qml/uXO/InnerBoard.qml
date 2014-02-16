@@ -21,6 +21,8 @@ Rectangle
 
     property int gridIndex; //the index, 0-8, of the grid
 
+	Component.onCompleted: console.log(gridIndex);
+
     function printLoc()
     {
         var s = main.toString() + ":  " + main.x + ", " + main.y;
