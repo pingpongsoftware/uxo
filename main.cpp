@@ -11,10 +11,9 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
+	QRect myScreenRect = app.primaryScreen()->geometry();
 
-    QRect myScreenRect = app.primaryScreen()->geometry();
-
-    Scale *pScale;
+	Scale *pScale;
     pScale = new Scale();
     pScale->setScreenSize(myScreenRect.width(), myScreenRect.height());
 
