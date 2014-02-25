@@ -8,11 +8,14 @@ QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    gametracker.cpp \
-    scale.cpp \
     innerboard.cpp \
     winningcombo.cpp \
-    loadsave.cpp
+    loadsave.cpp \
+    board.cpp \
+    game.cpp \
+    square.cpp \
+    tracker.cpp \
+    values.cpp
 
 # Installation path
 # target.path =
@@ -22,15 +25,19 @@ include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    gametracker.h \
-    scale.h \
     innerboard.h \
     winningcombo.h \
     writer.h \
     reader.h \
-    loadsave.h
+    loadsave.h \
+    board.h \
+    game.h \
+    square.h \
+    tracker.h \
+    values.h
 
 OTHER_FILES += \
-    android/AndroidManifest.xml
+    android/AndroidManifest.xml \
+    qml/uXO/Main.qml
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

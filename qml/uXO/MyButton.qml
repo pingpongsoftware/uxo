@@ -25,7 +25,13 @@ Rectangle
     property color buttonColor: "transparent";
     property double buttonOpacity: 1.0;
 
-    property bool showColorWhenClicked: false;
+	property bool showColorWhenClicked:
+	{
+		if (buttonColor !== "transparent")
+			true;
+		else
+			false;
+	}
 
     function getClickableX() { return bRect.x; }
     function getClickableY() { return bRect.y; }
@@ -98,10 +104,14 @@ Rectangle
     TrenchFontText
     {
         id: bText
-        color: textColor;
+		color: textColor;
         anchors.centerIn: bRect;
         fontSize: main.fontSize;
         fontBold: main.fontBold;
         text: main.buttonText;
+
+		opacity: bRect.opacity;
+
+		useThemeColors: false;
     }
 }

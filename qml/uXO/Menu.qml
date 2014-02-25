@@ -3,22 +3,18 @@ import QtQuick 2.0
 Rectangle
 {
     id: main;
-    width: Vals.screenWidth;
-    height: Vals.screenHeight;
-    color: "transparent";
+	width: Vals.getScreenWidth();
+	height: Vals.getScreenHeight();
+
+	color: "transparent";
 
     signal playButtonClicked();
-    signal tutorialButtonClicked();
+	signal helpButtonClicked();
     signal settingsButtonClicked();
+	signal newGameButtonClicked();
 
-    property color releasedColor: Qt.rgba(0,0,0,.5);
-    property color enteredColor: Qt.rgba(0,0,0,.75);
-    property color pressedColor: Qt.rgba(0,0,0,1);
-
-    property color reallyDarkGray: "#444444";
-
-    property int dragMinY: listRect.y * 1.20;
-    property int dragMaxY: main.height - Vals.topToolbarHeight*2
+	property int dragMinY: listRect.y;
+	property int dragMaxY: main.height - savedGameList.getHeaderHeight() - savedGameList.anchors.topMargin;
 
     Image
     {
@@ -33,9 +29,9 @@ Rectangle
         smooth: true;
 
         anchors.top: main.top;
-        anchors.topMargin: Vals.topMargin / 2;
+		anchors.topMargin: Vals.getBasicUnit();
         anchors.horizontalCenter: parent.horizontalCenter;
-        source: "Images/" + Vals.theme + "/title.png";
+		source: "Images/" + Vals.getTheme() + "/title.png";
 
     }
 
@@ -99,22 +95,23 @@ Rectangle
     {
         id: menuFlow;
         parent: listRect
-        width: Vals.buttonWidth; //the flow is the same width as the buttons so the buttons are centered in the flow
-        spacing: Vals.menuSpacing;
+		width: Vals.getBasicUnit()*40; //the flow is the same width as the buttons so the buttons are centered in the flow
+		spacing: Vals.getBasicUnit()*8;
         anchors.horizontalCenter: parent.horizontalCenter;
         anchors.top: parent.top;
+		anchors.topMargin: Vals.getBasicUnit()*3;
 
-        MyButton //new game button
+		MyButton //new game button
         {
             id: newGameButton;
             buttonText: "New Game";
             width: parent.width;
-            fontSize: Vals.mediumLargeFontSize;
+			fontSize: Vals.getMediumFontSize();
             textColor: "steelblue";
 			onClick:
 			{
-				GameTracker.startGame("Test Game 8");
-				(playButtonClicked());
+//				Tracker.newGame("Game 1");
+				(newGameButtonClicked());
 			}
         }
 
@@ -123,9 +120,9 @@ Rectangle
             id: tutorialButton;
             buttonText: "How to Play";
             width: parent.width;
-            fontSize: Vals.mediumLargeFontSize;
+			fontSize: newGameButton.fontSize;
             textColor: "steelblue";
-            onClick: (tutorialButtonClicked());
+			onClick: (helpButtonClicked());
         }
 
         MyButton //settings button
@@ -133,7 +130,7 @@ Rectangle
             id: settingsButton;
             buttonText: "Options";
             width: parent.width;
-            fontSize: Vals.mediumLargeFontSize;
+			fontSize: newGameButton.fontSize;
             textColor: "steelblue";
             onClick: (settingsButtonClicked());
         }
@@ -143,11 +140,11 @@ Rectangle
     Rectangle
     {
         id: littleButton;
-        color: "transparent";
-        width: main.width;
-        height: width/5;
+		color: "transparent";
+		width: Vals.getBasicUnit()*3;
+		height: width/3;
 
-        y: main.height //listFlick.y + listFlick.contentHeight*1.1;  //this is equal to main.dragMaxY, but if I explicitly set it to that to being, it does weird things
+		y: main.height;
 
         Component.onCompleted: y = main.dragMaxY
 
@@ -155,7 +152,7 @@ Rectangle
 
         Behavior on y
         {
-            NumberAnimation { duration: Vals.transitionTime*3; easing.type: Easing.OutBack }
+			NumberAnimation { duration: 600; easing.type: Easing.OutBack }
         }
 
         MouseArea
@@ -214,33 +211,35 @@ Rectangle
 
     Repeater  //the three little rectangles below the menu list
     {
-        model: 3
+		model: 2
 
         Rectangle
         {
             anchors.horizontalCenter: littleButton.horizontalCenter;
-            anchors.top: littleButton.top;
-            anchors.topMargin: height*3*index + height*3;  // spreads them apart and centers them
+			anchors.top: littleButton.top;
+			anchors.topMargin: height*index*2;  // spreads them apart and centers them
 
-            width: Math.round(littleButton.height/5);
-            height: Math.round(width/12);
+			height: littleButton.height/3;
+			width: littleButton.width;
 
             color: "gray";
         }
 
     }
 
-    GameList
-    {
-        anchors.horizontalCenter: main.horizontalCenter;
-        y: littleButton.y + littleButton.height/4;
-        width: main.width
-        height: Math.round((main.height - y)*.931);
+
+	GameList
+	{
+		id: savedGameList;
+
+		anchors.horizontalCenter: main.horizontalCenter;
+		anchors.top: littleButton.bottom;
+		anchors.topMargin: Vals.getBasicUnit();
 
 		onItemButtonClicked:
 		{
-			GameTracker.loadGame(gameName);
+			Tracker.loadGame(gameName);
 			(playButtonClicked());
 		}
-    }
+	}
 }

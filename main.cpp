@@ -3,31 +3,35 @@
 #include <QScreen>
 #include <QQmlEngine>
 #include <QQmlContext>
-#include "scale.h"
-#include "gametracker.h"
+#include "values.h"
+#include "tracker.h"
 
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-	QRect myScreenRect = app.primaryScreen()->geometry();
+	QtQuick2ApplicationViewer viewer;
 
-	Scale *pScale;
-    pScale = new Scale();
-    pScale->setScreenSize(myScreenRect.width(), myScreenRect.height());
+	QRect screenRect = app.primaryScreen()->geometry();
 
-    QtQuick2ApplicationViewer viewer;
+	Tracker *gTracker;
+	gTracker = new Tracker();
 
-    viewer.engine()->rootContext()->setContextProperty("Vals", pScale);
+	viewer.engine()->rootContext()->setContextProperty("Tracker", gTracker);
 
-    GameTracker *gTracker;
-    gTracker = new GameTracker();
+	Values *vals;
+	vals = new Values();
+	vals->setScreenSize(screenRect.width(), screenRect.height());
 
-    viewer.engine()->rootContext()->setContextProperty("GameTracker", gTracker);
+	viewer.engine()->rootContext()->setContextProperty("Vals", vals);
 
-    viewer.setMainQmlFile(QStringLiteral("qml/uXO/Main.qml"));
-    viewer.showExpanded();
+	viewer.setMainQmlFile(QStringLiteral("qml/uXO/Main.qml"));
+	viewer.showExpanded();
+
+	screenRect = viewer.geometry();
+	vals->setScreenSize(screenRect.width(), screenRect.height());
+	vals->setViewer(&viewer);
 
     return app.exec();
 }

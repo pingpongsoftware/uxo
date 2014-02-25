@@ -1,174 +1,137 @@
 import QtQuick 2.0
+import uxo.game 1.0
+import uxo.board 1.0
+import uxo.innerboard 1.0
 
 
 Rectangle
 {
-    id: main;
-    width: Vals.innerRectSize*scale;
-    height: width
-    state: "z"
-    radius: 10;
-    color: "transparent";
-    //layer.enabled: true;
+	id: main;
 
-    property double scale;
+	width: Vals.getInnerBoardSize()*scale;
+	height: width;
 
-    property bool canClick: true;
+	color: "transparent";
 
-    // passes the index of the small tic tac toe square into the main file when a small tile is clicked
-    signal boardClicked(int smallIndex, bool isValid);
-    signal pressedAndHeld(var x, var y);
+	property int gridIndex;	
 
-    property int gridIndex; //the index, 0-8, of the grid
+	property double scale;
 
-	Component.onCompleted: console.log(gridIndex);
+	property Game game: Tracker.getGame();
+	property Board board: game.getBoard();
+	property InnerBoard innerBoard: board.getInnerBoardAt(gridIndex);
 
-    function printLoc()
-    {
-        var s = main.toString() + ":  " + main.x + ", " + main.y;
-		//console.log(s)
-        return s;
-    }
+	property bool isValid;
 
-    Rectangle
-    {
-        id: outlineRect;
-        width: parent.width*.97;
-        height: width;
+	Component.onCompleted:
+	{
+		setState();
+		setValidity();
+	}
 
-        anchors.centerIn: parent;
+	Connections
+	{
+		target: board;
 
-        color: "transparent";
-        border.width:
-        {
-            if (main.canClick === true)
-                width/60;
-            else
-                0;
-        }
+		onClicked: main.setValidity();
+	}
 
-        border.color: "green";
-    }
+	Connections
+	{
+		target: innerBoard;
 
-    Image
-    {
-        id: playerBigWinImage;
-        width: main.width*.95;
-        height: main.height*.95;
-        anchors.centerIn: parent;
-        sourceSize.width: width;
-        sourceSize.height: height;
-        opacity: .6;
-        asynchronous: true;
-    }
+		onStateChanged: main.setState();
+	}
 
-    Grid
-    {
-        id: littleGrid;
-        rows: Vals.rows;
-        columns: rows;
-        spacing: Vals.smallGridSpacing * main.scale;
-        anchors.centerIn: parent;
+	function setValidity()
+	{
+		main.isValid = innerBoard.isValid();
+		outline.setVisibility(main.isValid);
+		main.setState();
+	}
 
-        Repeater
-        {
-            id: littleGridRepeater;
-            model: 9;
+	Rectangle
+	{
+		id: outline;
+		color: "transparent";
+		anchors.centerIn: parent;
+		width: (Vals.getInnerBoardSize() + Vals.getInnerGridSpacing()*3) * main.scale;
+		height: width;
+		border.width: Vals.getInnerGridSpacing()*.8 * main.scale;
+		border.color: setVisibility();
 
-            TicTacToeSquare
-            {
-                scale: main.scale;
-                //sets the index of each square to the index of the gridcell its placed in
-                smallSquareIndex: index;
-                smallSquareCanClick: canClick; //if the big square can't be clicked, the small square can't be clicked
-                gridIndex: main.gridIndex;
+		function setVisibility()
+		{
+			if (main.isValid)
+				border.color = "green";
+			else
+				border.color = "transparent"
+		}
+	}
 
-                onInvalidSquareClicked:
-                {
-                    boardClicked(smallSquareIndex, false);
-                }
+	Image
+	{
+		id: playerWinImage;
+		anchors.fill: parent;
+		sourceSize.width: width*main.scale;
+		sourceSize.height: height*main.scale;
+		asynchronous: true;
+		opacity: .5;
+	}
 
-                onSquareClicked:
-                {
-                    boardClicked(smallSquareIndex, true);
-                }
+	Grid
+	{
+		id: grid;
+		rows: 3;
+		columns: rows;
+		spacing: Vals.getInnerGridSpacing()*main.scale;
 
-                onPressedAndHeld:
-                {
-                    main.pressedAndHeld(x, y);  //x and y passed in TicTacToeSquare.qml
-                }
-            }
-        }
-    }
+		width: parent.width*main.scale;
+		height: width;
+		x: spacing/2;
+		y: x;
 
-    function assignSquares()
-    {
-        for(var i=0; i<littleGridRepeater.count; i++)
-        {
-            var smallSquareAtIndex = littleGridRepeater.itemAt(i);
+		layer.enabled: true;
 
-			if (GameTracker.squareWon(GameTracker.bigIndex, i) === "x") //if (GameTracker_js.squareWon[GameTracker_js.bigIndex][i] === 1)
-            {
-                smallSquareAtIndex.setTTTStates("wonByX"); //an individual square was won by x, so it will now have an x on it
-            }
-			else if(GameTracker.squareWon(GameTracker.bigIndex, i) === "o")
-            {
-                smallSquareAtIndex.setTTTStates("wonByO"); //same as wonByX, but for O.
-            }
-            else
-            {
-                smallSquareAtIndex.setTTTStates("default");  // no X or O on the corresponding square
-            }
-        }
-    }
+		Repeater
+		{
+			id: repeater;
+			model: 9;
 
+			anchors.centerIn: parent;
 
-    function setStates(str)
-    {
-        innerBoardStates.state = str;
-    }
+			Square
+			{
+				gridIndex: main.gridIndex;
+				squareIndex: index;
+				scale: main.scale;
+			}
+		}
+	}
 
-    Item
-    {
-        id: innerBoardStates;
-        state: "default";
-        states:
-        [
-            State
-            {
-                name: "default";
-            },
+	function setState()
+	{
+		main.state = innerBoard.getState();
+	}
 
-            State
-            {
-                name: "wonByX";
-                PropertyChanges
-                {
-                    target: playerBigWinImage; source: "Images/" + Vals.theme + "/x.png";
-                    opacity:  // I only used opacity because I needed somewhere to put a for loop.  The actual loop has nothing to do with opacity.
-                    {
-                        for (var i = 0; i < littleGridRepeater.count; i++)
-                            littleGridRepeater.itemAt(i).changeColor("x");
-                    }
-                }
-            },
+	states:
+	[
+		State
+		{
+			name: "-";
+			PropertyChanges{ target: playerWinImage;}
+		},
+		State
+		{
+			name: "x";
+			PropertyChanges{ target: playerWinImage; source: "Images/" + Vals.getTheme() + "/x.png" }
+		},
+		State
+		{
+			name: "o";
+			PropertyChanges{ target: playerWinImage; source: "Images/" + Vals.getTheme() + "/o.png"  }
+		}
 
-            State
-            {
-                name: "wonByO";
-                PropertyChanges
-                {
-                    target: playerBigWinImage; source: "Images/" + Vals.theme + "/o.png";
-                    opacity:  // I only used opacity because I needed somewhere to put a for loop.  The actual loop has nothing to do with opacity.
-                    {
-                        for (var i = 0; i < littleGridRepeater.count; i++)
-                            littleGridRepeater.itemAt(i).changeColor("o");
-                    }
-                }
-            }
-        ]
-
-    }
-
-
+	]
 }
+

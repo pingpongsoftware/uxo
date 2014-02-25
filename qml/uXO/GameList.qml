@@ -2,25 +2,37 @@ import QtQuick 2.0
 
 Item
 {
-    clip: true;
-    id: main;
+	id: main;
+	clip: true;
+
+	width: Vals.getScreenWidth();
+	height: headerRect.height;  // will be added onto as items are added
 
 	signal itemButtonClicked(var gameName);
+
+	function getHeaderHeight()
+	{
+		return headerRect.height;
+	}
 
     Rectangle
     {
         id: headerRect;
         width: parent.width;
-        height: width/10;
+		height: Vals.getBasicUnit()*10
         color: "firebrick"
 
         z: 1000; // so it is in front of everything else
 
         TrenchFontText
         {
-            fontSize: Vals.mediumLargeFontSize;
+			fontSize: Vals.getMediumSmallFontSize();
             text: "Saved Games";
-            color: "lightgray";
+			lightThemeColor: "white";
+			darkThemeColor: "white";
+
+			Component.onCompleted: updateColor();
+
             fontBold: true;
             anchors.centerIn: parent;
         }
@@ -32,8 +44,8 @@ Item
         GameListItem
         {
             width: main.width
-            height: width/9;
-            text: name;
+			height: Vals.getBasicUnit()*15;
+			name: name;
             rectOpacity: .5;
 
 			onButtonClicked: itemButtonClicked(gameName);
@@ -51,6 +63,11 @@ Item
                 height: listView.spacing;
                 anchors.top: parent.bottom;
             }
+
+			Component.onCompleted:
+			{
+				main.height += height;
+			}
         }
 
     }
@@ -77,7 +94,9 @@ Item
           delegate: listDelegate
           focus: true
           spacing: 1
-          boundsBehavior: Flickable.StopAtBounds
+		  boundsBehavior: Flickable.StopAtBounds;
           pressDelay: 50;
+
+		  Component.onCompleted: console.log(height);
     }
 }

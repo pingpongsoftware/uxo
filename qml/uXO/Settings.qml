@@ -4,188 +4,147 @@ Rectangle
 {
     id: main;
 
-    width: Vals.screenWidth;
-    height: Vals.screenHeight;
+	width: Vals.getScreenWidth();
+	height: Vals.getScreenHeight();
     color: "transparent";
 
     signal switchThemeButtonClicked();
 
-    Flickable
-    {
-        id: flowListFLickable;
-        width: main.width;
-        height: Vals.menuTitleHeight + main.buttonHeight + main.smallButtonHeight + flow.spacing*2;  //this is the height of all the objects in the flow added together plus the spacing (20 is the spacing of the flow and the number multiplied by 20 is the number of objects in it)
+	Flow  //This makes all of the settings easier to position
+	{
+		id: flow;
 
+		width: parent.width/2.5;
+		height: parent.height;
+		anchors.horizontalCenter: parent.horizontalCenter;
+		y: Vals.getTopToolbarHeight()*1.2;
 
-        anchors.top: main.top;
-        anchors.topMargin: Vals.topMargin;
-        anchors.horizontalCenter: main.horizontalCenter;
+		spacing: Vals.getBasicUnit()*5;
 
-        interactive: true;
+		TrenchFontText
+		{
+			id: title;
 
-        contentWidth: width;
-        contentHeight: main.height;
+			width: parent.width;
 
+			text: "Options";
+			font.pixelSize: Vals.getExtraLargeFontSize();
+			font.letterSpacing: 2;
+			font.wordSpacing: 0;
 
-        Flow  //This makes all of the settings easier to position
-        {
-            id: flow;
+			darkThemeColor: "lightgray"
 
-            width: parent.width/2.5;
-            height: parent.height;
-            anchors.centerIn: parent;
+			Component.onCompleted: updateColor();
+		}
 
-            spacing: Vals.menuSpacing/2;
+		TrenchFontText
+		{
+			id: setThemeText;
 
-            TrenchFontText
-            {
-                id: title;
+			width: parent.width;
+			height: main.buttonHeight;
 
-                width: parent.width;
-                height: Vals.menuTitleHeight;
+			text: "Select Theme";
+			fontSize: Vals.getMediumLargeFontSize();
+			fontBold: false;
 
-                text: "Options";
-                font.pixelSize: Vals.largeFontSize;
-                font.letterSpacing: 2;
-                font.wordSpacing: 0;
-                color: {changeColorsToMatchTheme();}
-                opacity: .6;
+			Component.onCompleted: updateColor();
+		}
 
-            }
+		Flow //to easier format the theme buttons
+		{
+			id: themeFlow
+			width: parent.width;
+			spacing: 0;
+			height: Vals.smallButtonHeight;
 
-            TrenchFontText
-            {
-                id: setThemeText;
+			MyButton
+			{
+				id: lightThemeButton;
 
-                width: parent.width;
-                height: main.buttonHeight;
+				width: parent.width/2;
+				height: getClickableHeight()*1.5;
 
-                text: "Select Theme";
-                fontSize: Vals.mediumLargeFontSize;
-                color: {changeColorsToMatchTheme();}
-                opacity: .7;
+				buttonText: "Light"
+				fontBold: false;
 
-            }
+				fontSize: Vals.getMediumSmallFontSize();
+				textColor: "white"
 
-            Flow //to easier format the theme buttons
-            {
-                id: themeFlow
-                width: parent.width;
-                spacing: 0;
-                height: Vals.smallButtonHeight;
-                //effectiveLayoutDirection: Flow.LeftToRight;
+				onClick: switchTheme("light");
+			}
 
-                MyButton
-                {
-                    id: lightThemeButton;
+			MyButton
+			{
+				id: darkThemeButton;
 
-                    width: parent.width/2;
-                    height: getClickableHeight()*1.5;
+				width: lightThemeButton.width;
+				height: lightThemeButton.height;
 
-                    buttonText: "Light"
-                    fontBold: false;
+				buttonText: "Dark"
+				fontBold: lightThemeButton.fontBold;
 
-                    fontSize: Vals.mediumFontSize;
-                    textColor: "lightgray"
+				fontSize: lightThemeButton.fontSize;
+				textColor: "black"
 
-                    onClick: switchTheme("light");
-                }
+				onClick: switchTheme("dark");
+			}
 
-                MyButton
-                {
-                    id: darkThemeButton;
+		}
 
-                    width: lightThemeButton.width;
-                    height: lightThemeButton.height;
+	}
 
-                    buttonText: "Dark"
-                    fontBold: lightThemeButton.fontBold;
+	Rectangle
+	{
+		id: themeRect;
+		width: lightThemeButton.getClickableWidth()*1.8;
+		height: lightThemeButton.getClickableHeight();
+		radius: height;
+		color: "steelblue";
+		//opacity: .8;
+		z: -5; //so it is behind the other objects
 
-                    fontSize: lightThemeButton.fontSize;
-                    textColor: "#333333"
+		property int lightX: (lightThemeButton.x + (lightThemeButton.width-themeRect.width)/2) + flow.x + themeFlow.x;
+		property int darkX: (darkThemeButton.x + (darkThemeButton.width-themeRect.width)/2) + flow.x + themeFlow.x;
 
-                    onClick: switchTheme("dark");
-                }
+		y: lightThemeButton.getRelativeClickableY() + lightThemeButton.getClickableHeight()/2 + flow.y + themeFlow.y;
+		state:
+		{
+			state = Vals.getTheme();
+		}
 
-            }
+		states:  //the state its in determines its location
+		[
+			State
+			{
+				name: "dark";
+				PropertyChanges { target: themeRect; x: themeRect.darkX; }
+			},
+			State
+			{
+				name: "light";
+				PropertyChanges { target: themeRect; x: themeRect.lightX; }
+			}
+		]
 
-        }
+		transitions:  //makes the themeRect move between locations instead of jump between locations
+		[
+			Transition { from: "*"; to: "*"; PropertyAnimation { properties: "x"; duration: 200; } }
 
-        Rectangle
-        {
-            id: themeRect;
-            width: lightThemeButton.getClickableWidth()*1.8;
-            height: lightThemeButton.getClickableHeight();
-            radius: height;
-            color: "steelblue";
-            //opacity: .8;
-            z: -5; //so it is behind the other objects
+		]
 
-            property int lightX: (lightThemeButton.x + (lightThemeButton.width-themeRect.width)/2) + flow.x + themeFlow.x;
-            property int darkX: (darkThemeButton.x + (darkThemeButton.width-themeRect.width)/2) + flow.x + themeFlow.x;
-
-            y: lightThemeButton.getRelativeClickableY() + lightThemeButton.getClickableHeight()/2 + flow.y + themeFlow.y;
-            state:
-            {
-                if (Vals.theme === "dark")
-                    "darkState";
-                else if (Vals.theme === "light")
-                    "lightState"
-            }
-
-            states:  //the state its in determines its location
-            [
-                State
-                {
-                    name: "darkState";
-                    PropertyChanges { target: themeRect; x: themeRect.darkX; }
-                },
-                State
-                {
-                    name: "lightState";
-                    PropertyChanges { target: themeRect; x: themeRect.lightX; }
-                }
-            ]
-
-            transitions:  //makes the themeRect move between locations instead of jump between locations
-            [
-                Transition { from: "*"; to: "*"; PropertyAnimation { properties: "x"; duration: Vals.transitionTime; } }
-
-            ]
-
-        }
-
-    }
+	}
 
     function switchTheme(theme)
     {
-        Vals.setTheme(theme)
+		if (theme !== themeRect.state)
+			Vals.switchTheme();
 
-        if (theme === "dark")
-            themeRect.state = "darkState";
-
-        else if (theme === "light")
-            themeRect.state = "lightState";
+		themeRect.state = Vals.getTheme();
 
         switchThemeButtonClicked(); //sends signal to the main.qml file so the background image will change
-        changeColorsToMatchTheme(); //calls the function that changes the colors of all the text and button, etc.
+
+		title.updateColor();
+		setThemeText.updateColor();
     }
-
-    function changeColorsToMatchTheme()
-    {
-        if (Vals.theme === "light")
-        {
-            title.color = "firebrick";
-            setThemeText.color = "firebrick";
-        }
-
-        else if (Vals.theme === "dark")
-        {
-            title.color = "white"
-            setThemeText.color = "steelblue";
-        }
-
-    }
-
-
 }

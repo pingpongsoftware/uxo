@@ -3,7 +3,7 @@ import QtQuick 2.0
 Item
 {
     id: main;
-    property string text;
+	property string name;
     property double rectOpacity: 1;
 
 	signal buttonClicked(var gameName);
@@ -11,13 +11,13 @@ Item
 
     MyButton
     {
-        buttonText: main.text;
-        fontBold: false;
-        fontSize: Vals.mediumSmallFontSize;
+		buttonText: main.name;
+		fontBold: false;
+		fontSize: Vals.getMediumFontSize();
         anchors.fill: parent;
-        buttonColor:
+		buttonColor:
         {
-            if (Vals.theme === "light")
+			if (Vals.getTheme() === "light")
                 "black";
             else
                 "white"
@@ -25,7 +25,7 @@ Item
 
         textColor:
         {
-            if (Vals.theme === "light")
+			if (Vals.getTheme() === "light")
                 "black";
             else
                 "white"
@@ -33,7 +33,7 @@ Item
 
 		onClick:
 		{
-			buttonClicked("Test Game 8");
+			buttonClicked(name);
 		}
 
         buttonOpacity: .2

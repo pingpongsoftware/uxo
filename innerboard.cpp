@@ -1,128 +1,92 @@
 #include "innerboard.h"
-#include <QDebug>
-#include <QString>
-#include "winningcombo.h"
 
-InnerBoard::InnerBoard(int index, QList<QString> squareList)
+InnerBoard::InnerBoard(QObject *parent, QString squaresString) :
+	QObject(parent)
 {
-	winningCombos.push_back(WinningCombo(0,1,2));
-	winningCombos.push_back(WinningCombo(3,4,5));
-	winningCombos.push_back(WinningCombo(6,7,8));
-	winningCombos.push_back(WinningCombo(0,3,6));
-	winningCombos.push_back(WinningCombo(1,4,7));
-	winningCombos.push_back(WinningCombo(2,5,8));
-	winningCombos.push_back(WinningCombo(0,4,8));
-	winningCombos.push_back(WinningCombo(2,4,6));
+	for (int i = 0; i < 9; i++)
+		this->m_squares.push_back(new Square(this, squaresString.at(i)));
 
-	this->initBoard(squareList);
+	this->setValidity(false);
 }
 
-void InnerBoard::initBoard(QList<QString> list)
+QString InnerBoard::getState()
 {
-	m_winningPlayer = "-";
-
-	if (list.length() != 9)
-		for (int i = 0; i < 9; i ++)
-			this->m_squares.push_back("-");
-	else
-		for (int i = 0; i < list.length(); i++)
-			this->m_squares.push_back(list[i]);
-
-	//---resets the xSquares won and oSquares won to what it should be ---------------------
-	for (int i = 0; i < m_xSquares.length(); i++)
-		this->m_xSquares.removeFirst();
-	for (int i = 0; i < m_oSquares.length(); i++)
-		this->m_oSquares.removeFirst();
-
-	for (int i = 0; i < m_squares.length(); i++)
-	{
-		if (m_squares[i] == "x")
-			this->m_xSquares.push_back(i);
-		else if (m_squares[i] == "o")
-			this->m_oSquares.push_back(i);
-	}
-	//---------------------------------------------------------------------------------------
-
+	return this->m_state;
 }
 
-void InnerBoard::resetBoard()
+QString InnerBoard::getSquaresString()
 {
-	for (int i = m_squares.length() - 1; i >= 0 ; i--)
-		m_squares.removeLast();
+	QString temp = "";
 
-	for (int i = m_xSquares.length() - 1; i >= 0 ; i--)
-		m_xSquares.removeLast();
-	qDebug() << "x squares";
+	for (int i = 0; i < this->m_squares.length(); i++)
+		temp += this->m_squares[i]->getState();
 
-	for (int i = m_oSquares.length() - 1; i >= 0 ; i--)
-		m_oSquares.removeLast();
-
-
-	this->initBoard(QList<QString>());
+	return temp;
 }
 
-void InnerBoard::squareClicked(int index, QString letter)
+QList<int> InnerBoard::squaresWonByX()
 {
-	m_squares.replace(index, letter);
+	QList<int> temp;
 
-	if (letter == "x")
-	{
-		this->m_xSquares.push_back(index);
+	for (int i = 0; i < 9; i++)
+		if (this->m_squares[i]->getState() == "x")
+			temp.push_back(i);
 
-		if (m_xSquares.length() >= 3 && checkForWinningCombos(this->m_xSquares))
-			this->m_winningPlayer = "x";
-	}
-	else if (letter == "o")
-	{
-		this->m_oSquares.push_back(index);
-		if (m_oSquares.length() >= 3 && checkForWinningCombos(this->m_oSquares))
-			this->m_winningPlayer = "o";
-	}
-	else
-		qDebug() << "invalid letter given";
+	return temp;
 }
 
-bool InnerBoard::checkForWinningCombos(QList<int> squaresWon)
+QList<int> InnerBoard::squaresWonByO()
 {
-	bool boardWon = false;
-	int matchCount = 0;
+	QList<int> temp;
 
-	for (int i = 0; i < this->winningCombos.length(); i++)
+	for (int i = 0; i < 9; i++)
+		if (this->m_squares[i]->getState() == "o")
+			temp.push_back(i);
+
+	return temp;
+}
+
+bool InnerBoard::click(int index, QString s)
+{
+	if (this->isValid())
 	{
-		for (int j = 0; j < this->winningCombos[i].getCombo().length(); j++)
+		if (m_squares[index]->click(s))
 		{
-			for (int k = 0; k < squaresWon.length(); k++)
-			{				
-				if (winningCombos[i].getCombo()[j] == squaresWon[k])
-				{
-					matchCount++;
-					break;
-				}
-			}
+			emit this->clicked();
+			return true;
 		}
-
-		if (matchCount >= 3)
-		{
-			boardWon = true;
-			break;
-		}
-
-		matchCount = 0;
 	}
 
-	return boardWon;
+	return false;
 }
 
-bool InnerBoard::isBoardWon()
+Square* InnerBoard::getSquareAt(int index)
 {
-	if (this->m_winningPlayer == "-")
-		return false;
-
-	return true;
+	return this->m_squares[index];
 }
 
-
-QString InnerBoard::squareWon(int index)
+void InnerBoard::setValidity(bool b)
 {
-	return m_squares[index];
+	this->m_isValid = b;
+}
+
+bool InnerBoard::isValid()
+{
+	return this->m_isValid;
+}
+
+bool InnerBoard::isWon()
+{
+	if (this->m_state == "x" || this->m_state == "o")
+		return true;
+
+	this->m_state = "-";  //if for some reason the state is neither "x", "o", or "-", this changes it to "-"
+
+	return false;
+}
+
+void InnerBoard::setWinner(QString winner)
+{
+	this->m_state = winner;
+	this->stateChanged();
 }

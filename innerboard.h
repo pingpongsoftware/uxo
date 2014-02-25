@@ -1,38 +1,46 @@
 #ifndef INNERBOARD_H
 #define INNERBOARD_H
 
-#include <QList>
+#include <QObject>
+#include "square.h"
 #include <QString>
-#include "winningcombo.h"
+#include <QList>
+#include <QDebug>
 
-class InnerBoard
+
+class InnerBoard : public QObject
 {
+		Q_OBJECT
 	public:
-		InnerBoard(int index = -1, QList<QString> squareList = QList<QString>());
+		explicit InnerBoard(QObject *parent = 0, QString squaresString = "---------");
 
-		void initBoard(QList<QString> list);
-		void resetBoard();
-		void squareClicked(int index, QString letter);
+		Q_INVOKABLE QString getState(); //returns the state, see innerboard.cpp
+		QString getSquaresString();  //returns a string of all the squares states
+		bool click(int index, QString s);  // runs method then returns true if its a valid click
 
-		bool checkForWinningCombos(QList<int> squaresWon);
+		Q_INVOKABLE Square* getSquareAt(int index);  //returns the square at the given index		
 
-		bool isBoardWon();
+		QList<int> squaresWonByX(); //returns a list of the indeces of the squares won by x
+		QList<int> squaresWonByO();  //return a list of the indeces of the squres won by o
 
-		QString winningPlayer() { return m_winningPlayer; }
 
-		QString squareWon(int index);
+		void setValidity(bool b);
+		void setWinner(QString winner);
 
-		int squaresPlayedLength() { return m_oSquares.length() + m_xSquares.length(); }
-
+		Q_INVOKABLE bool isValid();
+		Q_INVOKABLE bool isWon();
 
 	private:
-		QList<WinningCombo> winningCombos;
+		QList<Square*> m_squares;
+		QString m_state; // "x" if won by x, "o" if won by o, "-" if won by neither
+		bool m_isValid;
 
-		QList<QString> m_squares; //the total list of squares. "x" if won by x, "o" if won by o, and "-" if won by nobody
-		QList<int> m_xSquares; // a list of the indeces of the tiles won by x
-		QList<int> m_oSquares; // a list of the indeces of the tiles won by o
+	signals:
+		void clicked();
+		void stateChanged();
 
-		QString m_winningPlayer;  // "x" if x won the board, "o" if o won the board
+	public slots:
+
 };
 
 #endif // INNERBOARD_H

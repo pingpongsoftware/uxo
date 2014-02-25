@@ -5,7 +5,12 @@ Text
     id:  main;
 
     property int fontSize;
-    property bool fontBold: true
+	property bool fontBold: true;
+
+	property color darkThemeColor: "steelblue";
+	property color lightThemeColor: "firebrick";
+
+	property bool useThemeColors: true;
 
     //load fonts from a file
     FontLoader { id: trenchFont; source: "Fonts/trench.ttf" }
@@ -18,12 +23,20 @@ Text
     font.pixelSize: fontSize;
     text: "NO TEXT SET!!!";
 
-    color:
-    {
-        // sets the text color based on the theme if the color is not manually set.
-        if (Vals.theme === "dark")
-            "lightgray";
-        else
-            "darkgray"
-    }
+	color: updateColor;
+
+	function updateColor()
+	{
+		if (main.useThemeColors)
+		{
+			if (Vals.getTheme() === "dark")
+				color = darkThemeColor;
+			else
+				color = lightThemeColor;
+		}
+	}
+
+	Behavior on color { PropertyAnimation { duration: 200; } }
+
+	Component.onCompleted: updateColor();
 }

@@ -2,21 +2,25 @@
 #define LOADSAVE_H
 
 #include <QString>
-#include <QFile>
-#include <QTextStream>
 #include <QDebug>
-#include "innerboard.h"
+#include <QFile>
 
 class LoadSave
 {
 	public:
-		LoadSave(QString name);
+		LoadSave(QString filename = "");
 
-		QList<InnerBoard> loadBoards();
-		void saveBoards(QList<InnerBoard> list);
+		QString loadGame();
+		void saveGame(QString allSquares);
+
+		bool loadTurn();
+		void saveTurn(bool xTurn);
+
+		QList<int> loadValidBoards();
+		void saveValidBoards(QList<int> list);
 
 	private:
-		QString m_name;
+		QString m_filename;
 };
 
 #endif // LOADSAVE_H

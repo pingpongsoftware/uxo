@@ -1,135 +1,170 @@
 import QtQuick 2.0
-import "GameTracker.js" as GameTracker_js
 
 Rectangle
 {
     id: main;
 
-    width: Vals.screenWidth;
-    height: Vals.screenHeight;
-    focus:true;
+	width: Vals.getScreenWidth();
+	height: Vals.getScreenHeight();
 
-    Component.onCompleted:
-    {
-//        console.log("Vals Screen Size: " + Vals.screenWidth + ", " + Vals.screenHeight)
-//        console.log("Main Screen Size: " + main.width + ", " + main.height)
-    }
+	Image
+	{
+		id: lightBackground;
+		anchors.fill: parent;
+		source: "Images/light/background.png";
+	}
 
-    property string previous: "Menu.qml";
+	Image
+	{
+		id: darkBackground;
+		anchors.fill: parent;
+		source: "Images/dark/background.png";
 
-    Image
-    {
-        id: lightBackground;
-        anchors.fill: parent;
-        source: "Images/light/background.png";
-    }
+		Component.onCompleted: updateOpacity();
 
-    Image  //the theme depends on the opacity of this image (dark background)
-    {
-        id: darkBackground;
-        anchors.fill: parent;
-        source: "Images/dark/background.png";
-        state: Vals.theme;
-        states: //changes the opacity of the dark background depending on which theme is selected;
-        [
-            State { name: "dark"; PropertyChanges { target: darkBackground; opacity: 1; } },
-            State { name: "light"; PropertyChanges { target: darkBackground; opacity: 0; } }
-        ]
+		function updateOpacity()
+		{
+			if (Vals.getTheme() === "light")
+				opacity = 0;
+			else if (Vals.getTheme() === "dark")
+				opacity = 1;
+		}
 
-        transitions:
-        [
-            Transition
-            {
-                from: "*"; to: "*"
-                PropertyAnimation { target: darkBackground; property: "opacity"; duration: Vals.transitionTime; }
-            }
-        ]
-    }
+		Connections
+		{
+			target: Vals;
 
-    Loader
-    {
-        id: loader;
-        source: source = "Menu.qml";
-    }
+			onThemeSwitched: darkBackground.updateOpacity();
+		}
 
-    //connects the loader with the qml files its loading.
-    //uses signals to tell the loader what to do.
-    Connections
-    {
-        target: loader.item;
-        ignoreUnknownSignals: true;
+		Behavior on opacity { NumberAnimation { duration: 200; } }
+	}
 
-        onPlayButtonClicked:
-        {
-            topToolbar.updateBackButtonEnabled(true);
-            GameTracker_js.previousFile = GameTracker_js.currentFile;
-            GameTracker_js.currentFile = "Game.qml";
-            loader.source = "Game.qml"
-        }
+	Loader
+	{
+		id: loader;
 
-        onSettingsButtonClicked:
-        {
-            topToolbar.updateBackButtonEnabled(true);
-            GameTracker_js.previousFile = GameTracker_js.currentFile;
-            GameTracker_js.currentFile = "Settings.qml";
-            loader.source = "Settings.qml"
-        }
+		Timer
+		{
+			interval: 1;
+			running: true;
 
-        onTutorialButtonClicked:
-        {
-            topToolbar.updateBackButtonEnabled(true);
-            GameTracker_js.previousFile = GameTracker_js.currentFile;
-            GameTracker_js.currentFile = "Tutorial.qml";
-            loader.source = "Tutorial.qml"
-        }
+			onTriggered:
+			{
+				loader.loadApp();
+			}
+		}
 
-        onExitButtonClicked:
-        {
-            loader.source = "Menu.qml"
-            GameTracker_js = loader.source;
-        }
+		source: "Splash.qml";
 
-        onSwitchThemeButtonClicked:
-        {
-            darkBackground.state = Vals.theme;  //switches the background image
-            topToolbar.state = Vals.theme;
-        }
-    }
+		function loadApp()
+		{
+			Vals.initLoaderSource("Menu.qml");
+			source = Vals.getLoaderSource();
 
-    TopToolbar
-    {
-        id: topToolbar;
-        anchors.top: main.top;
-        anchors.horizontalCenter: main.horizontalCenter;
-        state: Vals.theme;
+			main.width = Vals.getScreenWidth();  //resets the screen size
+			main.height = Vals.getScreenHeight();
 
-        Component.onCompleted: updateBackButtonEnabled(false);
+			topToolbar.setVisibility();
 
-        onBackButtonPressed:
-        {
-            main.backButtonPressed();
-        }
-    }
+			Vals.resizeWindowCorrectly();
+		}
+	}
 
-    Keys.onReleased: {
+	Connections
+	{
+		target: loader.item;
+		ignoreUnknownSignals: true;
+
+		onNewGameButtonClicked:
+		{
+			main.newLoaderSource("CreateGame.qml");
+		}
+
+		onPlayButtonClicked:
+		{
+			main.newLoaderSource("Game.qml");
+		}
+
+		onBackButtonPressed:
+		{
+			topToolbar.titleStringToNormal();
+			main.backButtonPressed();
+		}
+
+		onSettingsButtonClicked:
+		{
+			topToolbar.titleStringToNormal();
+			main.newLoaderSource("Settings.qml");
+		}
+
+		onCancelButtonClicked:
+		{
+			topToolbar.titleStringToNormal();
+			main.newLoaderSource("Menu.qml");
+		}
+
+		onCreateGameButtonClicked:
+		{
+			topToolbar.titleString = gameName;
+			Tracker.newGame(gameName);  //gameName passed in through the signal
+			main.newLoaderSource("Menu.qml");  //this is just here so the previous source will be Menu.qml instead of CreateGame.qml
+			main.newLoaderSource("Game.qml");
+		}
+	}
+
+	function newLoaderSource(source)
+	{
+		Vals.setLoaderSource(source);
+		loader.setSource(Vals.getLoaderSource());
+		topToolbar.setVisibility();
+	}
+
+	Keys.onReleased:
+	{
 		//console.log("KEY_PRESSED: " + event.key)
-        if (event.key === Qt.Key_Back)
-        {
-            event.accepted = true;
-            backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
-        }
-    }
+		if (event.key === Qt.Key_Back)
+		{
+			event.accepted = true;
+			backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
+		}
+	}
 
-    function backButtonPressed()
-    {
-        if (GameTracker_js.currentFile !== "Menu.qml")
-        {
-            GameTracker_js.resetGame();
-            GameTracker_js.currentFile = GameTracker_js.previousFile;
-            loader.source = GameTracker_js.previousFile;
-            if (GameTracker_js.previousFile === "Menu.qml");
-                topToolbar.updateBackButtonEnabled(false);
-            Vals.zoomOut();
-        }
-    }
+	function backButtonPressed()
+	{
+		topToolbar.titleStringToNormal();
+
+		Vals.setLoaderSource(Vals.getPreviousLoaderSource());
+
+		if(Vals.getLoaderSource() === "Menu.qml")   // So you can't push the back button from the menu and have it go back to the previous screen
+			Vals.initLoaderSource("Menu.qml");
+		else
+			Vals.setLoaderSource(Vals.getLoaderSource())
+
+		loader.setSource(Vals.getLoaderSource());
+
+		topToolbar.setVisibility();
+	}
+
+	TopToolbar
+	{
+		id: topToolbar;
+
+		visible: false;
+
+		function setVisibility()
+		{
+			if (Vals.getLoaderSource() === "Menu.qml")
+				visible = false;
+			else
+				visible = true;
+		}
+
+		function titleStringToNormal()
+		{
+			titleString = "uXO: Ultimate Tic-Tac-Toe"
+		}
+
+		onBackButtonPressed: main.backButtonPressed();
+	}
 }

@@ -3,18 +3,29 @@ import QtQuick 2.0
 Item
 {
     id: main;
-    state: Vals.theme;
 
-    width: Vals.screenWidth;
-    height: Vals.topToolbarHeight;
+	width: Vals.getScreenWidth();
+	height: Vals.getTopToolbarHeight();
 
     signal backButtonPressed();
+
+	property string titleString: "uXO:  Ultimate Tic-Tac-Toe"
 
     function updateBackButtonEnabled(b)
     {
         backMouse.enabled = b;
         backImage.visible = b;
     }
+
+	Connections
+	{
+		target: Vals;
+
+		onThemeSwitched:
+		{
+			toolbarImageDark.updateOpacity();
+		}
+	}
 
     states:
     [
@@ -36,42 +47,20 @@ Item
     Image
     {
         id: toolbarImageDark;
-        state: Vals.theme;
         anchors.fill: parent;
         sourceSize.width: parent.width;
         sourceSize.height: parent.height;
-        source: "Images/dark/topToolbar.png"
+		source: "Images/dark/topToolbar.png"
 
-        states:
-        [
-            State { name: "dark"; PropertyChanges { target: toolbarImageDark; opacity: 1; } },
-            State { name: "light"; PropertyChanges { target: toolbarImageDark; opacity: 0; } }
-        ]
+		function updateOpacity()
+		{
+			if (Vals.getTheme() === "dark")
+				opacity = 1;
+			else if (Vals.getTheme() === "light")
+				opacity = 0;
+		}
 
-        transitions:
-        [
-            Transition
-            {
-                from: "*"; to: "*";
-                PropertyAnimation { target: toolbarImage; properties: "opacity"; duration: Vals.transitionTime; }
-            }
-        ]
-
-    }
-
-    Rectangle
-    {
-        id: toolbarLine;
-        anchors.top: toolbarImageDark.bottom;
-        width: parent.width;
-        height: parent.height/40;
-        color:
-        {
-            if (parent.state === "light")
-                "black";
-            else
-                "lightgray";
-        }
+		Behavior on opacity { NumberAnimation { duration: 200; } }
     }
 
     Rectangle  //for the back button
@@ -79,7 +68,7 @@ Item
         id: backRect;
         color: "black";
         height: parent.height;
-        width: height;
+		width: height;
         anchors.verticalCenter: parent.verticalCenter;
         anchors.left: parent.left
         opacity: 0;
@@ -95,8 +84,6 @@ Item
             id: backMouse;
             anchors.fill: parent;
 
-            enabled: main.backButtonEnabled;
-
             onPressed: { backImage.opacity = .5; backRect.opacity = .5 }
             onExited: parent.changeOpacity();
             onCanceled: parent.changeOpacity();
@@ -106,10 +93,10 @@ Item
                 backRect.changeOpacity();
 
                 backButtonPressed();
-				GameTracker.resetGame();
             }
         }
     }
+
 
     Image
     {
@@ -120,19 +107,38 @@ Item
         sourceSize.height: width;
         sourceSize.width: width;
         anchors.centerIn: backRect;
-        visible: main.backButtonEnabled;
     }
 
-    Text
+	Rectangle
+	{
+		id: separatorLineRect;
+		height: main.height;
+		width: Vals.getBasicUnit()/8;
+		anchors.left: backRect.right;
+		anchors.leftMargin: Vals.getBasicUnit()/5;
+		color:
+		{
+			if (Vals.getTheme() === "dark")
+				"white";
+			else if (Vals.getTheme() === "light")
+				"black";
+		}
+	}
+
+	TrenchFontText
     {
         id: titleText;
 
-        anchors.left: backRect.right;
-        anchors.leftMargin: backRect.width/2;
-        anchors.verticalCenter: main.verticalCenter;
-        font.pixelSize: Vals.mediumSmallFontSize;
-        color: "white";
+		anchors.verticalCenter: main.verticalCenter;
+		anchors.left: separatorLineRect.right;
+		anchors.leftMargin: Vals.getBasicUnit()*4;
+		fontSize: Vals.getMediumSmallFontSize();
 
-        text: "uXO:  Ultimate Tic-Tac-Toe";
+		darkThemeColor: "white";
+		lightThemeColor:  "white";
+
+		Component.onCompleted: updateColor();
+
+		text: main.titleString;
     }
 }

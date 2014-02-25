@@ -1,20 +1,38 @@
 import QtQuick 2.0
+import uxo.game 1.0;
 
 Rectangle
 {
     id: main;
-    state: "xTurn";
+
+	property Game game;
+
     signal resetButtonClicked();
     signal backButtonClicked();
     signal resizeGame();
-    color: "transparent";
+	color: "transparent";
+
+	width: Vals.getScreenWidth();
+	height: Vals.getBasicUnit()*20;
+
+	Component.onCompleted:
+	{
+		game = Tracker.getGame();
+		setState();
+	}
+	Connections
+	{
+		target: game;
+
+		onClicked: main.setState();
+	}
 
     Rectangle
     {
         id: visibleRect;
-        color: "gray";
+		color: "black";
         anchors.fill: parent;
-        opacity: .5
+		opacity: .4
     }
 
     Rectangle // automatically formats the toolbar in a flow layout
@@ -25,32 +43,44 @@ Rectangle
         anchors.margins: 50;
         color: "transparent";
 
-        property int leftRightMargin: 20;
+		property int leftRightMargin: Vals.getBasicUnit()*3;
 
         Image
         {
             id: xImage;
-            source: "Images/" + Vals.theme + "/x.png";
+			source: "Images/" + Vals.getTheme() + "/x.png";
             x: parent.leftRightMargin;
+
+			width: main.height;
+			height: width;
+
+			sourceSize.height: main.height;
+			sourceSize.width: main.height;
             anchors.verticalCenter: parent.verticalCenter;
         }
 
         Image
         {
             id: oImage;
-            source: "Images/" + Vals.theme + "/o.png";
+			source: "Images/" + Vals.getTheme() + "/o.png";
             x: main.width - parent.leftRightMargin - width;
+
+			width: main.height;
+			height: width;
+
+			sourceSize.height: main.height;
+			sourceSize.width: main.height
             anchors.verticalCenter: parent.verticalCenter;
         }
 
-    }
+	}
 
-    function setTurn()
-    {
-        //sets the state of the toolbar
-		if (GameTracker.xTurn)
-            bottomToolbar.state = "xTurn";
-        else bottomToolbar.state = "oTurn";
+	function setState() //sets the state of the toolbar
+    {        
+		if (game.xTurn)
+			main.state = "x";
+		else
+			main.state = "o";
     }
 
     states:
@@ -59,26 +89,26 @@ Rectangle
 
         State
         {
-            name: "xTurn";
+			name: "x";
             PropertyChanges
             {
                 target: xImage;
-                height: main.height/1.2;
+				height: main.height/1.2;
                 width: height
                 opacity: 1;
             }
             PropertyChanges
             {
                 target: oImage;
-                height: main.height/1.7;
+				height: main.height/2;
                 width: height
-                opacity: .6;
+				opacity: .4;
             }
         },
 
         State
         {
-            name: "oTurn";
+			name: "o";
             PropertyChanges
             {
                 target: oImage;
@@ -89,9 +119,9 @@ Rectangle
             PropertyChanges
             {
                 target: xImage;
-                height: main.height/1.7;
+				height: main.height/2;
                 width: height
-                opacity: .6;
+				opacity: .4;
             }
         }
     ]
@@ -105,18 +135,18 @@ Rectangle
 
             PropertyAnimation
             {
-                properties: "width";
-                duration: Vals.transitionTime;
+				properties: "width";
+				duration: 200;
             }
             PropertyAnimation
             {
                 properties: "height";
-                duration: Vals.transitionTime;
+				duration: 200;
             }
             PropertyAnimation
             {
                 properties: "opacity";
-                duration: Vals.transitionTime;
+				duration: 200;
             }
         }
 
