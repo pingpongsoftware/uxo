@@ -12,6 +12,16 @@ Rectangle
 
 	color: "transparent";
 
+
+	Item
+	{
+		id: clipRect;
+		width: parent.width;
+		height: parent.height;
+		y: Vals.getTopToolbarHeight();
+		clip: true;
+	}
+
 	Flickable
 	{
 		id: listFlick;
@@ -19,21 +29,36 @@ Rectangle
 		contentWidth: width;
 		contentHeight: main.height - Vals.getTopToolbarHeight()*6;
 
-		width: main.width/2;
-		height: contentHeight/2;
+		width: main.width;
+		height: main.height/4;
 		anchors.horizontalCenter: parent.horizontalCenter;
-		anchors.top: main.top;
-		anchors.topMargin: Vals.getTopToolbarHeight()*2;
+		anchors.top: parent.top;
+		anchors.topMargin: Vals.getTopToolbarHeight();
+
+		parent: clipRect;
+	}
+
+	Rectangle
+	{
+		id: flowRect;
+
+		parent: listFlick.contentItem;
+
+		height: parent.height;
+		width: parent.width/2;
+		anchors.centerIn: parent;
+
+		color: "transparent";
 	}
 
 	Flow
 	{
 		id: listFlow;
 
-		anchors.fill: listFlick;
-		spacing: Vals.getBasicUnit()*2;
+		anchors.fill: parent;
+		spacing: Vals.getBasicUnit()*10;
 
-		parent: listFlick.contentItem;
+		parent: flowRect;
 
 		PlayerNameInput
 		{
@@ -53,13 +78,6 @@ Rectangle
 			height: totalHeight;
 		}
 
-		Item
-		{
-			id: spacingItem;
-			height: parent.spacing*2;
-			width: parent.width;
-		}
-
 		Flow
 		{
 			id: gameNameFlow;
@@ -67,90 +85,27 @@ Rectangle
 
 			spacing: Vals.getBasicUnit();
 
-			TrenchFontText
-			{
-				id: gameNameText;
-				horizontalAlignment: Text.AlignHCenter;
-				width: parent.width;
-				fontSize: Vals.getMediumFontSize();
-
-				text: "Game Name:"
-			}
 
 			Rectangle
 			{
 				id: centerRect; //allows the gameNameInputRect to center into the flow;
 				width: parent.width;
-				height: Vals.getMediumFontSize();
+				height: playerXInput.height;
 				color: "transparent";
-			}
 
-			Rectangle
-			{
-				id: gameNameInputRect;
-
-				parent: centerRect;
-				width: parent.width*1.6;
-				height: parent.height;
-				anchors.centerIn: parent;
-
-				clip: true;
-
-				color:
+				PlayerNameInput
 				{
-					if (Vals.getTheme() === "dark")
-						"white";
-					else if (Vals.getTheme() === "light")
-						"black"
-				}
-
-				opacity: .3;
-
-				TextInput
-				{
-					id: gameNameInput;
-					anchors.fill: parent;
-					font.pixelSize: Vals.getMediumSmallFontSize();
-
-					font.weight: Font.Light;
-					font.family: "Helvetica";
-
-					horizontalAlignment: Text.AlignHCenter;
-					verticalAlignment:  Text.AlignVCenter;
-
-					onFocusChanged:
-					{
-						if (focus === true)
-							selectAll();
-						else
-							select(0,0);
-					}
-
-
-					text: playerXInput.inputText + " vs " + playerOInput.inputText;
-					selectByMouse: true;
-					maximumLength: playerXInput.maximumLength + playerOInput.maximumLength + 5;
-
-
-					color:
-					{
-						if (Vals.getTheme() === "dark")
-							"black";
-						else if (Vals.getTheme() === "light")
-							"white";
-					}
+					id: gameName;
+					headerText: "Game Name";
+					startingText: playerXInput.inputText + " vs " + playerOInput.inputText;
+					width: parent.width*1.6;
+					height: totalHeight;
+					anchors.centerIn: parent;
+					maximumLength: startingText.length;
 				}
 			}
 		}
 
-
-
-		Item
-		{
-			id: spacingItem2;
-			height: spacingItem.height*2
-			width: parent.width;
-		}
 
 		Flow
 		{
@@ -175,7 +130,15 @@ Rectangle
 					if (Vals.getTheme() === "dark")
 						"lightgray";
 					else if (Vals.getTheme() === "light")
-						"darkgray";
+						"#444444";
+				}
+
+				textColor:
+				{
+					if (Vals.getTheme() === "dark")
+						"black"
+					else
+						"white"
 				}
 
 				Component.onCompleted:
@@ -199,6 +162,7 @@ Rectangle
 				fontSize: cancelButton.fontSize;
 				buttonColor: cancelButton.buttonColor;
 				buttonOpacity: cancelButton.buttonOpacity;
+				textColor: cancelButton.textColor;
 
 				Component.onCompleted:
 				{
@@ -207,7 +171,7 @@ Rectangle
 
 				onClick:
 				{
-					createGameButtonClicked(gameNameInput.text);
+					createGameButtonClicked(gameName.inputText);
 				}
 			}
 		}

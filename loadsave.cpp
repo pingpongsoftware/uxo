@@ -7,7 +7,7 @@ LoadSave::LoadSave(QString filename)
 
 void LoadSave::saveGame(QString allSquares)
 {
-	QFile file(this->m_filename);
+	QFile file(this->m_filename + ".game");
 
 	if (file.open(QIODevice::WriteOnly))
 	{
@@ -23,7 +23,7 @@ QString LoadSave::loadGame()
 {
 	QString allSquares = "";
 
-	QFile file(this->m_filename);
+	QFile file(this->m_filename + ".game");
 
 	if (file.open(QIODevice::ReadOnly))
 	{
@@ -39,7 +39,7 @@ QString LoadSave::loadGame()
 
 void LoadSave::saveTurn(bool xTurn)
 {
-	QFile file("turn_" + this->m_filename);
+	QFile file(this->m_filename + ".turn");
 
 	if (file.open(QIODevice::WriteOnly))
 	{
@@ -53,7 +53,7 @@ void LoadSave::saveTurn(bool xTurn)
 
 bool LoadSave::loadTurn()
 {
-	QFile file ("turn_" + this->m_filename);
+	QFile file (this->m_filename + ".turn");
 
 	QString xTurn;
 
@@ -82,7 +82,7 @@ void LoadSave::saveValidBoards(QList<int> list)
 	for (int i = 0; i < list.length(); i++)
 		qstr += QString::number(list[i]);
 
-	QFile file("valid_" + this->m_filename);
+	QFile file(this->m_filename + ".valid");
 
 	if (file.open(QIODevice::WriteOnly))
 	{
@@ -96,7 +96,7 @@ void LoadSave::saveValidBoards(QList<int> list)
 
 QList<int> LoadSave::loadValidBoards()
 {
-	QFile file("valid_" + this->m_filename);
+	QFile file(this->m_filename + ".valid");
 
 	qDebug() << file.fileName();
 
@@ -118,4 +118,26 @@ QList<int> LoadSave::loadValidBoards()
 			list.push_back(qstr.at(i).digitValue());
 
 	return list;
+}
+
+void LoadSave::deleteGame()
+{
+	QFile gameFile(this->m_filename + ".game");
+	gameFile.open(QIODevice::ReadWrite);
+	if (gameFile.remove())
+		qDebug() << m_filename << ".game deleted successfully";
+	gameFile.close();
+
+	QFile turnFile(this->m_filename + ".turn");
+	turnFile.open(QIODevice::ReadWrite);
+	if (turnFile.remove())
+		qDebug() << m_filename << ".turn deleted successfully";
+	gameFile.close();
+
+	QFile validFile(this->m_filename + ".valid");
+	validFile.open(QIODevice::ReadWrite);
+	if (QFile::remove(validFile.fileName()))
+		qDebug() << m_filename << ".valid deleted successfully";
+	gameFile.close();
+
 }

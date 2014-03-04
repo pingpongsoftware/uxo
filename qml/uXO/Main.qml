@@ -7,6 +7,17 @@ Rectangle
 	width: Vals.getScreenWidth();
 	height: Vals.getScreenHeight();
 
+	Connections
+	{
+		target: Tracker;
+
+		onGameDeleted:
+		{
+			main.backButtonPressed();
+			console.log("success");
+		}
+	}
+
 	Image
 	{
 		id: lightBackground;
@@ -126,6 +137,7 @@ Rectangle
 		if (event.key === Qt.Key_Back)
 		{
 			event.accepted = true;
+			console.log("ACCEPTED");
 			backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
 		}
 	}

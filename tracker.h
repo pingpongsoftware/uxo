@@ -20,12 +20,15 @@ class Tracker : public QObject
 		Q_INVOKABLE Game* getGame();
 		Q_PROPERTY(Game* currentGame READ getGame)
 
+		Q_INVOKABLE void deleteGame();
+
 		void registerTypes();
 
 	private:
 		Game *m_game;
 
 	signals:
+		void gameDeleted();
 
 	public slots:
 

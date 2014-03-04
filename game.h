@@ -38,6 +38,7 @@ class Game : public QObject
 
 		Q_INVOKABLE void click(int gridIndex, int squareIndex);
 		Q_INVOKABLE Board* getBoard();
+		void deleteGame();
 
 		bool isWinningCombo(QList<int> squaresWon);  // goes through the list of innerboard/squares won and looks combos of three in a row, returning true if that player has three in a row
 		void checkForWinningCombos(int gridIndex, int squareIndex);

@@ -35,7 +35,7 @@ void Values::setScreenSize(int width, int height)
 
 	m_topToolbarHeight = m_basicUnit*10;
 
-	m_theme = "dark";
+	m_theme = this->loadTheme();
 
 	this->setFontSizes();
 }
@@ -48,7 +48,41 @@ void Values::switchTheme()
 	else
 		m_theme = "light";
 
+	this->saveTheme();
 	emit this->themeSwitched();
+}
+
+void Values::saveTheme()
+{
+	QFile file("game_theme.txt");
+
+	if(file.open(QIODevice::WriteOnly))
+	{
+		QTextStream fileOut(&file);
+		fileOut << this->getTheme();
+
+		file.close();
+	}
+}
+
+QString Values::loadTheme()
+{
+	QFile file("game_theme.txt");
+	QString temp;
+	if(file.open(QIODevice::ReadOnly))
+	{
+		QTextStream fileIn(&file);
+
+		temp = fileIn.readAll();
+		qDebug() << temp;
+
+		file.close();
+	}
+
+	if (temp != "light" && temp != "dark")
+		temp = "dark";
+
+	return temp;
 }
 
 void Values::initLoaderSource(QString source)

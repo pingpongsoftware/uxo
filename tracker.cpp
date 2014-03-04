@@ -30,3 +30,9 @@ void Tracker::registerTypes()
 	qmlRegisterType<InnerBoard>("uxo.innerboard", 1, 0, "InnerBoard");
 	qmlRegisterType<Square>("uxo.square", 1, 0, "Square");
 }
+
+void Tracker::deleteGame()
+{
+	this->m_game->deleteGame();
+	emit this->gameDeleted();
+}

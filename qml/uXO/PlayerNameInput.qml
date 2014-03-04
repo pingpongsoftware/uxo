@@ -8,8 +8,10 @@ Flow
 	property string headerText;
 
 	property string inputText: input.text;
+	property int maximumLength: 12;  //defaults at 12
 
 	signal textChanged();
+	signal focusGained();
 
 	property int totalHeight: spacing;  //added onto later
 
@@ -48,32 +50,23 @@ Flow
 
 		opacity: .3;
 
+
 		TextInput
 		{
 			id: input;
+
 			anchors.centerIn: parent;
-			font.pixelSize: Vals.getMediumSmallFontSize();
+			font.pixelSize: Vals.getSmallFontSize();
 
 			font.weight: Font.Light;
-			font.family: "Helvetica";
 
 			horizontalAlignment: Text.AlignHCenter;
 			verticalAlignment:  Text.AlignVCenter;
 
-			onFocusChanged:
-			{
-				if (focus === true)
-				{
-					if (text === main.startingText)
-						text = "";
-					else
-						selectAll();
-				}
-			}
-
-			selectByMouse: true;
+			selectByMouse: false;
+			focus: activeFocus;
 			text: main.startingText;
-			maximumLength: 12;
+			maximumLength: main.maximumLength;
 
 			color:
 			{
@@ -81,6 +74,24 @@ Flow
 					"black";
 				else if (Vals.getTheme() === "light")
 					"white";
+			}
+
+			onFocusChanged:
+			{
+				if (focus === true)
+				{
+					selectAll();
+					selectByMouse = true;
+					textChanged(); //signals to update the text;
+					focusGained();  //signals that the focus is gained;
+				}
+
+				else
+				{
+					select(0,0)
+					selectByMouse = false;
+					textChanged();  //signals to update the text
+				}
 			}
 		}
 	}

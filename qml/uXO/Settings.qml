@@ -17,9 +17,9 @@ Rectangle
 		width: parent.width/2.5;
 		height: parent.height;
 		anchors.horizontalCenter: parent.horizontalCenter;
-		y: Vals.getTopToolbarHeight()*1.2;
+		y: Vals.getTopToolbarHeight() + Vals.getBasicUnit()*10;
 
-		spacing: Vals.getBasicUnit()*5;
+		spacing: Vals.getBasicUnit()*3;
 
 		TrenchFontText
 		{
@@ -33,8 +33,16 @@ Rectangle
 			font.wordSpacing: 0;
 
 			darkThemeColor: "lightgray"
+			lightThemeColor: "#555555"
 
 			Component.onCompleted: updateColor();
+		}
+
+		Item
+		{
+			id: spacingItem;
+			width: parent.width;
+			height: 1;
 		}
 
 		TrenchFontText
@@ -46,7 +54,7 @@ Rectangle
 
 			text: "Select Theme";
 			fontSize: Vals.getMediumLargeFontSize();
-			fontBold: false;
+			fontBold: true;
 
 			Component.onCompleted: updateColor();
 		}
@@ -108,30 +116,19 @@ Rectangle
 		property int darkX: (darkThemeButton.x + (darkThemeButton.width-themeRect.width)/2) + flow.x + themeFlow.x;
 
 		y: lightThemeButton.getRelativeClickableY() + lightThemeButton.getClickableHeight()/2 + flow.y + themeFlow.y;
-		state:
+		x: (lightX + darkX)/2;
+
+		Component.onCompleted: { updatePos(); }
+
+		function updatePos()
 		{
-			state = Vals.getTheme();
+			if (Vals.getTheme() === "dark")
+				x = darkX;
+			else if (Vals.getTheme() === "light")
+				x = lightX;
 		}
 
-		states:  //the state its in determines its location
-		[
-			State
-			{
-				name: "dark";
-				PropertyChanges { target: themeRect; x: themeRect.darkX; }
-			},
-			State
-			{
-				name: "light";
-				PropertyChanges { target: themeRect; x: themeRect.lightX; }
-			}
-		]
-
-		transitions:  //makes the themeRect move between locations instead of jump between locations
-		[
-			Transition { from: "*"; to: "*"; PropertyAnimation { properties: "x"; duration: 200; } }
-
-		]
+		Behavior on x { PropertyAnimation { duration: 200; } }
 
 	}
 
@@ -140,7 +137,7 @@ Rectangle
 		if (theme !== themeRect.state)
 			Vals.switchTheme();
 
-		themeRect.state = Vals.getTheme();
+		themeRect.updatePos();
 
         switchThemeButtonClicked(); //sends signal to the main.qml file so the background image will change
 

@@ -5,6 +5,8 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QFile>
+#include <QTextStream>
 
 class Values : public QObject
 {
@@ -44,6 +46,9 @@ class Values : public QObject
 		int m_largeFontSize;
 		int m_extraLargeFontSize;
 		void setFontSizes();
+
+		QString loadTheme();
+		void saveTheme();
 
 		QtQuick2ApplicationViewer *m_viewer;
 

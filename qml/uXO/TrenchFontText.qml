@@ -25,6 +25,16 @@ Text
 
 	color: updateColor;
 
+	Connections
+	{
+		target: Vals;
+
+		onThemeSwitched:
+		{
+			updateColor();
+		}
+	}
+
 	function updateColor()
 	{
 		if (main.useThemeColors)

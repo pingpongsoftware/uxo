@@ -19,6 +19,8 @@ class LoadSave
 		QList<int> loadValidBoards();
 		void saveValidBoards(QList<int> list);
 
+		void deleteGame();
+
 	private:
 		QString m_filename;
 };

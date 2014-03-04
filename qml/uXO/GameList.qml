@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import Qt.labs.folderlistmodel 2.0
 
 Item
 {
@@ -41,12 +42,18 @@ Item
     Component
     {
         id: listDelegate
+
         GameListItem
         {
             width: main.width
 			height: Vals.getBasicUnit()*15;
-			name: name;
+
+			property string fName: fileName;
+
+			name: fName.substring(0, fName.length - 5);
+
             rectOpacity: .5;
+
 
 			onButtonClicked: itemButtonClicked(gameName);
 
@@ -72,15 +79,11 @@ Item
 
     }
 
-    ListModel
+	FolderListModel
     {
          id: listModel
 
-         Component.onCompleted:
-         {
-             for (var i = 1; i < 21; i++)
-                 append( { name: "Game " + i} );
-         }
+		 nameFilters: "*.game";
      }
 
     ListView

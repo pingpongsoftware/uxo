@@ -8,6 +8,7 @@ Item
 	height: Vals.getTopToolbarHeight();
 
     signal backButtonPressed();
+	opacity: .8;
 
 	property string titleString: "uXO:  Ultimate Tic-Tac-Toe"
 
@@ -23,7 +24,8 @@ Item
 
 		onThemeSwitched:
 		{
-			toolbarImageDark.updateOpacity();
+			toolbarRect.updateTheme();
+			backImage.updateTheme();
 		}
 	}
 
@@ -35,33 +37,22 @@ Item
 
     onStateChanged: toolbarImageDark.state = state;
 
-    Image
-    {
-        id: toolbarImageLight;
-        anchors.fill: parent;
-        sourceSize.width: width;
-        sourceSize.height: height;
-        source: "Images/light/topToolbar.png"
-    }
+	Rectangle
+	{
+		id: toolbarRect;
+		anchors.fill: parent;
+		color: { updateTheme(); }
 
-    Image
-    {
-        id: toolbarImageDark;
-        anchors.fill: parent;
-        sourceSize.width: parent.width;
-        sourceSize.height: parent.height;
-		source: "Images/dark/topToolbar.png"
-
-		function updateOpacity()
+		function updateTheme()
 		{
 			if (Vals.getTheme() === "dark")
-				opacity = 1;
+				color = "lightgray";
 			else if (Vals.getTheme() === "light")
-				opacity = 0;
+				color = "#444444";
 		}
 
-		Behavior on opacity { NumberAnimation { duration: 200; } }
-    }
+		Behavior on color { PropertyAnimation { duration: 200; } }
+	}
 
     Rectangle  //for the back button
     {
@@ -101,12 +92,17 @@ Item
     Image
     {
         id: backImage;
-        source: "Images/backArrow.png";
+		source: { updateTheme(); }
         width: backRect.width;
         height: backRect.height;
         sourceSize.height: width;
         sourceSize.width: width;
         anchors.centerIn: backRect;
+
+		function updateTheme()
+		{
+			source = "Images/" + Vals.getTheme() + "/backArrow.png";
+		}
     }
 
 	Rectangle
@@ -116,13 +112,7 @@ Item
 		width: Vals.getBasicUnit()/8;
 		anchors.left: backRect.right;
 		anchors.leftMargin: Vals.getBasicUnit()/5;
-		color:
-		{
-			if (Vals.getTheme() === "dark")
-				"white";
-			else if (Vals.getTheme() === "light")
-				"black";
-		}
+		color: titleText.color;
 	}
 
 	TrenchFontText
@@ -130,11 +120,12 @@ Item
         id: titleText;
 
 		anchors.verticalCenter: main.verticalCenter;
-		anchors.left: separatorLineRect.right;
-		anchors.leftMargin: Vals.getBasicUnit()*4;
+//		anchors.left: separatorLineRect.right;
+//		anchors.leftMargin: Vals.getBasicUnit()*4;
+		anchors.centerIn: parent;
 		fontSize: Vals.getMediumSmallFontSize();
 
-		darkThemeColor: "white";
+		darkThemeColor: "black";
 		lightThemeColor:  "white";
 
 		Component.onCompleted: updateColor();

@@ -61,7 +61,7 @@ Rectangle
     Rectangle
     {
         id: bRect;
-        width: bText.width;  //Automatically sizes the usable button to the size of the text.
+		width: bText.width;  //Automatically sizes the usable button to the size of the text.
         height: bText.height;
         x: (main.width/2) - (width/2);   //I'm manually centering this so that it can be changed from outside
         y: (main.height/2) - (height/2);

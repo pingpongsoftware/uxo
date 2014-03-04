@@ -20,6 +20,7 @@ Rectangle
 		game = Tracker.getGame();
 		setState();
 	}
+
 	Connections
 	{
 		target: game;
@@ -35,7 +36,7 @@ Rectangle
 		opacity: .4
     }
 
-    Rectangle // automatically formats the toolbar in a flow layout
+	Rectangle
     {
         id: rect;
         width: parent.width;
@@ -58,6 +59,27 @@ Rectangle
 			sourceSize.width: main.height;
             anchors.verticalCenter: parent.verticalCenter;
         }
+
+
+		MyButton
+		{
+			id: deleteGameButton;
+			buttonText: "Resign";
+			buttonColor: "gray";
+			fontSize: Vals.getMediumSmallFontSize();
+
+			Component.onCompleted:
+			{
+				setClickableSize(width*1.5, height);
+			}
+
+			onClick:
+			{
+				Tracker.deleteGame();
+			}
+
+			anchors.centerIn: parent;
+		}
 
         Image
         {

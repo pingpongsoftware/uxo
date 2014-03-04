@@ -4,7 +4,7 @@ Game::Game(QObject *parent, QString name) :
 	QObject(parent)
 {
 	this->m_name = name;
-	this->m_loadSave = new LoadSave(name + ".txt");
+	this->m_loadSave = new LoadSave(name);
 
 	this->initWinningCombos();
 }
@@ -155,4 +155,10 @@ bool Game::isWinningCombo(QList<int> squaresWon)
 	}
 
 	return boardWon;
+}
+
+
+void Game::deleteGame()
+{
+	m_loadSave->deleteGame();
 }
