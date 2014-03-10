@@ -100,18 +100,15 @@ Rectangle
 		{
 			if (Vals.getTheme() === "dark")
 			{
-				color = "lightgray";
 				x = darkX;
 			}
 			else if (Vals.getTheme() === "light")
 			{
-				color = "steelblue";
 				x = lightX;
 			}
 		}
 
 		Behavior on x { PropertyAnimation { duration: 200; } }
-		Behavior on color { PropertyAnimation { duration: 200; } }
 
 	}
 
