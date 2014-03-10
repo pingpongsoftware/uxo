@@ -5,139 +5,154 @@ LoadSave::LoadSave(QString filename)
 	this->m_filename = filename;
 }
 
-void LoadSave::saveGame(QString allSquares)
+void LoadSave::saveGame(QString allSquares, bool xTurn, QList<int> validBoards)
 {
 	QFile file(this->m_filename + ".game");
 
-	if (file.open(QIODevice::WriteOnly))
-	{
-		QTextStream fileOut(&file);
-
-		fileOut << allSquares;
-
-		file.close();
-	}
-}
-
-QString LoadSave::loadGame()
-{
-	QString allSquares = "";
-
-	QFile file(this->m_filename + ".game");
-
-	if (file.open(QIODevice::ReadOnly))
-	{
-		QTextStream fileIn(&file);
-
-		allSquares = fileIn.readLine(81);
-
-		file.close();
-	}
-
-	return allSquares;
-}
-
-void LoadSave::saveTurn(bool xTurn)
-{
-	QFile file(this->m_filename + ".turn");
+    qDebug() << file.fileName();
 
 	if (file.open(QIODevice::WriteOnly))
 	{
 		QTextStream fileOut(&file);
 
-		fileOut << xTurn;
+        fileOut << "<squares>" << allSquares << "</squares>\n";
+        fileOut << "<turn>" << xTurn << "</turn>\n";
+
+        QString boardsString;
+
+        for (int i = 0; i < validBoards.length(); i++)
+            boardsString += QString::number(validBoards[i]);
+
+        fileOut << "<valid>" << boardsString << "</valid>\n";
 
 		file.close();
 	}
 }
 
-bool LoadSave::loadTurn()
+void LoadSave::loadGame()
 {
-	QFile file (this->m_filename + ".turn");
+    QString fileString;
 
-	QString xTurn;
+    QFile file(this->m_filename + ".game");
 
-	if (file.open(QIODevice::ReadOnly))
-	{
-		QTextStream fileIn(&file);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QTextStream fileIn(&file);
+        fileString = fileIn.readAll();
+        file.close();
+    }
 
-		xTurn = fileIn.readAll();
+    QString tagSearch;
 
-		file.close();
-	}
+    for (int i = 0; i < fileString.length(); i++)
+    {
+        tagSearch += fileString[i];
 
-	qDebug() << xTurn;
+        if (tagSearch == "<squares>")
+        {
+            this->setSquareVals(getStringInsideTag(fileString.mid(i+1, fileString.length() - (i+1)), "</squares>"));
+            tagSearch = "";
+        }
 
-	if (xTurn == "1")
-		return true;
+        else if (tagSearch == "<turn>")
+        {
+            this->setXTurn(getStringInsideTag(fileString.mid(i+1, fileString.length() - (i+1)), "</turn>"));
+            tagSearch = "";
+        }
 
-	return false;
+        else if (tagSearch == "<valid>")
+        {
+            this->setValidBoards(getStringInsideTag(fileString.mid(i+1, fileString.length() - (i+1)), "</valid>"));
+            tagSearch = "";
+        }
+
+        if (fileString[i] == '\n')
+        {
+            tagSearch = "";
+        }
+    }
 }
 
-
-void LoadSave::saveValidBoards(QList<int> list)
+QString LoadSave::getStringInsideTag(QString fileString, QString closeTag)
 {
-	QString qstr;
+    QString dataStr;
+    for (int i = 0; i < fileString.length() - closeTag.length(); i++)
+    {
+        if(fileString.mid(i, closeTag.length()) == closeTag)
+        {
+            return dataStr;
+        }
 
-	for (int i = 0; i < list.length(); i++)
-		qstr += QString::number(list[i]);
+        dataStr += fileString[i];
+    }
 
-	QFile file(this->m_filename + ".valid");
-
-	if (file.open(QIODevice::WriteOnly))
-	{
-		QTextStream fileOut(&file);
-
-		fileOut << qstr;
-
-		file.close();
-	}
+    qDebug() << "ERROR: LoadSave::getStringInsideTag()";
+    return "";
 }
 
-QList<int> LoadSave::loadValidBoards()
+//------------------------------------------------------------------------------------------------
+
+void LoadSave::setSquareVals(QString str)
 {
-	QFile file(this->m_filename + ".valid");
-
-	qDebug() << file.fileName();
-
-	QString qstr;
-
-	if (file.open(QIODevice::ReadOnly))
-	{
-		QTextStream fileIn(&file);
-
-		qstr = fileIn.readAll();
-
-		file.close();
-	}
-
-	QList<int> list;
-
-	for (int i = 0; i < qstr.length(); i++)
-		if (i < 9)
-			list.push_back(qstr.at(i).digitValue());
-
-	return list;
+    qDebug() << "SET SQUARE VALS:  " << str;
+    m_squareVals = str;
 }
+
+void LoadSave::setXTurn(QString str)
+{
+    qDebug() << "SET X TURN:  " << str;
+
+    if (str == "1")
+        m_xTurn = true;
+    else
+        m_xTurn = false;
+}
+
+
+void LoadSave::setValidBoards(QString str)
+{
+    qDebug() << "SET VALID BOARDS:  " << str;
+
+    QList<int> list;
+
+    for (int i = 0; i < str.length(); i++)
+        if (i < 9)
+            list.push_back(str.at(i).digitValue());
+
+    qDebug() << list;
+
+    m_validBoards = list;
+}
+
+
+//----------------------------------------------------------------------------------------------
 
 void LoadSave::deleteGame()
 {
 	QFile gameFile(this->m_filename + ".game");
+
 	gameFile.open(QIODevice::ReadWrite);
+
 	if (gameFile.remove())
-		qDebug() << m_filename << ".game deleted successfully";
-	gameFile.close();
+        qDebug() << m_filename + ".game deleted successfully";
 
-	QFile turnFile(this->m_filename + ".turn");
-	turnFile.open(QIODevice::ReadWrite);
-	if (turnFile.remove())
-		qDebug() << m_filename << ".turn deleted successfully";
-	gameFile.close();
+    gameFile.close();
 
-	QFile validFile(this->m_filename + ".valid");
-	validFile.open(QIODevice::ReadWrite);
-	if (QFile::remove(validFile.fileName()))
-		qDebug() << m_filename << ".valid deleted successfully";
-	gameFile.close();
+}
 
+//----------------------------------------------------------------------------------------------
+
+QString LoadSave::getSquareVals()
+{
+    return m_squareVals;
+}
+
+QList<int> LoadSave::getValidBoards()
+{
+    return m_validBoards;
+}
+
+bool LoadSave::getXTurn()
+{
+    return m_xTurn;
 }

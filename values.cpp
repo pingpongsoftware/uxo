@@ -33,7 +33,7 @@ void Values::setScreenSize(int width, int height)
 	m_innerBoardSize = (m_boardSize/3) - m_outerGridSpacing;
 	m_squareSize = (m_innerBoardSize/3) - m_innerGridSpacing;
 
-	m_topToolbarHeight = m_basicUnit*10;
+    m_topToolbarHeight = m_basicUnit*12;
 
 	m_theme = this->loadTheme();
 

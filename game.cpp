@@ -35,16 +35,15 @@ void Game::createNew()
 	for (int i = 0; i < 9; i++)  //sets all the boards to be valid for the start
 		this->m_board->getInnerBoardAt(i)->setValidity(true);
 
-	this->m_loadSave->saveTurn(this->m_xTurn);
-	this->m_loadSave->saveGame(emptySquares);
-	this->m_loadSave->saveValidBoards(this->m_board->getValidBoards());
+    this->m_loadSave->saveGame(emptySquares, m_xTurn, m_board->getValidBoards());
 }
 
 void Game::loadExisting()
 {
 	QString allSquares = "";
 
-	allSquares = this->m_loadSave->loadGame();
+    m_loadSave->loadGame();
+    allSquares = m_loadSave->getSquareVals();
 
 	if (allSquares.length() == 0)  //if the requested game to load is empty, creates new game and exits this method.
 	{
@@ -57,14 +56,14 @@ void Game::loadExisting()
 
 	this->checkAllCombos();
 
-	this->m_xTurn = this->m_loadSave->loadTurn();	
+    this->m_xTurn = this->m_loadSave->getXTurn();
 
-	QList<int> validIBs = this->m_loadSave->loadValidBoards();
+    QList<int> validIBs = this->m_loadSave->getValidBoards();
 
-	if (validIBs.length() > 0)
-		for (int i = 0; i < validIBs.length(); i++)
-			this->m_board->getInnerBoardAt(validIBs[i])->setValidity(true);
-	else
+    if (validIBs.length() > 0)
+        for (int i = 0; i < validIBs.length(); i++)
+            this->m_board->getInnerBoardAt(validIBs[i])->setValidity(true);
+    else
 		for (int i = 0; i < 9; i++)
 			this->m_board->getInnerBoardAt(i)->setValidity(true);
 }
@@ -90,9 +89,8 @@ void Game::click(int gridIndex, int squareIndex)
 		this->checkForWinningCombos(gridIndex, squareIndex);
 
 		this->switchTurn();
-		this->m_loadSave->saveGame(this->m_board->getAllSquaresString());
-		this->m_loadSave->saveTurn(this->getXTurn());
-		this->m_loadSave->saveValidBoards(this->m_board->getValidBoards());
+
+        m_loadSave->saveGame(m_board->getAllSquaresString(), m_xTurn, m_board->getValidBoards());
 
 		emit this->clicked();
 	}

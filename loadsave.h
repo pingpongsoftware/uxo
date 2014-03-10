@@ -10,19 +10,28 @@ class LoadSave
 	public:
 		LoadSave(QString filename = "");
 
-		QString loadGame();
-		void saveGame(QString allSquares);
+        void loadGame();
+        void saveGame(QString allSquares, bool xTurn, QList<int> validBoards);
 
-		bool loadTurn();
-		void saveTurn(bool xTurn);
-
-		QList<int> loadValidBoards();
-		void saveValidBoards(QList<int> list);
+        QString getSquareVals();
+        bool getXTurn();
+        QList<int> getValidBoards();
 
 		void deleteGame();
 
 	private:
 		QString m_filename;
+
+        bool m_xTurn;
+        QList<int> m_validBoards;
+        QString m_squareVals;
+
+        void setSquareVals(QString str);
+        void setXTurn(QString str);
+        void setValidBoards(QString str);
+
+        QString getStringInsideTag(QString fileString, QString closeTag);
+
 };
 
 #endif // LOADSAVE_H
