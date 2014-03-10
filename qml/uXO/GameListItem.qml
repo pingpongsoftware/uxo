@@ -17,26 +17,27 @@ Item
         anchors.fill: parent;
 		buttonColor:
         {
-			if (Vals.getTheme() === "light")
-                "black";
+			if (Vals.getTheme() === "dark")
+				"#222222";
             else
                 "white"
         }
 
         textColor:
         {
-			if (Vals.getTheme() === "light")
-                "black";
+			if (Vals.getTheme() === "dark")
+				"lightgray";
             else
-                "white"
+				"#444444"
         }
 
 		onClick:
 		{
+			Vals.setTopToolbarText(name)
 			buttonClicked(name);
 		}
 
-        buttonOpacity: .2
+		buttonOpacity: 1
         showColorWhenClicked: true;
 
         Component.onCompleted: setClickableSize(width, height)

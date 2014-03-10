@@ -14,7 +14,6 @@ Rectangle
 		onGameDeleted:
 		{
 			main.backButtonPressed();
-			console.log("success");
 		}
 	}
 
@@ -46,6 +45,8 @@ Rectangle
 			target: Vals;
 
 			onThemeSwitched: darkBackground.updateOpacity();
+
+			onTopToolbarTextChanged: topToolbar.titleString = newText;
 		}
 
 		Behavior on opacity { NumberAnimation { duration: 200; } }
@@ -89,6 +90,7 @@ Rectangle
 
 		onNewGameButtonClicked:
 		{
+			Vals.setTopToolbarText("Create Game");
 			main.newLoaderSource("CreateGame.qml");
 		}
 
@@ -99,13 +101,13 @@ Rectangle
 
 		onBackButtonPressed:
 		{
-			topToolbar.titleStringToNormal();
+			Vals.setTopToolbarText("uXO: Ultimate Tic-Tac-Toe");
 			main.backButtonPressed();
 		}
 
 		onSettingsButtonClicked:
 		{
-			topToolbar.titleStringToNormal();
+			Vals.setTopToolbarText("Options");
 			main.newLoaderSource("Settings.qml");
 		}
 
@@ -117,7 +119,7 @@ Rectangle
 
 		onCreateGameButtonClicked:
 		{
-			topToolbar.titleString = gameName;
+			Vals.setTopToolbarText(gameName);
 			Tracker.newGame(gameName);  //gameName passed in through the signal
 			main.newLoaderSource("Menu.qml");  //this is just here so the previous source will be Menu.qml instead of CreateGame.qml
 			main.newLoaderSource("Game.qml");

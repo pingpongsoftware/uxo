@@ -110,7 +110,6 @@ Rectangle
             textColor: "steelblue";
 			onClick:
 			{
-//				Tracker.newGame("Game 1");
 				(newGameButtonClicked());
 			}
         }
@@ -235,6 +234,9 @@ Rectangle
 		anchors.horizontalCenter: main.horizontalCenter;
 		anchors.top: littleButton.bottom;
 		anchors.topMargin: Vals.getBasicUnit();
+
+		width: main.width;
+		height: main.height - main.dragMinY;
 
 		onItemButtonClicked:
 		{

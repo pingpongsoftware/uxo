@@ -9,8 +9,6 @@ void LoadSave::saveGame(QString allSquares, bool xTurn, QList<int> validBoards)
 {
 	QFile file(this->m_filename + ".game");
 
-    qDebug() << file.fileName();
-
 	if (file.open(QIODevice::WriteOnly))
 	{
 		QTextStream fileOut(&file);
@@ -94,14 +92,11 @@ QString LoadSave::getStringInsideTag(QString fileString, QString closeTag)
 
 void LoadSave::setSquareVals(QString str)
 {
-    qDebug() << "SET SQUARE VALS:  " << str;
     m_squareVals = str;
 }
 
 void LoadSave::setXTurn(QString str)
 {
-    qDebug() << "SET X TURN:  " << str;
-
     if (str == "1")
         m_xTurn = true;
     else
@@ -111,15 +106,11 @@ void LoadSave::setXTurn(QString str)
 
 void LoadSave::setValidBoards(QString str)
 {
-    qDebug() << "SET VALID BOARDS:  " << str;
-
     QList<int> list;
 
     for (int i = 0; i < str.length(); i++)
         if (i < 9)
             list.push_back(str.at(i).digitValue());
-
-    qDebug() << list;
 
     m_validBoards = list;
 }

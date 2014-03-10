@@ -83,8 +83,11 @@ class Values : public QObject
 		Q_INVOKABLE int getLargeFontSize();
 		Q_INVOKABLE int getExtraLargeFontSize();
 
+		Q_INVOKABLE void setTopToolbarText(QString text);
+
 	signals:
 		void themeSwitched();
+		void topToolbarTextChanged(QString newText);
 
 
 	public slots:

@@ -25,7 +25,7 @@ Item
 		onThemeSwitched:
 		{
 			toolbarRect.updateTheme();
-			backImage.updateTheme();
+			darkBackImage.updateTheme();
 		}
 	}
 
@@ -66,7 +66,6 @@ Item
 
         function changeOpacity()
         {
-            backImage.opacity = 1;
             backRect.opacity = 0;
         }
 
@@ -75,7 +74,7 @@ Item
             id: backMouse;
             anchors.fill: parent;
 
-            onPressed: { backImage.opacity = .5; backRect.opacity = .5 }
+			onPressed: { backRect.opacity = .5 }
             onExited: parent.changeOpacity();
             onCanceled: parent.changeOpacity();
 
@@ -89,19 +88,37 @@ Item
     }
 
 
+	Image
+	{
+		id: lightBackImage;
+		source: "Images/light/backArrow.png";
+		width: backRect.width;
+		height: backRect.height;
+		sourceSize.height: width;
+		sourceSize.width: width;
+		anchors.centerIn: backRect;
+	}
+
     Image
     {
-        id: backImage;
-		source: { updateTheme(); }
+		id: darkBackImage;
+		source: "Images/dark/backArrow.png";
         width: backRect.width;
         height: backRect.height;
         sourceSize.height: width;
         sourceSize.width: width;
         anchors.centerIn: backRect;
 
+		opacity: { updateTheme(); }
+
+		Behavior on opacity { PropertyAnimation { duration: 200; } }
+
 		function updateTheme()
 		{
-			source = "Images/" + Vals.getTheme() + "/backArrow.png";
+			if (Vals.getTheme() === "dark")
+				opacity = 1;
+			else
+				opacity = 0;
 		}
     }
 
@@ -123,7 +140,7 @@ Item
 //		anchors.left: separatorLineRect.right;
 //		anchors.leftMargin: Vals.getBasicUnit()*4;
 		anchors.centerIn: parent;
-		fontSize: Vals.getMediumSmallFontSize();
+		fontSize: Vals.getMediumFontSize();
 
 		darkThemeColor: "black";
 		lightThemeColor:  "white";

@@ -74,7 +74,6 @@ QString Values::loadTheme()
 		QTextStream fileIn(&file);
 
 		temp = fileIn.readAll();
-		qDebug() << temp;
 
 		file.close();
 	}
@@ -137,3 +136,9 @@ int Values::getMediumLargeFontSize() { return m_mediumLargeFontSize; }
 int Values::getLargeFontSize() { return m_largeFontSize; }
 int Values::getExtraLargeFontSize() { return m_extraLargeFontSize; }
 //------------------------------------------------------------------------------------
+
+
+void Values::setTopToolbarText(QString text)
+{
+	emit this->topToolbarTextChanged(text);
+}

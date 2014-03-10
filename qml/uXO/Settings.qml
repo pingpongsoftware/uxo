@@ -21,29 +21,6 @@ Rectangle
 
 		spacing: Vals.getBasicUnit()*3;
 
-		TrenchFontText
-		{
-			id: title;
-
-			width: parent.width;
-
-			text: "Options";
-			font.pixelSize: Vals.getExtraLargeFontSize();
-			font.letterSpacing: 2;
-			font.wordSpacing: 0;
-
-			darkThemeColor: "lightgray"
-			lightThemeColor: "#555555"
-
-			Component.onCompleted: updateColor();
-		}
-
-		Item
-		{
-			id: spacingItem;
-			width: parent.width;
-			height: 1;
-		}
 
 		TrenchFontText
 		{
@@ -56,7 +33,7 @@ Rectangle
 			fontSize: Vals.getMediumLargeFontSize();
 			fontBold: true;
 
-			Component.onCompleted: updateColor();
+			color: { updateColor(); }
 		}
 
 		Flow //to easier format the theme buttons
@@ -108,7 +85,6 @@ Rectangle
 		width: lightThemeButton.getClickableWidth()*1.8;
 		height: lightThemeButton.getClickableHeight();
 		radius: height;
-		color: "steelblue";
 		//opacity: .8;
 		z: -5; //so it is behind the other objects
 
@@ -118,17 +94,24 @@ Rectangle
 		y: lightThemeButton.getRelativeClickableY() + lightThemeButton.getClickableHeight()/2 + flow.y + themeFlow.y;
 		x: (lightX + darkX)/2;
 
-		Component.onCompleted: { updatePos(); }
+		opacity: { updateForTheme(); }
 
-		function updatePos()
+		function updateForTheme()
 		{
 			if (Vals.getTheme() === "dark")
+			{
+				color = "lightgray";
 				x = darkX;
+			}
 			else if (Vals.getTheme() === "light")
+			{
+				color = "steelblue";
 				x = lightX;
+			}
 		}
 
 		Behavior on x { PropertyAnimation { duration: 200; } }
+		Behavior on color { PropertyAnimation { duration: 200; } }
 
 	}
 
@@ -137,11 +120,10 @@ Rectangle
 		if (theme !== themeRect.state)
 			Vals.switchTheme();
 
-		themeRect.updatePos();
+		themeRect.updateForTheme();
 
         switchThemeButtonClicked(); //sends signal to the main.qml file so the background image will change
 
-		title.updateColor();
 		setThemeText.updateColor();
     }
 }
