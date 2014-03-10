@@ -85,6 +85,7 @@ Rectangle
 		width: lightThemeButton.getClickableWidth()*1.8;
 		height: lightThemeButton.getClickableHeight();
 		radius: height;
+		color: "steelblue"
 		//opacity: .8;
 		z: -5; //so it is behind the other objects
 
