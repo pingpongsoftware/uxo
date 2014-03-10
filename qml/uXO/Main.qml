@@ -7,6 +7,8 @@ Rectangle
 	width: Vals.getScreenWidth();
 	height: Vals.getScreenHeight();
 
+	focus: true;
+
 	Connections
 	{
 		target: Tracker;
@@ -135,11 +137,11 @@ Rectangle
 
 	Keys.onReleased:
 	{
-		//console.log("KEY_PRESSED: " + event.key)
+		console.log("KEY_PRESSED: " + event.key)
 		if (event.key === Qt.Key_Back)
 		{
 			event.accepted = true;
-			console.log("ACCEPTED");
+			console.log("ANDROID BACK BUTTON CLICKED");
 			backButtonPressed();  //--TODO: implement function that will exit app if back button is pressed in the menu.  Have a pop up that asks if they really want to exit.
 		}
 	}
