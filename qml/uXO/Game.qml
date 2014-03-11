@@ -183,7 +183,7 @@ Rectangle
 			else if (startIndex === 6 && endIndex === 8)
 			{
 				x -= bigChange;
-				y -= smallChange;
+				y += smallChange;
 				width = acrossWidth;
 			}
 		}

@@ -125,12 +125,11 @@ Rectangle
 				board.popUpInnerBoardImages(endIndex);
 			}
 
-//			else if (triggerCounter === 8)
-//			{
-//				main.width = 0;
-//				main.opacity = 0;
-//				console.log("ASLDFKHASLDFH")
-//			}
+			else if (triggerCounter === 10)
+			{
+				Tracker.goBack();
+				Tracker.deleteGame();
+			}
 		}
 	}
 }
