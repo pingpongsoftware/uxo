@@ -247,7 +247,7 @@ Rectangle
 
 			if (buttonString === "Resign")
 			{
-				Tracker.deleteGame();
+				Tracker.deleteGame();  //DELETE_GAME HAS TO GO BEFORE GO_BACK
 				Tracker.goBack();
 			}
 		}

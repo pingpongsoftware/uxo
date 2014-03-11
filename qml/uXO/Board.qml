@@ -127,8 +127,8 @@ Rectangle
 
 			else if (triggerCounter === 10)
 			{
+				Tracker.deleteGame();  //DELETE_GAME HAS TO GO BEFORE GO_BACK
 				Tracker.goBack();
-				Tracker.deleteGame();
 			}
 		}
 	}
