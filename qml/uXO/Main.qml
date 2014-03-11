@@ -126,6 +126,32 @@ Rectangle
 			main.newLoaderSource("Menu.qml");  //this is just here so the previous source will be Menu.qml instead of CreateGame.qml
 			main.newLoaderSource("Game.qml");
 		}
+
+		onGameWon:
+		{
+			backButtonPressed();
+		}
+	}
+
+	Connections
+	{
+		target: Tracker;
+
+		onBackButtonClicked:
+		{
+			backButtonPressed();
+		}
+
+		onHelpButtonClicked:
+		{
+
+		}
+
+		onOptionsButtonClicked:
+		{
+			Vals.setTopToolbarText("Options");
+			main.newLoaderSource("Settings.qml");
+		}
 	}
 
 	function newLoaderSource(source)
@@ -137,7 +163,6 @@ Rectangle
 
 	Keys.onReleased:
 	{
-		console.log("KEY_PRESSED: " + event.key)
 		if (event.key === Qt.Key_Back)
 		{
 			event.accepted = true;
@@ -150,12 +175,23 @@ Rectangle
 	{
 		topToolbar.titleStringToNormal();
 
-		Vals.setLoaderSource(Vals.getPreviousLoaderSource());
-
-		if(Vals.getLoaderSource() === "Menu.qml")   // So you can't push the back button from the menu and have it go back to the previous screen
+		if (Vals.getPreviousLoaderSource() === "Game.qml")
+		{
 			Vals.initLoaderSource("Menu.qml");
+			Tracker.loadGame(Tracker.currentGame.getGameName())
+			Vals.setTopToolbarText(Tracker.currentGame.getGameName());
+			Vals.setLoaderSource("Game.qml");
+		}
+
 		else
-			Vals.setLoaderSource(Vals.getLoaderSource())
+		{
+			Vals.setLoaderSource(Vals.getPreviousLoaderSource());
+
+			if(Vals.getLoaderSource() === "Menu.qml")   // So you can't push the back button from the menu and have it go back to the previous screen
+				Vals.initLoaderSource("Menu.qml");
+			else
+				Vals.setLoaderSource(Vals.getLoaderSource())
+		}
 
 		loader.setSource(Vals.getLoaderSource());
 
@@ -165,6 +201,9 @@ Rectangle
 	TopToolbar
 	{
 		id: topToolbar;
+
+		width: main.width;
+		height: Vals.getTopToolbarHeight();
 
 		visible: false;
 

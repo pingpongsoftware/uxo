@@ -36,3 +36,23 @@ void Tracker::deleteGame()
 	this->m_game->deleteGame();
 	emit this->gameDeleted();
 }
+
+void Tracker::clickDropDownButton()
+{
+	emit this->dropDownButtonClicked();
+}
+
+void Tracker::goBack()
+{
+	emit this->backButtonClicked();
+}
+
+void Tracker::goToOptions()
+{
+	emit this->optionsButtonClicked();
+}
+
+void Tracker::goToHelp()
+{
+	emit this->helpButtonClicked();
+}

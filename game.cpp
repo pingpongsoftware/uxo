@@ -6,6 +6,8 @@ Game::Game(QObject *parent, QString name) :
 	this->m_name = name;
 	this->m_loadSave = new LoadSave(name);
 
+	this->setPlayerNames();
+
 	this->initWinningCombos();
 }
 
@@ -94,19 +96,41 @@ void Game::click(int gridIndex, int squareIndex)
 
 		emit this->clicked();
 	}
+
+	this->checkIfGameIsWon();
 }
 
 void Game::checkForWinningCombos(int gridIndex, int squareIndex)  //checks for winning combos for the inner boards and the board
 {
-	if (this->isWinningCombo(this->m_board->getInnerBoardAt(gridIndex)->squaresWonByX()))  //checks to see if there is a three in a row for x in the inner board
+	if (this->getWinningCombo(this->m_board->getInnerBoardAt(gridIndex)->squaresWonByX()).length() == 3)  //checks to see if there is a three in a row for x in the inner board
 		this->m_board->getInnerBoardAt(gridIndex)->setWinner("x");
-	else if (this->isWinningCombo(this->m_board->getInnerBoardAt(gridIndex)->squaresWonByO()))   //checks to see if there is a three in a row for o in the inner board
+	else if (this->getWinningCombo(this->m_board->getInnerBoardAt(gridIndex)->squaresWonByO()).length() == 3)   //checks to see if there is a three in a row for o in the inner board
 		this->m_board->getInnerBoardAt(gridIndex)->setWinner("o");
+}
 
-	if (this->isWinningCombo(this->m_board->innerBoardsWonByX()))  //checks to see if there is a three in a row for x in the outer board
-		this->m_board->setWinner("x");
-	else if (this->isWinningCombo(this->m_board->innerBoardsWonByO()))
-		this->m_board->setWinner("o");
+void Game::checkIfGameIsWon()
+{
+	//First Checks for X
+	QList<int> list = this->getWinningCombo(m_board->innerBoardsWonByX());
+
+	if(list.length() == 3)
+	{
+		m_board->setWinner("x");
+		m_board->setValidBoards(-1);
+		emit this->gameWon("x", list[0], list[1], list[2]);
+		return;
+	}
+
+
+	//Then checks for O
+	list = this->getWinningCombo(m_board->innerBoardsWonByO());
+
+	if(list.length() == 3)
+	{
+		m_board->setWinner("o");
+		m_board->setValidBoards(-1);
+		emit this->gameWon("o", list[0], list[1], list[2]);
+	}
 }
 
 void Game::switchTurn()
@@ -124,10 +148,13 @@ Board* Game::getBoard()
 	return this->m_board;
 }
 
-bool Game::isWinningCombo(QList<int> squaresWon)
+QList<int> Game::getWinningCombo(QList<int> squaresWon)
 {
 	bool boardWon = false;
 	int matchCount = 0;
+
+	QList<int> list;
+	int currentIndex;
 
 	for (int i = 0; i < this->winningCombos.length(); i++)
 	{
@@ -138,21 +165,24 @@ bool Game::isWinningCombo(QList<int> squaresWon)
 				if (winningCombos[i].getCombo()[j] == squaresWon[k])
 				{
 					matchCount++;
+					currentIndex = i;
 					break;
 				}
 			}
 		}
 
-		if (matchCount >= 3)
+		if (matchCount == 3)
 		{
 			boardWon = true;
+			list = winningCombos[i].getCombo();
 			break;
 		}
 
 		matchCount = 0;
+		list = QList<int>();
 	}
 
-	return boardWon;
+	return list;
 }
 
 
@@ -160,3 +190,36 @@ void Game::deleteGame()
 {
 	m_loadSave->deleteGame();
 }
+
+void Game::callGameWonDelayed(QString winner, int index1, int index2, int index3)
+{
+	qDebug() << winner << index1 << index2 << index3;
+	emit this->gameWonDelayed(winner, index1, index2, index3);
+}
+
+void Game::setPlayerNames()
+{
+	QString qstr = " vs ";
+
+	QString xStr;
+	QString oStr;
+
+	for (int i = 0; i < m_name.length() - qstr.length(); i++)
+	{
+		if (m_name.mid(i, qstr.length()) == qstr)
+		{
+			xStr = m_name.mid(0, i);
+			oStr = m_name.mid(i + qstr.length(), m_name.length());
+
+			qDebug() << xStr << "   " << oStr;
+
+			break;
+		}
+	}
+
+	m_xPlayerName = xStr;
+	m_oPlayerName = oStr;
+}
+
+QString Game::getPlayerXName() { return m_xPlayerName; }
+QString Game::getPlayerOName() { return m_oPlayerName; }

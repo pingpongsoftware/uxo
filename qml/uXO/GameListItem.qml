@@ -28,7 +28,7 @@ Item
 			if (Vals.getTheme() === "dark")
 				"lightgray";
             else
-				"#444444"
+				"black"
         }
 
 		onClick:

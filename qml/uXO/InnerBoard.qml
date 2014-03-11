@@ -41,6 +41,25 @@ Rectangle
 		target: innerBoard;
 
 		onStateChanged: main.setState();
+
+		onImagePoppedUp:
+		{
+			playerWinImage.zoomIn();
+		}
+	}
+
+	Connections
+	{
+		target: game;
+
+		onGameWon:
+		{
+			main.isValid = false;
+			outline.setVisibility();
+
+			if (gridIndex != index1 && gridIndex != index2 && gridIndex != index3)
+				playerWinImage.opacity = .1;
+		}
 	}
 
 	function setValidity()
@@ -72,11 +91,50 @@ Rectangle
 	Image
 	{
 		id: playerWinImage;
-		anchors.fill: parent;
-		sourceSize.width: width*main.scale;
-		sourceSize.height: height*main.scale;
+		width: parent.width;
+		height: width;
+		anchors.centerIn: parent;
+		sourceSize.width: parent.width*main.scale;
+		sourceSize.height: parent.height*main.scale;
 		asynchronous: true;
 		opacity: .5;
+
+		layer.enabled: true;
+
+		function zoomIn()
+		{
+			asynchronous = false;
+			width = parent.width*1.5;
+			timer.start();
+			console.log(width)
+			opacity = 1;
+			z = 10000;
+		}
+
+		function zoomOut()
+		{
+			asynchronous = false;
+			width = parent.width;
+			console.log(width);
+		}
+
+		Timer
+		{
+			id: timer;
+			interval: 1000/3;
+
+			property int counter: 0;
+
+			onTriggered:
+			{
+				parent.zoomOut;
+				playerWinImage.zoomOut();
+			}
+		}
+
+		Behavior on opacity { PropertyAnimation { duration: 600; } }
+		Behavior on rotation { PropertyAnimation { duration: timer.interval*2; } }
+		Behavior on width { PropertyAnimation { duration: timer.interval; } }
 	}
 
 	Grid

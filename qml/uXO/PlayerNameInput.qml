@@ -10,6 +10,8 @@ Flow
 	property string inputText: input.text;
 	property int maximumLength: 12;  //defaults at 12
 
+	property bool editable: true;
+
 	signal textChanged();
 	signal focusGained();
 
@@ -68,6 +70,8 @@ Flow
 			text: main.startingText;
 			maximumLength: main.maximumLength;
 
+			readOnly: !main.editable;
+
 			color:
 			{
 				if (Vals.getTheme() === "dark")
@@ -78,12 +82,14 @@ Flow
 
 			onFocusChanged:
 			{
-				if (focus === true)
+				if (focus && !readOnly)
 				{
 					selectAll();
 					selectByMouse = true;
 					textChanged(); //signals to update the text;
 					focusGained();  //signals that the focus is gained;
+
+					console.log(main.editable + "  " + readOnly)
 				}
 
 				else
@@ -93,6 +99,7 @@ Flow
 					textChanged();  //signals to update the text
 				}
 			}
+
 		}
 	}
 }

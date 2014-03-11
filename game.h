@@ -25,6 +25,11 @@ class Game : public QObject
 		QList<WinningCombo> winningCombos;
 		void checkAllCombos();
 
+		QList<int> sortList(QList<int> list);
+
+		QString m_xPlayerName;
+		QString m_oPlayerName;
+
 
 	public:
 		bool getXTurn();
@@ -34,21 +39,28 @@ class Game : public QObject
 		void loadExisting();
 		void createNew();
 
-		//--------Q_INVOKABLES----------------------------------------------------------------------------------
-
 		Q_INVOKABLE void click(int gridIndex, int squareIndex);
 		Q_INVOKABLE Board* getBoard();
 		void deleteGame();
 
-		bool isWinningCombo(QList<int> squaresWon);  // goes through the list of innerboard/squares won and looks combos of three in a row, returning true if that player has three in a row
-		void checkForWinningCombos(int gridIndex, int squareIndex);
+		Q_INVOKABLE void callGameWonDelayed(QString winner, int index1, int index2, int index3);
 
-		//--------Q_PROPERTIES----------------------------------------------------------------------------------
+		QList<int> getWinningCombo(QList<int> squaresWon);  // goes through the list of innerboard/squares won and looks combos of three in a row, returning true if that player has three in a row
+		void checkForWinningCombos(int gridIndex, int squareIndex);
+		void checkIfGameIsWon();
+
+		Q_INVOKABLE void setPlayerNames();
+		Q_INVOKABLE QString getPlayerXName();
+		Q_INVOKABLE QString getPlayerOName();
+
+		Q_INVOKABLE QString getGameName() { return m_name; }
 
 		Q_PROPERTY(bool xTurn READ getXTurn)
 
 	signals:
 		void clicked();
+		void gameWon(QString winner, int index1, int index2, int index3);
+		void gameWonDelayed(QString winner, int index1, int index2, int index3);
 
 	public slots:
 

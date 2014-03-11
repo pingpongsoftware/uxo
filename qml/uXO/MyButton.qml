@@ -13,7 +13,6 @@ Rectangle
 
     id: main;
     color: "transparent";
-    //opacity: .3
 
     width: getClickableWidth();
     height: getClickableHeight();

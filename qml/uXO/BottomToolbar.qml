@@ -25,7 +25,11 @@ Rectangle
 	{
 		target: game;
 
-		onClicked: main.setState();
+		onClicked:
+		{
+			main.setState();
+			playerOTurnText.updateText();
+		}
 	}
 
     Rectangle
@@ -60,25 +64,62 @@ Rectangle
             anchors.verticalCenter: parent.verticalCenter;
         }
 
-
-		MyButton
+		TrenchFontText
 		{
-			id: deleteGameButton;
-			buttonText: "Resign";
-			buttonColor: "gray";
-			fontSize: Vals.getMediumSmallFontSize();
-
-			Component.onCompleted:
-			{
-				setClickableSize(width*1.5, height);
-			}
-
-			onClick:
-			{
-				Tracker.deleteGame();
-			}
+			id: playerOTurnText;
+			text: text = "It's " + game.getPlayerOName() + "'s turn";
 
 			anchors.centerIn: parent;
+
+			darkThemeColor: "lightgray";
+			lightThemeColor: "black";
+
+			font.capitalization: Font.MixedCase;
+
+			fontSize: Vals.getMediumSmallFontSize();
+			fontBold: false;
+
+			opacity: { updateText(); }
+
+			function updateText()
+			{
+				if (!game.xTurn)
+					opacity = 1;
+				else
+					opacity = 0;
+
+				playerXTurnText.updateText();
+			}
+
+			Behavior on opacity { PropertyAnimation { duration: 300; } }
+		}
+
+		TrenchFontText
+		{
+			id: playerXTurnText;
+			text: "It's " + game.getPlayerXName() + "'s turn";
+
+			anchors.centerIn: parent;
+
+			darkThemeColor: playerOTurnText.darkThemeColor;
+			lightThemeColor: playerOTurnText.lightThemeColor;
+
+			font.capitalization: playerOTurnText.font.capitalization;
+
+			fontSize: playerOTurnText.fontSize;
+			fontBold: playerOTurnText.fontBold;
+
+			opacity: { updateText(); }
+
+			function updateText()
+			{
+				if (game.xTurn)
+					opacity = 1;
+				else
+					opacity = 0;
+			}
+
+			Behavior on opacity { PropertyAnimation { duration: 300; } }
 		}
 
         Image

@@ -29,6 +29,8 @@ class Board : public QObject
 		Q_INVOKABLE void zoomOut(int gridIndex);
 		Q_INVOKABLE bool isZoomed();
 
+		Q_INVOKABLE void popUpInnerBoardImages(int index);
+
 		QList<int> getValidBoards();
 
 	private:

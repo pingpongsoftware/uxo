@@ -21,6 +21,11 @@ class Tracker : public QObject
 		Q_PROPERTY(Game* currentGame READ getGame)
 
 		Q_INVOKABLE void deleteGame();
+		Q_INVOKABLE void goBack();
+		Q_INVOKABLE void goToOptions();
+		Q_INVOKABLE void goToHelp();
+
+		Q_INVOKABLE void clickDropDownButton();
 
 		void registerTypes();
 
@@ -29,6 +34,10 @@ class Tracker : public QObject
 
 	signals:
 		void gameDeleted();
+		void dropDownButtonClicked();
+		void backButtonClicked();
+		void optionsButtonClicked();
+		void helpButtonClicked();
 
 	public slots:
 

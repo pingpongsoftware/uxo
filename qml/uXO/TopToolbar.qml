@@ -4,11 +4,9 @@ Item
 {
     id: main;
 
-	width: Vals.getScreenWidth();
-	height: Vals.getTopToolbarHeight();
-
     signal backButtonPressed();
-	opacity: .8;
+
+	opacity: 1;
 
 	property string titleString: "uXO:  Ultimate Tic-Tac-Toe"
 
@@ -46,9 +44,17 @@ Item
 		function updateTheme()
 		{
 			if (Vals.getTheme() === "dark")
+			{
 				color = "lightgray";
+				backRect.color = "lightgray";
+				dropDownButton.color = "lightgray";
+			}
 			else if (Vals.getTheme() === "light")
+			{
 				color = "#444444";
+				backRect.color = "#444444";
+				dropDownButton.color = "#444444";
+			}
 		}
 
 		Behavior on color { PropertyAnimation { duration: 200; } }
@@ -57,31 +63,25 @@ Item
     Rectangle  //for the back button
     {
         id: backRect;
-        color: "black";
+		color: toolbarRect.color;
         height: parent.height;
 		width: height;
         anchors.verticalCenter: parent.verticalCenter;
         anchors.left: parent.left
-        opacity: 0;
 
-        function changeOpacity()
-        {
-            backRect.opacity = 0;
-        }
+		Behavior on color { PropertyAnimation { duration: 200; } }
 
         MouseArea
         {
             id: backMouse;
             anchors.fill: parent;
 
-			onPressed: { backRect.opacity = .5 }
-            onExited: parent.changeOpacity();
-            onCanceled: parent.changeOpacity();
+			onPressed: parent.color = "gray"
+			onExited: parent.color = toolbarRect.color;
+			onCanceled: parent.color = toolbarRect.color;
 
             onClicked:
-            {
-                backRect.changeOpacity();
-
+			{
                 backButtonPressed();
             }
         }
@@ -122,16 +122,6 @@ Item
 		}
     }
 
-	Rectangle
-	{
-		id: separatorLineRect;
-		height: main.height;
-		width: Vals.getBasicUnit()/8;
-		anchors.left: backRect.right;
-		anchors.leftMargin: Vals.getBasicUnit()/5;
-		color: titleText.color;
-	}
-
 	TrenchFontText
     {
         id: titleText;
@@ -149,4 +139,59 @@ Item
 
 		text: main.titleString;
     }
+
+	Rectangle
+	{
+		id: dropDownButton;
+		height: Vals.getTopToolbarHeight();
+		width: height;
+		anchors.top: main.top;
+		anchors.right: main.right;
+		color: toolbarRect.color;
+
+		Behavior on color { PropertyAnimation { duration: 200; } }
+
+		Rectangle
+		{
+			id: repeaterCenterRect;
+
+			width: Vals.getBasicUnit();
+			anchors.centerIn: parent;
+			color: "transparent";
+		}
+
+		Repeater
+		{
+			parent: repeaterCenterRect;
+			model: 3;
+			anchors.centerIn: parent;
+
+			Rectangle
+			{
+				width: Vals.getBasicUnit();
+				height: width;
+
+				color: titleText.color;
+				anchors.horizontalCenter: repeaterCenterRect;
+				y: index*width*2;
+				opacity: .8;
+
+				Component.onCompleted: repeaterCenterRect.height += height*1.6666666667;
+			}
+		}
+
+		MouseArea
+		{
+			anchors.fill: parent;
+
+			onPressed: parent.color = "gray";
+			onExited: parent.color = toolbarRect.color;
+			onReleased: parent.color = toolbarRect.color;
+			onCanceled: parent.color = toolbarRect.color;
+			onClicked:
+			{
+				Tracker.clickDropDownButton()
+			}
+		}
+	}
 }

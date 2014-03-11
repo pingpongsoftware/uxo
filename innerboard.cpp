@@ -90,3 +90,8 @@ void InnerBoard::setWinner(QString winner)
 	this->m_state = winner;
 	this->stateChanged();
 }
+
+void InnerBoard::popUpImage()
+{
+	emit this->imagePoppedUp();
+}

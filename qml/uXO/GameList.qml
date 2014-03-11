@@ -13,7 +13,6 @@ Item
 		return headerRect.height;
 	}
 
-
 	Rectangle
 	{
 		id: fillRect;

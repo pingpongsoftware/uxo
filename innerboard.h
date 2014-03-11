@@ -30,6 +30,8 @@ class InnerBoard : public QObject
 		Q_INVOKABLE bool isValid();
 		Q_INVOKABLE bool isWon();
 
+		void popUpImage();
+
 	private:
 		QList<Square*> m_squares;
 		QString m_state; // "x" if won by x, "o" if won by o, "-" if won by neither
@@ -38,6 +40,7 @@ class InnerBoard : public QObject
 	signals:
 		void clicked();
 		void stateChanged();
+		void imagePoppedUp();
 
 	public slots:
 

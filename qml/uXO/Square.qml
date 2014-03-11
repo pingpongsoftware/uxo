@@ -29,7 +29,20 @@ Item
 	{
 		target: innerBoard;
 
-		onStateChanged: fillRect.changeColor();
+		onStateChanged: fillRect.changeColor(innerBoard.getState());
+	}
+
+	Connections
+	{
+		target: game;
+
+		onGameWon:
+		{
+			squareImage.opacity = 0;
+
+			if (gridIndex != index1 && gridIndex != index2 && gridIndex != index3)
+				fillRect.changeColor("-")
+		}
 	}
 
 	Rectangle
@@ -46,17 +59,17 @@ Item
 				emptyColor = "white";
 		}
 
-		color: changeColor();
+		color: changeColor(innerBoard.getState());
 		opacity: .15;
 
-		function changeColor()
+		function changeColor(winner)
 		{
-			if (innerBoard.getState() === "x")
+			if (winner === "x")
 			{
 				color = "steelblue";
 				opacity = .5;
 			}
-			else if (innerBoard.getState() === "o")
+			else if (winner === "o")
 			{
 				color = "firebrick";
 				opacity = .5;
@@ -96,6 +109,9 @@ Item
 		sourceSize.height: main.width*1.5;
 		smooth: true;
 		asynchronous: true;
+		opacity: 1;
+
+		Behavior on opacity { PropertyAnimation { duration: 600; } }
 	}
 
 	function setState()

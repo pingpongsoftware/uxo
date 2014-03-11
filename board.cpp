@@ -53,6 +53,13 @@ bool Board::click(int gridIndex, int squareIndex, QString s)
 			this->m_innerBoards[squareIndex]->setValidity(true);  //sets the correct inner board to be valid
 		}
 
+		if (this->m_innerBoards[squareIndex]->squaresWonByO().length() + this->m_innerBoards[squareIndex]->squaresWonByX().length() == 9)  //if all the squares in the inner board are filled
+		{
+			//sets all but the one that is completely filled to be valid
+			for (int i = 0; i < 9; this->m_innerBoards[i++]->setValidity(true));
+			m_innerBoards[squareIndex]->setValidity(false);
+		}
+
 		emit this->clicked();
 
 		return true;
@@ -85,7 +92,13 @@ QList<int> Board::innerBoardsWonByO()
 
 void Board::setValidBoards(int index)
 {
+	qDebug() << index;
 
+	if (index >= 0 && index < 9)
+		m_innerBoards[index]->setValidity(true);
+	else
+		for (int i = 0; i < 9; i++)
+			m_innerBoards[i]->setValidity(false);
 }
 
 void Board::setWinner(QString winner)
@@ -125,4 +138,9 @@ void Board::zoomOut(int gridIndex)
 bool Board::isZoomed()
 {
 	return m_isZoomed;
+}
+
+void Board::popUpInnerBoardImages(int index)
+{
+	m_innerBoards[index]->popUpImage();
 }

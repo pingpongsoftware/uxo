@@ -10,6 +10,10 @@ Rectangle
 	width: Vals.getBoardSize()*scale;
 	height: width;
 
+	Behavior on width { PropertyAnimation { duration: 300; } }
+	Behavior on opacity { PropertyAnimation { duration: 300; } }
+
+
 	property Game game;
 	property Board board;
 
@@ -66,6 +70,67 @@ Rectangle
 					scale: main.scale;
 				}
 			}
+		}
+	}
+
+
+	Connections
+	{
+		target: game;
+
+		onGameWonDelayed:
+		{
+			gameWonTimer.start();
+
+			gameWonTimer.startIndex = index1;
+			gameWonTimer.middleIndex = index2;
+			gameWonTimer.endIndex = index3;
+
+			gameWonTimer.popUpImage();
+		}
+	}
+
+	Timer
+	{
+		id: gameWonTimer;
+		interval: 1000/3;
+		running: false;
+
+		property int triggerCounter: 0;
+		property int startIndex;
+		property int middleIndex;
+		property int endIndex;
+
+		onTriggered:
+		{
+			triggerCounter++;
+			popUpImage();
+			restart();
+		}
+
+		function popUpImage()
+		{
+			if (triggerCounter === 0)
+			{
+				board.popUpInnerBoardImages(startIndex);
+			}
+
+			else if (triggerCounter === 1)
+			{
+				board.popUpInnerBoardImages(middleIndex);
+			}
+
+			else if (triggerCounter === 2)
+			{
+				board.popUpInnerBoardImages(endIndex);
+			}
+
+//			else if (triggerCounter === 8)
+//			{
+//				main.width = 0;
+//				main.opacity = 0;
+//				console.log("ASLDFKHASLDFH")
+//			}
 		}
 	}
 }

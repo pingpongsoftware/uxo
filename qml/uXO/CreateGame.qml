@@ -102,6 +102,8 @@ Rectangle
 					height: totalHeight;
 					anchors.centerIn: parent;
 					maximumLength: startingText.length;
+
+					editable: false;
 				}
 			}
 		}
